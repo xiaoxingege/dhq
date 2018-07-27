@@ -119,14 +119,12 @@ const actions = {
     commit
   }, stockCode) {
     const vname = stockCode.split(',').join('')
-   // debugger
     return $.ajax({
       type: 'get',
       dataType: 'script',
       url: 'https://sslapi.jrj.com.cn/jrjimg/q/?q=cn|s&i=' + stockCode + '&c=np,hlp,pl,lcp,op,name,code,id&n=hqData_' + vname
     }).then(data => {
       var hqData = window['hqData_' + vname];
-      //  console.log(hqData)
       commit(mutationsTypes.SET_STOCK, hqData.HqData).then( () => {
         hqData=null
       })
@@ -142,7 +140,6 @@ const actions = {
     }).then(res => {
       return res.json()
     }).then(json => {
-      //  console.log(json.rows)
       commit(mutationsTypes.STOP_STOCK, json.rows)
     })
   },
@@ -157,7 +154,6 @@ const actions = {
       url: url + '&vname=newsData_' + stockCode.stockCode
     }).then(data => {
       var newsData = window['newsData_' + stockCode.stockCode]
-      //      console.log(newsData)
       commit(mutationsTypes.NEW_NEWS, newsData.data)
     })
   },
@@ -324,7 +320,6 @@ const actions = {
       dataType: 'jsonp',
       url: url
     }).then(res => {
-   //   console.log(res)
       commit(mutationsTypes.GET_NEWS_BROADCAST, res.data)
     })
   },
@@ -335,20 +330,17 @@ const actions = {
       dataType: 'jsonp',
       url: url
     }).then(res => {
-    //  console.log(res.data)
       commit(mutationsTypes.TODAY_HOT_STOCKS, res.data)
     })
   },
   todayHotStockPrice( { commit } ,stockCode){
     const vname = stockCode.split(',').join('')
-   // debugger
     return $.ajax({
       type: 'get',
       dataType: 'script',
       url: 'https://sslapi.jrj.com.cn/jrjimg/q/?q=cn|s&i=' + stockCode + '&c=np,pl,name,code,id&n=hqData_' + vname
     }).then(data => {
       var hqData = window['hqData_' + vname];
-   //  console.log(hqData)
       commit(mutationsTypes.TODAY_HOT_STOCKS_PRICE, hqData.HqData)
     })
   }
@@ -397,11 +389,9 @@ const mutations = {
   //  是否添加自选
   [mutationsTypes.UPDATE_SELF_SELECTION](state, isSelfSelection) {
     state.isSelfSelection = isSelfSelection
-  //  console.log(state.isSelfSelection)
   },
   [mutationsTypes.SAVE_SELECTION](state, saveSelection) {
     state.saveSelection = saveSelection
-  //  console.log(state.isSelfSelection)
   },
   [mutationsTypes.SET_STOCK](state, res) {
     state.setStock = res;
@@ -409,7 +399,6 @@ const mutations = {
   },
   [mutationsTypes.SET_STOCK_LINE](state, setStockLine) {
     state.setStockLine = setStockLine
-    console.log( state.setStockLine)
   },
   [mutationsTypes.SET_HY_LIST](state,setHyList){
     
@@ -424,7 +413,6 @@ const mutations = {
         state.setHyName[item[1]] = item;
       }
     }) 
-  // console.log(state.setHyName)
   },
   [mutationsTypes.SAVE_HY_URL](state,saveHyUrl){
     state.saveHyUrl=saveHyUrl
@@ -441,11 +429,9 @@ const mutations = {
   },
   [mutationsTypes.TODAY_HOT_STOCKS](state,todayHotStock){
     state.todayHotStock=todayHotStock
- //   console.log(state.todayHotStock)
   },
   [mutationsTypes.TODAY_HOT_STOCKS_PRICE](state,todayHotStockPrice){
     state.todayHotStockPrice=todayHotStockPrice
- //   debugger
     for (var i=0; i<state.todayHotStock.length; i++){
       if(state.todayHotStock[i].STOCKCODE === state.todayHotStockPrice[i][1] ){
         let obj =state.todayHotStock[i]
