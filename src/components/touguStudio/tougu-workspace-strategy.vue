@@ -168,7 +168,8 @@
         watch: {
             strategyList: {
                 handler() {
-                    this.Height();
+                    var _this=this;
+                    _this.Height();
                 },
                 deep: true
             }
@@ -178,7 +179,7 @@
             Height() {
                 var hg = document.getElementsByClassName('strategy-item-content');
                 for (var i = 0; i < hg.length; i++) {
-                    this.$set(this.strategyList[i], 'showIf', hg[i].clientHeight > 110);
+                    this.$set(this.strategyList[i], 'showIf', hg[i].clientHeight > 100);
                 }
             },
             check(e) {
