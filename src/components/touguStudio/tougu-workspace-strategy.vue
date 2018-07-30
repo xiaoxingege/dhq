@@ -165,6 +165,14 @@
                 }
             })
         },
+        watch: {
+            strategyList: {
+                handler() {
+                    this.Height();
+                },
+                deep: true
+            }
+        },
         methods: {
             // 获取每个div的高度,为每个item里加一个标识，来控制div的展开跟收起
             Height() {
@@ -239,7 +247,7 @@
             this.$store.dispatch('touguStrategy/getStrategyByTid', {
                 tid: this.studioList.vipRoomInfo.tipsId
             }).then(() => {
-                _this.Height();
+                _this.Height()
             });
             var divscroll = _this.$refs.viewBox2;
             divscroll.onscroll = () => {
@@ -247,6 +255,8 @@
                     this.$store.dispatch('touguStrategy/getStrategyByCid', {
                         tid: _this.studioList.vipRoomInfo.tipsId,
                         cid: _this.strategyList[_this.strategyList.length - 1].id
+                    }).then(() => {
+                        _this.Height()
                     });
                 }
             };

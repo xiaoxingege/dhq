@@ -24,7 +24,8 @@ export default {
         // 初始化页面数据
         getLiveInfo({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                const url = `https://sslapi.jrj.com.cn/itougu/mapi/xlive_poll/queryViewAndTalkForNew/${data.roomId}?onlyView=true`;
+                // const url = `https://sslapi.jrj.com.cn/itougu/mapi/xlive_poll/queryViewAndTalkForNew/${data.roomId}?onlyView=true`;
+                const url = `https://itougu.jrj.com.cn/xlive_poll/queryViewAndTalkForNew/${data.roomId}?onlyView=true`;
                 return fetch(url).then((res) => {
                     return res.json()
                 }).then((data) => {
@@ -40,7 +41,8 @@ export default {
         // 短轮询页面
         getPullLiveInfo({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                const url = `https://sslapi.jrj.com.cn/itougu/mapi/xlive_poll/queryViewAndTalkForNew/${data.roomId}?timeId=${data.timeId}&onlyView=true`;
+                // const url = `https://sslapi.jrj.com.cn/itougu/mapi/xlive_poll/queryViewAndTalkForNew/${data.roomId}?timeId=${data.timeId}&onlyView=true`;
+                const url = `https://itougu.jrj.com.cn/xlive_poll/queryViewAndTalkForNew/${data.roomId}?timeId=${data.timeId}&onlyView=true`;
                 return fetch(url).then((res) => {
                     return res.json()
                 }).then((data) => {
