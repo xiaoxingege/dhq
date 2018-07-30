@@ -74,21 +74,50 @@
     transform: translateY(-50%);
     right: 0;
 }
+.help-img-wrap {
+    width: 20px;
+    height: 100%;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.help-img-wrap img {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.help-window {
+    @include noteBoxBig;
+    position: absolute;
+    bottom: 30px;
+    left: 27px;
+    padding: 15px;
+    width: 300px;
+    line-height: 18px;
+    z-index: 9999;
+}
 </style>
 <template>
 <div class="preferred-strategy-con">
   <div class="preferred-strategy-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
-    <p class="more-preferred-strategy" @click="toStockList(type)">
-      <a>更多></a>
-    </p>
+    <div class="help-img-wrap">
+      <img src='../../assets/images/z3img/help.png' @mouseover="showWindow" @mouseout="hideWindow" />
+      <div class="help-window" v-if="isShowWindow">{{ hoverMsg }}</div>
+    </div>
   </div>
   <div class="preferred-strategy-table-wrap clearfix">
+  <!-- <LineChart :strategyId='strategyId' :strategyType='type'></LineChart> -->
+
     <table class="preferred-strategy-table">
       <tr>
         <td>策略名称</td>
         <td>{{positionNum}}</td>
-        <td>{{tableTitle}}</td>
+        <td>{{tableTitle}}</td> 
       </tr>
       <tr v-for="(item,index) of stockList" v-if="stockList.length>0">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
@@ -113,6 +142,7 @@
 import NavBar from 'components/z3touguhome/nav-bar'
 import DataTable from 'components/z3touguhome/data-table'
 import PositionBox from 'components/z3touguhome/position-box'
+// import LineChart from 'components/line-chartHome'
 import {
   ctx
 } from '../../z3tougu/config'
@@ -121,9 +151,9 @@ export default {
   data() {
     return {
       navText: [
-        ['金牌优选', 'goldTop'],
-        ['筛股优选', 'filterTop'],
-        ['择时优选', 'timeTop']
+        ['两融余额', 'goldTop'],
+        ['北向资金', 'filterTop'],
+        ['南向资金', 'timeTop']
       ],
       type: 'goldTop',
       stockList: [],
@@ -133,7 +163,9 @@ export default {
       strategyId: '',
       isShow: false,
       positionNum: '当前持仓',
-      tableTitle: '近一周累计收益'
+      tableTitle: '近一周累计收益',
+      isShowWindow: false,
+      hoverMsg : '两融余额代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标'
     }
   },
   watch: {
@@ -163,9 +195,24 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
+      this.$nextTick(() => {
+          if(this.type === 'goldTop') { 
+            this.hoverMsg = '两融余额代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标'
+          }else if (this.type === 'filterTop') {
+            this.hoverMsg = '北向资金代表境外资金动向，北向资金流入额=当日限额-当日余额，资金流入额包含两部分：当日成交净买额，以及当日申报但未成交的买单金额。北向资金流入越多，境外资金购买意愿越强，则境外资金越看好A股。'
+          }else {
+            this.hoverMsg = '南向资金代表内地资金动向，南向资金流入额=当日限额-当日余额，资金流入额包含两部分：当日成交净买额，以及当日申报但未成交的买单金额。南向资金流入越多，内地资金购买意愿越强，则内地资金越看好港股。'
+          }
+      })
     },
     initPreferredStrategy() {
-      if (this.type === 'goldTop') {
+     if (this.type === 'goldTop') {
+      //   this.$store.dispatch('z3touguIndex/getTwoMeltingInfo',{ flag : 1 }).then(() => {
+      //     if(this.twoMeltingInfo && this.twoMeltingInfo.length > 0) {
+      //       this.stockList = this.twoMeltingInfo
+      //       console.log(this.stockList)
+      //     }
+      //   })
         this.positionNum = '当前持仓'
         this.tableTitle = '近一周累计收益'
         this.$store.dispatch('z3touguIndex/getPreferredGoldData')
@@ -256,6 +303,12 @@ export default {
       } else if (this.type === 'timeTop') {
         window.open(ctx + '/backtesttime/' + id)
       }
+    },
+    showWindow() {
+      this.isShowWindow = true
+    },
+    hideWindow() {
+      this.isShowWindow = false
     }
   },
   mounted() {
