@@ -9,7 +9,7 @@
       <div class="buy-code">
         <div class="buycode-model">
           <div id="payCode">
-             <img src="../../assets/images/touguStudio/payCode.jpg">
+             <img src="../../assets/images/touguStudio/payCode.png">
           </div>
           <p>扫码下载大行情App</p>
         </div>
