@@ -667,20 +667,21 @@ export default {
           return copyData;
         }
       })
-      clipboard.on('success', (e) => {
-        this.toastmsg = '已复制板块异动播报!'
-        this.showToast = true
-        setTimeout(() => {
-          this.showToast = false
-        }, 2500)
-      })
-      clipboard.on('error', (e) => {
-        this.toastmsg = '复制失败！'
-        this.showToast = true
-        setTimeout(() => {
-          this.showToast = false
-        }, 2500)
-      })
+      // 产品让去掉复制提示
+      // clipboard.on('success', (e) => {
+      //   this.toastmsg = '已复制板块异动播报!'
+      //   this.showToast = true
+      //   setTimeout(() => {
+      //     this.showToast = false
+      //   }, 2500)
+      // })
+      // clipboard.on('error', (e) => {
+      //   this.toastmsg = '复制失败！'
+      //   this.showToast = true
+      //   setTimeout(() => {
+      //     this.showToast = false
+      //   }, 2500)
+      // })
     }
   },
   watch: {
