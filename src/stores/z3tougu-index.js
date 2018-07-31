@@ -176,17 +176,17 @@ export default {
       }
     },
     setTwoMeltingInfo(state,data) { // 两融余额
-      if(data.result.errcode === 0) {
-        state.twoMeltingInfo = data.result.data
+      if(data.result.errCode === 0) {
+        state.twoMeltingInfo = data.result.data   
       }
     },
     setNorthFinanceInfo(state,data) { // 北向资金
-        if(data.result.errcode === 0) {
+        if(data.result.errCode === 0) {
           state.northFinanceInfo = data.result.data
         }
     },
     setSouthwardFundsInfo(state,data) {  // 南向资金
-      if(data.result.errcode === 0) {
+      if(data.result.errCode === 0) {
         state.southWardFundsInfo = data.result.data
       }
     }
