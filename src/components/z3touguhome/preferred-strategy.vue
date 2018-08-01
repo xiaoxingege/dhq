@@ -123,7 +123,7 @@
 }
 .syqxTab li.active {
     background: #2D4464;
-    color:#E1E1E1;
+    color: #E1E1E1;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
     .lineChart {
@@ -145,6 +145,7 @@
   </div>
   <div class="preferred-strategy-table-wrap clearfix">
     <div style="position: relative;">
+<<<<<<< HEAD
         <ul class="syqxTab">
           <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">近1月</li>
           <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">近6月</li>
@@ -152,6 +153,15 @@
           <li @click="changeSyTab($event,0)" :class="{active: flagTime ===0}">全部</li>
         </ul>
      <div class="lineChart" ref="lineChart"></div>
+=======
+      <ul class="syqxTab">
+        <li @click="changeSyTab($event,1)" :class="{active: shows ===1}">近1月</li>
+        <li @click="changeSyTab($event,2)" :class="{active: shows ===2}">近6月</li>
+        <li @click="changeSyTab($event,3)" :class="{active: shows ===3}">近1年</li>
+        <li @click="changeSyTab($event,0)" :class="{active: shows ===0}">全部</li>
+      </ul>
+      <div class="lineChart" ref="lineChart"></div>
+>>>>>>> 3301cf16e9b321dd6d19fb29707900006c107aa4
     </div>
   </div>
 </div>
@@ -161,7 +171,14 @@ import echarts from 'echarts'
 import NavBar from 'components/z3touguhome/nav-bar'
 import DataTable from 'components/z3touguhome/data-table'
 import PositionBox from 'components/z3touguhome/position-box'
+<<<<<<< HEAD
 import { mapState } from 'vuex'
+=======
+import LineChart from 'components/line-chartHome'
+import {
+  mapState
+} from 'vuex'
+>>>>>>> 3301cf16e9b321dd6d19fb29707900006c107aa4
 import {
   ctx
 } from '../../z3tougu/config'
@@ -184,6 +201,7 @@ export default {
       positionNum: '当前持仓',
       tableTitle: '近一周累计收益',
       isShowWindow: false,
+<<<<<<< HEAD
       hoverMsg : '两融余额代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标',
       flagTime : 2,
       dataName : '两融余额',
@@ -198,6 +216,17 @@ export default {
       hkStkShMoney :[], // 港股通(沪)资金(亿元)
       hkStkSzMoney : [], // 港股通(深)资金(亿元)
       isMillions : true
+=======
+      hoverMsg: '两融余额代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标',
+      flagTime: 2,
+      dataName: '两融余额',
+      dataName2: '上证指数',
+      xAxisData: [], // x轴数据
+      yAxisData: [], // y轴数据
+      indexPrice: [], // 两融余额
+      marginBalance: [], // 上证指数
+      shows: 2
+>>>>>>> 3301cf16e9b321dd6d19fb29707900006c107aa4
     }
   },
   watch: {
@@ -205,7 +234,7 @@ export default {
       this.initPreferredStrategy() // 点击板块标签初始化表格数据
     },
     flagTime() {
-      this.initPreferredStrategy() 
+      this.initPreferredStrategy()
     }
   },
   components: {
@@ -232,19 +261,25 @@ export default {
       this.flagTime = 2 // 初始化成近6月
     },
     changeSyTime(time) {
-        this.flagTime = time
+      this.flagTime = time
     },
     initPreferredStrategy() {
-     if (this.type === 'goldTop') {
+      if (this.type === 'goldTop') {
         this.dataName = '两融余额'
         this.dataName2 = '上证指数'
         this.isMillions = true
         this.hoverMsg = '两融余额代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标'
-        this.$store.dispatch('z3touguIndex/getTwoMeltingInfo',{ flag : this.flagTime }).then(() => {
-          if(this.twoMeltingInfo && this.twoMeltingInfo.length > 0) {
+        this.$store.dispatch('z3touguIndex/getTwoMeltingInfo', {
+          flag: this.flagTime
+        }).then(() => {
+          if (this.twoMeltingInfo && this.twoMeltingInfo.length > 0) {
             this.stockList = this.twoMeltingInfo
             this.getAxisData(this.stockList) // 初始化数轴数据
+<<<<<<< HEAD
             this.drawEcharts(this.xAxisData,this.marginBalance,this.indexPrice) // 画图表
+=======
+            this.drawEcharts(this.xAxisData, this.indexPrice, this.marginBalance) // 画图表
+>>>>>>> 3301cf16e9b321dd6d19fb29707900006c107aa4
           }
         })
       } else if (this.type === 'northGold') {
@@ -252,8 +287,10 @@ export default {
         this.dataName2 = '深股通'
         this.isMillions = false
         this.hoverMsg = '北向资金代表境外资金动向，北向资金流入额=当日限额-当日余额，资金流入额包含两部分：当日成交净买额，以及当日申报但未成交的买单金额。北向资金流入越多，境外资金购买意愿越强，则境外资金越看好A股。'
-        this.$store.dispatch('z3touguIndex/getNorthFinanceInfo',{ flag : this.flagTime }).then(() => {
-          if(this.northFinanceInfo && this.northFinanceInfo.length > 0) {
+        this.$store.dispatch('z3touguIndex/getNorthFinanceInfo', {
+          flag: this.flagTime
+        }).then(() => {
+          if (this.northFinanceInfo && this.northFinanceInfo.length > 0) {
             this.stockList = this.northFinanceInfo
             this.getNorthData(this.stockList) // 获取数轴数据
             this.drawEcharts(this.northDate,this.shStkConnectMoney,this.szStkConnectMoney) // 画图表
@@ -264,8 +301,10 @@ export default {
         this.dataName2 = '港股通(深)'
         this.isMillions = false
         this.hoverMsg = '南向资金代表内地资金动向，南向资金流入额=当日限额-当日余额，资金流入额包含两部分：当日成交净买额，以及当日申报但未成交的买单金额。南向资金流入越多，内地资金购买意愿越强，则内地资金越看好港股。'
-        this.$store.dispatch('z3touguIndex/getSouthwardFundsInfo',{ flag : this.flagTime }).then(() => {
-          if(this.southWardFundsInfo && this.southWardFundsInfo.length > 0) {
+        this.$store.dispatch('z3touguIndex/getSouthwardFundsInfo', {
+          flag: this.flagTime
+        }).then(() => {
+          if (this.southWardFundsInfo && this.southWardFundsInfo.length > 0) {
             this.stockList = this.southWardFundsInfo
             this.getSouthData(this.stockList) // 获取数轴数据
             this.drawEcharts(this.southDate,this.hkStkShMoney,this.hkStkSzMoney) // 画图表
@@ -335,6 +374,7 @@ export default {
     hideWindow() {
       this.isShowWindow = false
     },
+<<<<<<< HEAD
     getAxisData(data) { // 两融余额各项数据
         let tradeDate = []
         let indexPrice = []
@@ -557,20 +597,191 @@ export default {
             top: '20%',
             right: '5%',
             containLabel: true
+=======
+    getAxisData(data) {
+      let tradeDate = []
+      let indexPrice = []
+      let marginBalance = []
+      data && data.forEach((item) => {
+        indexPrice.push(item.indexPrice) // 上证指数
+        tradeDate.push(item.tradeDate) // 日期
+        marginBalance.push(item.marginBalance) // 两融余额
+      })
+      this.indexPrice = indexPrice
+      this.xAxisData = tradeDate
+      this.marginBalance = marginBalance
+    },
+    drawEcharts(xData, redLine, blueLine) {
+      if (this.chart !== null && this.chart !== '' && this.chart !== undefined) {
+        this.chart.dispose();
+      }
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) || echarts.init(document.getElementsByClassName('lineChart')[0], {
+        width: window.screen.width / 100 + 'rem',
+        height: 2.1 + 'rem'
+      })
+      this.chart.setOption({
+        legend: { // 右上角(图例)
+          right: 0,
+          top: '5px',
+          itemWidth: 4,
+          orient: 'vertical',
+          textStyle: {
+            color: '#808ba1'
+          },
+          data: [{
+            name: this.dataName,
+            icon: 'images://../assets/images/z3img/homelines.jpg'
+          }, {
+            name: this.dataName2,
+            icon: 'images://../assets/images/z3img/homelines2.jpg'
+          }]
+        },
+        tooltip: { // 提示框
+          show: true,
+          trigger: 'axis', // 触发类型 axis(坐标轴触发)
+          padding: [10, 55, 10, 20],
+          textStyle: {
+            align: 'left',
+            fontFamily: '微软雅黑'
+          },
+          axisPointer: {
+            type: 'line'
+          },
+          formatter: function(params) {
+            var s = params[0].name
+            let seriesName = params[0].seriesName
+            let seriesName2 = params[1].seriesName
+            for (var i = 0; i < params.length; i++) {
+              if (i === 0) {
+                let result = Number(params[i].value)
+                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
+                  params[i].color + '"></span>' + seriesName + ': ' +
+                  Number(result / 10000).toFixed(2) + '万亿'
+              }
+              if (i === 1) {
+                let result = Number(params[i].value)
+                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
+                  params[i].color + '"></span>' + seriesName2 + ': ' +
+                  Number(result).toFixed(2)
+              }
+            }
+            return s
           }
-        })
-        const that = this
-        window.onresize = function() {
-          that.chart.resize()
+        },
+        xAxis: {
+          interval: 0,
+          type: 'category',
+          boundaryGap: false,
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'solid',
+              color: '#2A2E36'
+            }
+          },
+          axisLabel: {
+            // show:false
+            color: '#808ba1'
+          },
+          data: xData
+        },
+        yAxis: [{
+          show: true,
+          type: 'value',
+          axisLabel: { // 坐标轴刻度的相关设置
+            formatter: function(val) {
+              return (val / 10000).toFixed(2)
+            },
+            color: '#808ba1'
+          },
+          nameTextStyle: {
+            fontSize: 10
+          },
+          position: 'left',
+          min: 'dataMin',
+          max: 'dataMax',
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#2A2E36'
+            }
+          }
+        }, {
+          show: true,
+          type: 'value',
+          axisLabel: { // 坐标轴刻度的相关设置
+            formatter: function(val) {
+              console.log(val)
+              return Number(val).toFixed(2)
+            },
+            color: '#808ba1'
+          },
+          nameTextStyle: {
+            fontSize: 10
+          },
+          position: 'right',
+          min: 'dataMin',
+          max: 'dataMax',
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#2A2E36'
+            }
+          }
+        }],
+        series: [{
+            data: blueLine,
+            name: this.dataName,
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              normal: {
+                width: 2
+              }
+            }
+          },
+          {
+            data: redLine,
+            name: this.dataName2,
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              normal: {
+                width: 2
+              }
+            }
+>>>>>>> 3301cf16e9b321dd6d19fb29707900006c107aa4
+          }
+        ],
+        color: ['#0C86ED', '#E73E3A', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
+          'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
+        ],
+        grid: {
+          width: '95%',
+          height: '75%',
+          left: '5%',
+          top: '20%',
+          containLabel: true
         }
+      })
+      const that = this
+      window.onresize = function() {
+        that.chart.resize()
+      }
     },
     changeSyTab(e, dateNum) {
+<<<<<<< HEAD
         this.flagTime = dateNum     
+=======
+      this.shows = dateNum /* 切换标签选中样式*/
+>>>>>>> 3301cf16e9b321dd6d19fb29707900006c107aa4
     }
   },
   mounted() {
 
-    this.initPreferredStrategy()          
+    this.initPreferredStrategy()
     // this.autoUpdate()
   },
   destroyed() {
