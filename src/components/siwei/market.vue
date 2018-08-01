@@ -661,7 +661,7 @@ export default {
       this.isShow = msg
     },
     initCopyFn() {
-      const clipboard = new Clipboard(this.$refs['plate_copy'], {
+      new Clipboard(this.$refs['plate_copy'], {
         text: () => {
           const copyData = this.$refs['plate-text'].innerText;
           return copyData;
