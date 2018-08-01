@@ -121,6 +121,7 @@ export default {
           trigger: 'axis',
           axisPointer: {
             type: 'cross',
+            snap: true,
             label: {
               precision: 2
             }
@@ -193,6 +194,11 @@ export default {
             lineStyle: {
               color: '#32343E'
             }
+          },
+          axisPointer: {
+            label: {
+              formatter: (params) => ((params.value - this.indexRange.closePx) / this.indexRange.closePx * 100).toFixed(2) + '%'
+            }
           }
         }],
         series: [{
@@ -259,7 +265,6 @@ export default {
         if (itemIndex !== 0) {
           // 如果coordY超过min max 则显示不出来，避免因为计算（四舍五入）导致超界，做-1操作。
           const coordY = riseSpeed >= 0 ? itemIndex + (interval / 2 - 1) : itemIndex - (interval / 2 - 1);
-          console.info();
           let point = {
             coord: [time, coordY],
             symbolSize: [markPointSize, 20],
@@ -355,7 +360,6 @@ export default {
     },
     indexMove(e) {
       if (this.chart && event.keyCode === 37) {
-        console.log(e);
         if (this.dataIndex !== 0) {
           this.dataIndex = this.dataIndex - 1
           this.chart.dispatchAction({
@@ -374,9 +378,6 @@ export default {
           });
         }
       }
-    },
-    focusIndex(e) {
-      console.log(e);
     }
   },
   mounted() {

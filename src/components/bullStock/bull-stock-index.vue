@@ -33,12 +33,12 @@ body {
     background: #0d0e0f;
     padding-top: 5px;
     height: 100%;
-    width: 75%;
+    width: 70%;
 }
 
 .bullRight {
     background: #0d0e0f;
-    width: 25%;
+    width: 30%;
     height: 100%;
 }
 </style>

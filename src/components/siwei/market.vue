@@ -106,7 +106,6 @@ import chartLegend from 'components/siwei/legend'
 import stockBox from 'components/siwei/stock-box'
 import StockInit from './stock-init'
 import abnormalText from './abnormal-text'
-import Clipboard from 'clipboard'
 import toast from 'components/toast'
 
 let pcid1 = '';
