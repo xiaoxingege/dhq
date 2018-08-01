@@ -13,9 +13,12 @@
       <div class="fl">
         <p>题材板块</p>
         <div class="themeBox"></div>
+        <div class="themeBox"></div>
+
       </div>
       <div class="fl">
         <p>行业板块</p>
+        <div class="industryBox"></div>
         <div class="industryBox"></div>
       </div>
     </div>
@@ -120,22 +123,10 @@ export default {
     },
     initChart(key) {
       let model = {
-        yCates: ['1', '2', '3', '4', '5','6'],
+        yCates: ['1', '2', '3'],
         xCates: ['1', '2', '3', '4'],
         topicData: [
           // [yCateIndex, xCateIndex, value]
-          [5, 0],
-          [5, 1],
-          [5, 2],
-          [5, 3],
-          [4, 0],
-          [4, 1],
-          [4, 2],
-          [4, 3],
-          [3, 0],
-          [3, 1],
-          [3, 2],
-          [3, 3],
           [2, 0],
           [2, 1],
           [2, 2],
@@ -151,18 +142,6 @@ export default {
         ],
         induData: [
           // [yCateIndex, xCateIndex, value]
-          [5, 0],
-          [5, 1],
-          [5, 2],
-          [5, 3],
-          [4, 0],
-          [4, 1],
-          [4, 2],
-          [4, 3],
-          [3, 0],
-          [3, 1],
-          [3, 2],
-          [3, 3],
           [2, 0],
           [2, 1],
           [2, 2],
@@ -175,6 +154,36 @@ export default {
           [0, 1],
           [0, 2],
           [0, 3]
+        ],
+        topicBottomData: [
+            // [yCateIndex, xCateIndex, value]
+            [2, 0],
+            [2, 1],
+            [2, 2],
+            [2, 3],
+            [1, 0],
+            [1, 1],
+            [1, 2],
+            [1, 3],
+            [0, 0],
+            [0, 1],
+            [0, 2],
+            [0, 3]
+        ],
+        induBottomData: [
+            // [yCateIndex, xCateIndex, value]
+            [2, 0],
+            [2, 1],
+            [2, 2],
+            [2, 3],
+            [1, 0],
+            [1, 1],
+            [1, 2],
+            [1, 3],
+            [0, 0],
+            [0, 1],
+            [0, 2],
+            [0, 3]
         ]
 
       }
@@ -183,8 +192,8 @@ export default {
       }).then(() => {
         const that = this
 
-        let tData = this.topicData
-        let iData = this.industryData
+        let tData = this.topicData.slice(0,12)
+        let iData = this.industryData.slice(0,12)
 
         for (let i = 0; i < model.topicData.length; i++) {
           if (tData[i][key] === null) {
@@ -212,15 +221,48 @@ export default {
         let dataI = model.induData.map(function(item) {
           return [item[1], item[0], item[2], item[3]];
         })
+
+        let tBData = this.topicData.slice(12)
+        let iBData = this.industryData.slice(12)
+
+        for (let i = 0; i < model.topicBottomData.length; i++) {
+            if (tBData[i][key] === null) {
+                model.topicBottomData[i][2] = 0
+                model.topicBottomData[i][3] = null
+            } else {
+                model.topicBottomData[i][2] = tBData[i][key]
+                model.topicBottomData[i][3] = 0
+            }
+
+        }
+        for (let j = 0; j < model.induBottomData.length; j++) {
+            if (iBData[j][key] === null) {
+                model.induBottomData[j][2] = 0
+                model.induBottomData[j][3] = null
+            } else {
+                model.induBottomData[j][2] = iBData[j][key]
+                model.induBottomData[j][3] = 0
+            }
+        }
+
+        let dataTB = model.topicBottomData.map(function(item) {
+            return [item[1], item[0], item[2], item[3]];
+        });
+        let dataIB = model.induBottomData.map(function(item) {
+            return [item[1], item[0], item[2], item[3]];
+        })
         this.chart = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[0]) || echarts.init(document.getElementsByClassName('themeBox')[0])
+        this.chartB = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[1]) || echarts.init(document.getElementsByClassName('themeBox')[1])
         this.industryChart = echarts.getInstanceByDom(document.getElementsByClassName('industryBox')[0]) || echarts.init(document.getElementsByClassName('industryBox')[0])
+        this.industryChartB = echarts.getInstanceByDom(document.getElementsByClassName('industryBox')[1]) || echarts.init(document.getElementsByClassName('industryBox')[1])
+
         this.chart.setOption({
           animation: true,
           grid: {
             height: '100%',
             top: 0,
             left: 10,
-            right: 10
+            right: 4
           },
           xAxis: {
             type: 'category',
@@ -269,7 +311,15 @@ export default {
               color: this.colors[this.bullSelected] // colorsList.slice().reverse()
             },
             dimension: 2
-          }]
+          }],
+          tooltip: {
+              show: true,
+              triggerOn: 'none',
+              formatter: function(params){
+                  console.log(params.dataIndex)
+                  return 'aaa'
+              }
+          }
         })
         this.industryChart.setOption({
           animation: true,
@@ -327,17 +377,151 @@ export default {
             }
           }]
         })
+        this.chartB.setOption({
+            animation: true,
+            grid: {
+                height: '100%',
+                top: 4,
+                left: 10,
+                right: 4
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1', '2', '3', '4']
+            },
+            yAxis: {
+                type: 'category',
+                data: ['1', '2', '3']
+            },
+            series: [{
+                type: 'heatmap',
+                data: dataTB,
+                label: {
+                    normal: {
+                        show: true,
+                        formatter: (params) => {
+                            if (that.bullSelected === 'chngPct') {
+                                if (params.data[3] === null) {
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                }
+                                return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                            }
+                            if (that.bullSelected === 'heatIndex') {
+                                return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                            }
+                            return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        borderColor: 'black',
+                        borderWidth: 3
+                    }
+
+                }
+            }],
+            visualMap: [{
+                type: 'continuous',
+                show: false,
+                min: this.visualMin,
+                max: this.visualMax,
+                calculable: true,
+                realtime: false,
+                inRange: {
+                    color: this.colors[this.bullSelected] // colorsList.slice().reverse()
+                },
+                dimension: 2
+            }]
+        })
+        this.industryChartB.setOption({
+            animation: true,
+            visualMap: [{
+                type: 'continuous',
+                show: false,
+                min: this.visualMin,
+                max: this.visualMax,
+                calculable: true,
+                realtime: false,
+                inRange: {
+                    color: this.colors[this.bullSelected]
+                },
+                dimension: 2
+            }],
+            grid: {
+                height: '100%',
+                top: 4,
+                left: 0,
+                right: 10
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1', '2', '3', '4']
+            },
+            yAxis: {
+                type: 'category',
+                data: ['1', '2', '3']
+            },
+            series: [{
+                type: 'heatmap',
+                data: dataIB,
+                label: {
+                    normal: {
+                        show: true,
+                        formatter: (params) => {
+                            if (that.bullSelected === 'chngPct') {
+                                if (params.data[3] === null) {
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                }
+                                return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                            }
+                            if (that.bullSelected === 'heatIndex') {
+                                return that.industryData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                            }
+                            return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        borderColor: 'black',
+                        borderWidth: 3
+                    }
+                }
+            }]
+        })
+
         window.onresize = function() {
           that.chart.resize()
           that.industryChart.resize()
+          that.chartB.resize()
+          that.industryChartB.resize()
         }
         let url = window.location.href.substring(0, window.location.href.indexOf('zstgweb') + 8)
         this.chart.on('dblclick', function(params) {
           window.open(url + 'topic/' + that.topicData[params.dataIndex].topicCode)
         })
-        this.industryChart.on('dblclick', function(params) {
+        this.chartB.on('dblclick', function(params) {
           window.open(url + 'industry/' + that.industryData[params.dataIndex].induCode)
         })
+        this.industryChart.on('dblclick', function(params) {
+            window.open(url + 'topic/' + that.topicData[params.dataIndex].topicCode)
+        })
+        this.industryChartB.on('dblclick', function(params) {
+            window.open(url + 'industry/' + that.industryData[params.dataIndex].induCode)
+        })
+        this.chart.on('mouseover',function(params){
+            that.chart.dispatchAction({
+                type:'showTip',
+                dataIndex:params.dataIndex
+            })
+        })
+        this.chart.on('mouseout',function(params){
+              that.chart.dispatchAction({
+                  type:'hideTip'
+              })
+          })
+
 
       })
     },
@@ -448,11 +632,11 @@ export default {
   }
 
   .themeBox {
-    height: calc(100% - 30px);
+    height: calc((100% - 30px)/2);
   }
 
   .industryBox {
-    height: calc(100% - 30px);
+    height: calc((100% - 30px)/2);
   }
 
   .bullLegend {

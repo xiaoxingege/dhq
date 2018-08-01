@@ -48,7 +48,7 @@
                     <div class="mr-10 fl" v-if="String(item.tradeTime).length === 6">{{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)}}</div>
                     <div class="mr-10 fl" v-if="String(item.tradeTime).length === 5">{{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)}}</div>
                     <div style="width:90%;" class="fl">
-                        <span style="margin-right: 2px;">{{item.name}}连涨,</span>
+                        <span style="margin-right: 2px;"><a @click="toStockDetail(item.symbol)">{{item.name}}</a>连涨,</span>
                         <span>{{item.limitUpDays === null ? '' : item.limitUpDays > 0 ? item.limitUpDays+'连板,' : '首板,'}}</span>
                         <span>{{item.topicDataList[0].topicName+'。'}}</span>
                         <span v-if="item.title">{{'消息面，'+item.title+'。'}}</span>
@@ -74,7 +74,6 @@ import {
   ctx
 } from '../../z3tougu/config'
 import StockInit from './stock-init'
-import toast from 'components/toast'
 
 
 export default {
@@ -124,10 +123,7 @@ export default {
       tcapMin: Math.sqrt(9.722757458E9 / 1e11),
       dataIndex:'',
       isShow : true,
-      showList:true,
-      toastmsg: '',
-      showToast: false
-
+      showList:true
     }
   },
   watch: {
@@ -136,7 +132,7 @@ export default {
     }
   },
   components: {
-    Siweidialog,StockInit,toast
+    Siweidialog,StockInit
   },
   computed: mapState({
     ztgList: state => state.bubbles.ztgBubblesLine,
@@ -1177,51 +1173,39 @@ export default {
         this.isShow = msg
       })
     },
-      copyListText(){
-          let allText = ''
-          let copyTarget = document.getElementsByClassName('ztgListUl')[0].getElementsByTagName('li')
-          /* function dealStr(str){
-              let resultStr = ''
-              if((str.indexOf('<') >= 0) && (str.indexOf('>') >= 0)){
-                  if(str.indexOf('<') === 0){
-                      resultStr = str.substring(str.indexOf('>')+1)
-                  }else{
-                      resultStr = str.substring(0,str.indexOf('<'))+str.substring(str.indexOf('>')+1)
-                  }
-                  return dealStr(resultStr)
+    copyListText(){
+      let allText = ''
+      let copyTarget = document.getElementsByClassName('ztgListUl')[0].getElementsByTagName('li')
+      /* function dealStr(str){
+          let resultStr = ''
+          if((str.indexOf('<') >= 0) && (str.indexOf('>') >= 0)){
+              if(str.indexOf('<') === 0){
+                  resultStr = str.substring(str.indexOf('>')+1)
               }else{
-                  return str
+                  resultStr = str.substring(0,str.indexOf('<'))+str.substring(str.indexOf('>')+1)
               }
-          } */
-          for(let i = 0; i<copyTarget.length; i++) {
-              // let text = dealStr(copyTarget[i].innerHTML)+'\n'
-              let text = copyTarget[i].innerText+'\n'
-              allText = allText+text
+              return dealStr(resultStr)
+          }else{
+              return str
           }
-          this.$refs.copyText.value = allText
-          this.$refs.copyText.select()
-          try{
-              if(document.execCommand('copy', false, null)){
-                  this.toastmsg = '复制文本成功!'
-                  this.showToast = true
-                  setTimeout(() => {
-                      this.showToast = false
-                  }, 2500)
-              } else{
-                  this.toastmsg = '复制文本失败!'
-                  this.showToast = true
-                  setTimeout(() => {
-                      this.showToast = false
-                  }, 2500)
-              }
-          } catch(err){
-              this.toastmsg = '复制文本失败!'
-              this.showToast = true
-              setTimeout(() => {
-                  this.showToast = false
-              }, 2500)
-          }
+      } */
+      for(let i = 0; i<copyTarget.length; i++) {
+          // let text = dealStr(copyTarget[i].innerHTML)+'\n'
+          let text = copyTarget[i].innerText+'\n'
+          allText = allText+text
       }
+      this.$refs.copyText.value = allText
+      this.$refs.copyText.select()
+      try{
+          if(document.execCommand('copy', false, null)){
+              console.log('复制成功')
+          } else{
+              console.log('复制失败')
+          }
+      } catch(err){
+              console.log('复制失败')
+      }
+  }
   },
   mounted() {
     this.initStockList()
