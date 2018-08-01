@@ -1,7 +1,7 @@
 <template>
 <div class="abn-text" v-if='model'>
   <span class="time">{{model.tradeTime | hhmm}}</span>
-  <span>{{model.sectionName}}板块{{model.tradeTime | timeDesc}}{{model.riseSpeed | abnDesc}}，{{stockDesc}}。{{model.moveRelaNewsId?'消息面，' + model.title + '。':''}}</span>
+  <span>{{model.sectionName}}板块{{model.tradeTime | timeDesc}}{{model.riseSpeed | abnDesc}}，</span><span v-html="stockDesc"></span></span>{{model.moveRelaNewsId?'消息面，' + model.title + '。':''}}</span>
 </div>
 </template>
 
@@ -21,27 +21,28 @@ export default {
       let desc = '';
       let mark = riseSpeed > 0 ? ['涨停', '纷纷拉升', '大涨'] : ['跌停', '跟跌', '大跌'];
       if (limitCount > 3) {
-        desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? stockList[0].stockName : '';
-        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + stockList[1].stockName : '';
-        desc += stockList[2] && (stockList[2].isLimitUp || stockList[2].isLimitDown) ? '、' + stockList[2].stockName : '';
+        desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>` : '';
+        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` : '';
+        desc += stockList[2] && (stockList[2].isLimitUp || stockList[2].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>` : '';
         desc += `等${limitCount}只个股${mark[0]}`
       } else if (limitCount === 3) {
-        desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? stockList[0].stockName : '';
-        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + stockList[1].stockName : '';
-        desc += stockList[2] && (stockList[2].isLimitUp || stockList[2].isLimitDown) ? '、' + stockList[2].stockName : '';
+        desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>` : '';
+        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` : '';
+        desc += stockList[2] && (stockList[2].isLimitUp || stockList[2].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>` : '';
         desc += mark[0]
       } else if (limitCount === 0) {
-        desc += stockList[0] ? stockList[0].stockName + mark[2] + stockList[0].stockChngPct + '%' : '';
-        desc += stockList[1] ? '，' + stockList[1].stockName : '';
-        desc += stockList[2] ? '、' + stockList[2].stockName : '';
+        desc += stockList[0] ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>` + mark[2] + `<strong style="${stockList[0].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[0].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[0].stockChngPct}%</strong>` : '';
+        desc += stockList[1] ? '，' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` : '';
+        desc += stockList[2] ? '、' + `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>` : '';
         desc += mark[1];
       } else if (riseSpeed > 0 && limitCount < 3) {
-        desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? stockList[0].stockName : '';
-        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + stockList[1].stockName + mark[0] : mark[0] + '，' + stockList[1].stockName + mark[2] + stockList[1].stockChngPct + '%';
-        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? stockList[2].stockName + mark[2] + stockList[2].stockChngPct + '%' : '';
+        desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>` : '';
+        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` + mark[0] : mark[0] + '，' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` + mark[2] + `<strong style="${stockList[1].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[1].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[1].stockChngPct}%</strong>`;
+        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>` + mark[2] + `<strong style="${stockList[2].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[2].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[2].stockChngPct}%</strong>` : '';
       } else {
         desc = '';
       }
+      desc += "。";
       return desc;
     }
   },
@@ -99,6 +100,14 @@ export default {
         width: 48px;
         display: inline-block;
         text-align: center;
+    }
+    .up {
+        color: #ca4941;
+        font-weight: normal;
+    }
+    .down {
+        color: #56a870;
+        font-weight: normal;
     }
 }
 </style>

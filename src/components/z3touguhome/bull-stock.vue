@@ -24,7 +24,7 @@
     font-size: 10px;
 }
 .bull-stock-table td {
-    height: 8.4%;
+    height: 10.5%;
     color: $wordsColorBase;
 }
 .bull-stock-table tr td:first-child {
