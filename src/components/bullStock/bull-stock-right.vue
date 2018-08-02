@@ -621,6 +621,7 @@ import {
 } from 'vuex'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
+import { formatDate } from 'utils/date'
 export default {
 
   data() {
@@ -639,7 +640,8 @@ export default {
       getDate: '',
       isPopup: false,
       tops: 100,
-      activeColor: 0
+      activeColor: 0,
+      time:''
 
     }
   },
@@ -769,7 +771,6 @@ export default {
         // this.getDate = this.tradeDate
         this.getCode()
       })
-
     },
     getLeaveTime() {
       var date = new Date().getTime();
@@ -809,7 +810,7 @@ export default {
                 this.initEvaluate()
                 if (this.count === 0) {
                   this.count = 300
-                  this.getCode()
+                  // this.getCode()
                 }
               }
             }, 1000)
@@ -892,10 +893,21 @@ export default {
       this.$store.dispatch('bullStock/queryTopicAndIndustry', {
         browseIndex: this.browseIndex
       });
-
+    },
+    time: {
+      deep:true,
+      handler() {
+        let time = formatDate(this.time, 'hh:mm')
+        if(time === '9:00' || time === '15:30'){
+          this.getCode()
+        }
+　　　}
     }
   },
   mounted() {
+    setInterval(() => {
+      this.time = new Date()
+    },1000)
     this.initStyle()
     this.init()
     this.initEvaluate()
