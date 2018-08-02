@@ -109,7 +109,7 @@
     position: absolute;
     left: 90px;
     top: 5px;
-    z-index: 9999;
+    z-index: 1;
 }
 
 .syqxTab li {
