@@ -22,7 +22,11 @@ export default {
       instury: [],
       topic: []
 
-    }
+    },
+    smartEvaluate: '',
+    tradeDate: null,
+    marketStyle: [],
+    stockStyleNew: []
   },
   mutations: {
     setTopicAndIndustry(state, result) {
@@ -52,6 +56,19 @@ export default {
     },
     updateTopicAndIndustry(state, topicAndIndustry) {
       state.topicAndIndustry = topicAndIndustry
+    },
+    updateSmartEvaluate(state, smartEvaluate) {
+      state.smartEvaluate = smartEvaluate
+    },
+    updateCheckTradeDate(state, tradeDate) {
+      state.tradeDate = tradeDate
+      //  console.log(state.tradeDate)
+    },
+    updateMarketStyle(state, marketStyle) {
+      state.marketStyle = marketStyle
+    },
+    updateStockStyleNew(state, stockStyle) {
+      state.stockStyleNew = stockStyle
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -101,6 +118,71 @@ export default {
         return res.json()
       }).then(result => {
         commit('setTopicAndIndustry', result)
+      })
+    },
+    // test.z3quant.com/openapi/checkTradeDate.shtml?date=20180729
+    queryCheckTradeDate({
+      commit
+    }, {
+      date
+    }) {
+      return fetch(`${domain}/openapi/checkTradeDate.shtml?date=${date}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        commit('updateCheckTradeDate', result.data)
+      })
+    },
+    querySmartEvaluate({
+      commit
+    }) {
+      return fetch(`${domain}/openapi/marketVane/smartEvaluate.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          commit('updateSmartEvaluate', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    queryMarketStyle({
+      commit
+    }) {
+      return fetch(`${domain}/openapi/marketVane/marketStyle.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          commit('updateMarketStyle', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    queryStockStyleNew({
+      commit
+    }) {
+      return fetch(`${domain}/openapi/marketVane/stockStyle.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          commit('updateStockStyleNew', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
       })
     }
   }
