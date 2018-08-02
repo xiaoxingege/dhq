@@ -653,7 +653,7 @@ export default {
           right: timeline.indexOf(pointDownX) * lineWidth / (timeline.length - 1) + moveDownName.length * 15,
           bottom: pointDownY - 20 * Dvalue / chartHeight
         }
-        if (!this.isOverlap(moveUpObj, moveDownObj)) {
+        if (this.isOverlap(moveUpObj, moveDownObj)) {
           if (timeline.indexOf(moveUpX) > timeline.indexOf(moveDownX)) {
             if (pointUpY > moveUpY) {
               pointUpY += 50 * Dvalue / chartHeight
@@ -670,6 +670,15 @@ export default {
               pointDownY -= 50 * Dvalue / chartHeight
               lineDownY -= 50 * Dvalue / chartHeight
             }
+          }
+          // 判断上下是否越界
+          if (lineUpY + 40 * Dvalue / chartHeight >= Number(datas.line) + Dvalue) { // 涨的板块超出了图表就在点下面
+            lineUpY = moveUpY - 2.25 * markLineHeight
+            pointUpY = moveUpY - 2.25 * markLineHeight - 20 * Dvalue / chartHeight
+          }
+          if (lineDownY - 40 * Dvalue / chartHeight <= Number(datas.line) - Dvalue) { // 跌的板块超出了图表就在点上面
+            lineDownY = moveDownY + 2.25 * markLineHeight
+            pointDownY = moveDownY + 2.25 * markLineHeight + 20 * Dvalue / chartHeight
           }
         }
         // 图表初始化
@@ -1088,7 +1097,7 @@ export default {
       const t2 = obj2.top;
       const r2 = obj2.right;
       const b2 = obj2.bottom;
-      if (r1 >= l2 && l1 <= r2 && b1 >= t2 && t1 <= b2) {
+      if (r1 >= l2 && l1 <= r2 && b1 <= t2 && t1 >= b2) {
         return true;
       } else {
         return false
