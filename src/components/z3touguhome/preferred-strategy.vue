@@ -410,6 +410,7 @@ export default {
             itemHeight : 1,
             itemGap : 3,
             orient: 'vertical',
+            selectedMode : false,
             textStyle: {
               color: '#808ba1'
             },
@@ -440,7 +441,11 @@ export default {
                   let seriesName = params[i].seriesName
                   let result = Number(params[i].value)
                   let res = ''
-                  res = isNaN(result) ? '--' : result >=10000 ? Number(result/10000).toFixed(2) + '万亿' : Number(result).toFixed(2) + '亿'
+                  if(Number(result) !== 0) {
+                      res = isNaN(result) ? '--' : result >=10000 ? Number(result/10000).toFixed(2) + '万亿' : Number(result).toFixed(2) + '亿'
+                  }else {
+                      res = 0
+                  }
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                     params[i].color + '"></span>'+ seriesName +': ' + res
                 }
@@ -449,9 +454,13 @@ export default {
                   let result = Number(params[i].value)
                   let res = ''
                   if(millions){
-                      res = isNaN(result) ? '--' : Number(result).toFixed(2)
+                      res = isNaN(result) ? '--' : Number(result) === 0 ? 0 : Number(result).toFixed(2)
                   }else {
-                      res = isNaN(result) ? '--' : result >=10000 ? Number(result/10000).toFixed(2) + '万亿' : Number(result).toFixed(2) + '亿'
+                    if(Number(result) !== 0) {
+                        res = isNaN(result) ? '--' : result >=10000 ? Number(result/10000).toFixed(2) + '万亿' : Number(result).toFixed(2) + '亿'
+                    }else {
+                        res = 0
+                    }
                   }
                     s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                     params[i].color + '"></span>'+ seriesName +': ' +res
@@ -461,7 +470,7 @@ export default {
             }
           },
           xAxis: {
-            interval: 0,
+            interval: 4,
             type: 'category',
             boundaryGap: false,
             axisLabel: {
@@ -479,15 +488,16 @@ export default {
             name: Yname,
             show: true,
             type: 'value',
+            interVal : 4,
+            axisTick : { // 坐标轴刻度相关设置
+              show : false
+            },
             axisLabel: {  // 坐标轴刻度的相关设置
               formatter: function(val) {
                 let num = millions ? (val/10000).toFixed(2) :Math.round(val)
                 return  num
               },
               color: '#808ba1'
-            },
-            axisTick : { // 坐标轴刻度相关设置
-              show : false
             },
             nameTextStyle: {
               fontSize: 12,
@@ -501,17 +511,20 @@ export default {
                 color: '#2A2E36'
               }
             },
+            min : 'dataMin',
+            max : 'dataMax',
             splitNumber: 5,
             scale: true,
             boundaryGap: true
           },{
             show: true,
             type: 'value',
+            interVal : 4,
             axisLabel: {  // 坐标轴刻度的相关设置
               formatter: function(val) {
                 return Math.round(Number(val))
               },
-              color: '#808ba1',
+              color: '#808ba1'
             },
             axisTick : { // 坐标轴刻度相关设置
               show : false
@@ -524,9 +537,11 @@ export default {
                 color: '#2A2E36'
               }
             },
-            splitNumber: 5,
-            scale: true,
-            boundaryGap: true
+            min : null,
+            max : null,
+            // splitNumber: 5,
+             scale: true // 是否必须包含0刻度，true不包含
+            // boundaryGap: false
           }],
           series: [{
              yAxisIndex: 0,
@@ -564,17 +579,6 @@ export default {
             right: '5%',
             containLabel: true
           }
-        ],
-        color: ['#0C86ED', '#E73E3A', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
-          'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
-        ],
-        grid: {
-          width: '95%',
-          height: '75%',
-          left: '5%',
-          top: '20%',
-          containLabel: true
-        }
       })
       const that = this
       window.onresize = function() {

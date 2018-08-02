@@ -3,7 +3,7 @@
           <div class="initWait-wrapper">
             <slot></slot>
             <slot name='user'>
-                <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分，请耐心等待~</p>
+                <p class="cont">距离开盘还有<span class="minutes">{{ beginTimes }}</span>分钟，请耐心等待~</p>
             </slot>
           </div>
     </div>
