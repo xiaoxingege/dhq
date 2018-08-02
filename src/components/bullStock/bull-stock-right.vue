@@ -621,7 +621,9 @@ import {
 } from 'vuex'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
-import { formatDate } from 'utils/date'
+import {
+  formatDate
+} from 'utils/date'
 export default {
 
   data() {
@@ -641,7 +643,7 @@ export default {
       isPopup: false,
       tops: 100,
       activeColor: 0,
-      time:''
+      time: ''
 
     }
   },
@@ -894,20 +896,17 @@ export default {
         browseIndex: this.browseIndex
       });
     },
-    time: {
-      deep:true,
-      handler() {
-        let time = formatDate(this.time, 'hh:mm')
-        if(time === '9:00' || time === '15:30'){
-          this.getCode()
-        }
-　　　}
+    time() {
+      let time = formatDate(this.time, 'hh:mm')
+      if (time === '9:00' || time === '15:30') {
+        this.getCode()
+      }
     }
   },
   mounted() {
     setInterval(() => {
       this.time = new Date()
-    },1000)
+    }, 1000)
     this.initStyle()
     this.init()
     this.initEvaluate()
