@@ -32,7 +32,10 @@ export default {
     bullStockList: [],
     positionList: [],
     positionListFilter: [],
-    sevenhourNews:[]
+    sevenhourNews: [],
+    twoMeltingInfo: [], // 两融余额
+    northFinanceInfo: [], // 北向资金
+    southWardFundsInfo: [] // 南向资金
   },
   mutations: {
     setStrategyList(state, options) {
@@ -166,10 +169,25 @@ export default {
         state.positionListFilter = result.data
       }
     },
-    setSevenNews(state, data){
-      if(data.result.errCode === 0){
+    setSevenNews(state, data) {
+      if (data.result.errCode === 0) {
         state.sevenhourNews = data.result.data
 
+      }
+    },
+    setTwoMeltingInfo(state, data) { // 两融余额
+      if (data.result.errCode === 0) {
+        state.twoMeltingInfo = data.result.data
+      }
+    },
+    setNorthFinanceInfo(state, data) { // 北向资金
+      if (data.result.errCode === 0) {
+        state.northFinanceInfo = data.result.data
+      }
+    },
+    setSouthwardFundsInfo(state, data) { // 南向资金
+      if (data.result.errCode === 0) {
+        state.southWardFundsInfo = data.result.data
       }
     }
   },
@@ -490,15 +508,61 @@ export default {
         })
       })
     },
-    getSevenNews({ commit },{ size }){
-        const url = domain + '/openapi/news/newsIndexFlash.shtml?size='+ size
-        return fetch(url).then((res) => {
-            return res.json()
-        }).then((body) => {
-            commit('setSevenNews', {
-                result: body
-            })
+    getSevenNews({
+      commit
+    }, {
+      size
+    }) {
+      const url = domain + '/openapi/news/newsIndexFlash.shtml?size=' + size
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setSevenNews', {
+          result: body
         })
+      })
+    },
+    getTwoMeltingInfo({
+      commit
+    }, {
+      flag
+    }) { // 两融余额
+      const url = `${domain}/openapi/index/twoMeltingInfo.shtml?flag=${flag}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setTwoMeltingInfo', {
+          result: body
+        })
+      })
+    },
+    getNorthFinanceInfo({
+      commit
+    }, {
+      flag
+    }) { // 北向资金
+      const url = `${domain}/openapi/index/northFinanceInfo.shtml?flag=${flag}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setNorthFinanceInfo', {
+          result: body
+        })
+      })
+    },
+    getSouthwardFundsInfo({
+      commit
+    }, {
+      flag
+    }) { // 南向资金
+      const url = `${domain}/openapi/index/southwardFundsInfo.shtml?flag=${flag}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setSouthwardFundsInfo', {
+          result: body
+        })
+      })
     }
   }
 }

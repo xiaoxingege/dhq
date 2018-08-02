@@ -70,7 +70,7 @@
             this.$emit('propShow',this.isShow)
         },
         beforeDestroy() {
-            console.log('销毁')
+            this.timers && clearTimeout(this.timers)
         }
     }
 </script>
