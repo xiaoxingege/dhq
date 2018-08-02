@@ -99,6 +99,9 @@ a {
 .green {
     color: #56a870;
 }
+.white {
+   color : #ffffff!important;
+}
 
 .goldExport {
     background: url('../assets/images/z3img/backexport2.png') no-repeat;
@@ -181,6 +184,7 @@ a {
     <div v-if="type === 'sylfb'" class="sylfb">
       <Onebarchart :strategyId="strategyId"></Onebarchart>
     </div>
+    <!-- 交易详情 -->
     <div v-if="type === 'mrjy'" class="mrjy">
       <table cellpadding="0" cellspacing="0">
         <thead>
@@ -192,6 +196,8 @@ a {
             <th>成交价格（元）</th>
             <th>成交股数</th>
             <th>成交额（万元）</th>
+            <th>参考盈亏(元)</th>
+            <th>盈亏比例</th>
             <th>佣金（元）</th>
           </tr>
         </thead>
@@ -204,6 +210,8 @@ a {
             <td>{{Number(item.price).toFixed(2)}}</td>
             <td>{{item.amount}}</td>
             <td>{{(Number(item.quantity)/10000).toFixed(2)}}</td>
+            <td :class="echoColor(Number(item.profits))">{{ Number(item.profits).toFixed(2) | filtNum }}</td>
+            <td :class="echoColor(Number(item.profitRatio))">{{ Number(item.profitRatio*100).toFixed(2) | filtNum2 }}</td>
             <td>{{Number(item.commission).toFixed(2)}}</td>
           </tr>
         </tbody>
@@ -336,6 +344,26 @@ export default {
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }
   },
+  filters : {
+    filtNum(val) {
+      console.log(val)
+      if(Number(val) === 0) {
+        return '--'
+      }else {
+        let num =val > 0 ? '+'+val : val
+        return num
+      }
+    },
+    filtNum2(val) {
+      console.log(val)
+      if(Number(val) === 0) {
+        return '--'
+      }else {
+        let num =val > 0 ? `+${val}%` : val+'%'
+        return num
+      }
+    }
+  },
   components: {
     Navbar,
     Tablelist,
@@ -434,6 +462,10 @@ export default {
       document.body.appendChild(postForm)
       postForm.submit()
       // document.body.removeChild(postForm)
+    },
+    echoColor(num) {
+       let color = num === 0 ? 'white' : num > 0 ? 'red' : 'green'
+       return color
     }
   },
   mounted() {
