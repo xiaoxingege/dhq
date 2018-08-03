@@ -26,7 +26,9 @@ export default {
             return new Promise((resolve, reject) => {
                 // const url = `https://sslapi.jrj.com.cn/itougu/mapi/xlive_poll/queryViewAndTalkForNew/${data.roomId}?onlyView=true`;
                 const url = `https://itougu.jrj.com.cn/xlive_poll/queryViewAndTalkForNew/${data.roomId}?onlyView=true`;
-                return fetch(url).then((res) => {
+                return fetch(url, {
+                    method: 'GET'
+                }).then((res) => {
                     return res.json()
                 }).then((data) => {
                     if (data.retCode) {
@@ -43,7 +45,9 @@ export default {
             return new Promise((resolve, reject) => {
                 // const url = `https://sslapi.jrj.com.cn/itougu/mapi/xlive_poll/queryViewAndTalkForNew/${data.roomId}?timeId=${data.timeId}&onlyView=true`;
                 const url = `https://itougu.jrj.com.cn/xlive_poll/queryViewAndTalkForNew/${data.roomId}?timeId=${data.timeId}&onlyView=true`;
-                return fetch(url).then((res) => {
+                return fetch(url, {
+                    method: 'GET'
+                }).then((res) => {
                     return res.json()
                 }).then((data) => {
                     if (data.retCode) {
