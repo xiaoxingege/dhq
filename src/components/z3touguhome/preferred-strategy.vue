@@ -102,12 +102,12 @@
 }
 .lineChart {
     width: 100%;
-    height: 168px;
+    height: 100%;
 }
 
 .syqxTab {
     position: absolute;
-    left: 90px;
+    right: 4%;
     top: 5px;
     z-index: 1;
 }
@@ -144,7 +144,7 @@
     </div>
   </div>
   <div class="preferred-strategy-table-wrap clearfix">
-    <div style="position: relative;">
+    <div style="position: relative; height:100%;">
         <ul class="syqxTab">
           <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">近1月</li>
           <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">近6月</li>
@@ -345,18 +345,13 @@ export default {
         let tradeDate = []
         let indexPrice = []
         let marginBalance = []
-          let keysArr = []
-            for(let i in data[0]) {
-               if(keysArr.indexOf(i) === -1) {
-                   keysArr.push(i)
-               }
-            }
         data && data.forEach((item) => {
-          if(item[keysArr[0]] !== null && item[keysArr[2]] !== null) {
-            tradeDate.push(item[keysArr[1]])  // 日期
+          if(item.indexPrice !== null && item.marginBalance !== null) {
+            tradeDate.push(item.tradeDate)  // 日期
           }
-            indexPrice.push(item[keysArr[0]]) // 上证指数
-            marginBalance.push(item[keysArr[2]])  // 两融余额
+          item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
+          
+          item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
         })
         this.indexPrice = indexPrice
         this.xAxisData = tradeDate
@@ -370,8 +365,8 @@ export default {
         if(item.shStkConnectMoney !== null && item.szStkConnectMoney !== null) {
             northDate.push(item.tradeDate) // 北向日期
         }
-            shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
-            szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
+        item.shStkConnectMoney !== null && shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
+        item.szStkConnectMoney !== null && szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
       })
       this.northDate = northDate
       this.shStkConnectMoney = shStkConnectMoney
@@ -385,8 +380,8 @@ export default {
         if(item.hkStkShMoney !== null && item.hkStkSzMoney !== null) {
           southDate.push(item.tradeDate) // 北向日期
         }
-            hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
-            hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
+        item.hkStkShMoney && hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
+        item.hkStkSzMoney && hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
         })
         this.southDate = southDate
         this.hkStkShMoney = hkStkShMoney
@@ -405,12 +400,13 @@ export default {
         
         this.chart.setOption({
           legend: { // 右上角(图例)
-            right: 0,
+            left: '20%',
             top: '5px',
             itemHeight : 1,
-            itemGap : 3,
+            itemGap : 1,
             orient: 'vertical',
             selectedMode : false,
+            itemWidth : 10,
             textStyle: {
               color: '#808ba1'
             },
@@ -470,11 +466,17 @@ export default {
             }
           },
           xAxis: {
-            interval: 4,
             type: 'category',
             boundaryGap: false,
+            scale : true,
+            min : 'dataMin',
+            max : 'dataMax',
             axisLabel: {
-              color: '#808ba1'
+              color: '#808ba1',
+             interval : Math.ceil(xData.length/4),
+              // showMinLabel : true,
+              // showMaxLabel : true,
+              align : 'left'
             },
             axisLine : { // 坐标轴轴线相关设置
               onZero : false
@@ -511,8 +513,12 @@ export default {
                 color: '#2A2E36'
               }
             },
-            min : 'dataMin',
-            max : 'dataMax',
+            min : function(val) {
+              return val.min
+            },
+            max : function(val) {
+              return val.max
+            },
             splitNumber: 5,
             scale: true,
             boundaryGap: true
@@ -544,7 +550,7 @@ export default {
             // boundaryGap: false
           }],
           series: [{
-             yAxisIndex: 0,
+              yAxisIndex: 0,
               data: blueLine,
               name: this.dataName,
               type: 'line',
