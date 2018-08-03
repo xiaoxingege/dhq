@@ -19,7 +19,7 @@ export default {
       const limitCount = this.model.limitUpDownCount;
       const stockList = this.model.stockDataList;
       let desc = '';
-      let mark = riseSpeed > 0 ? ['涨停', '纷纷拉升', '大涨'] : ['跌停', '跟跌', '大跌'];
+      let mark = riseSpeed > 0 ? ['涨停', '纷纷拉升', '大涨', '涨幅'] : ['跌停', '跟跌', '大跌', '涨幅'];
       if (limitCount > 3) {
         desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>` : '';
         desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` : '';
@@ -31,14 +31,14 @@ export default {
         desc += stockList[2] && (stockList[2].isLimitUp || stockList[2].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>` : '';
         desc += mark[0]
       } else if (limitCount === 0) {
-        desc += stockList[0] ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>` + mark[2] + `<strong style="${stockList[0].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[0].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[0].stockChngPct}%</strong>` : '';
+        desc += stockList[0] ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>${(stockList[0].stockChngPct<2 && stockList[0].stockChngPct>-2)?mark[3]:mark[2]}<strong style="${stockList[0].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[0].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[0].stockChngPct}%</strong>` : '';
         desc += stockList[1] ? '，' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` : '';
         desc += stockList[2] ? '、' + `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>` : '';
         desc += mark[1];
-      } else if (riseSpeed > 0 && limitCount < 3) {
+      } else if (limitCount > 0 && limitCount < 3) {
         desc += stockList[0] && (stockList[0].isLimitUp || stockList[0].isLimitDown) ? `<a target="_blank" href="stock/${stockList[0].innerCode}">${stockList[0].stockName}</a>` : '';
-        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` + mark[0] : mark[0] + '，' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` + mark[2] + `<strong style="${stockList[1].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[1].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[1].stockChngPct}%</strong>`;
-        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>` + mark[2] + `<strong style="${stockList[2].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[2].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[2].stockChngPct}%</strong>` : '';
+        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? '、' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>` + mark[0] : mark[0] + '，' + `<a target="_blank" href="stock/${stockList[1].innerCode}">${stockList[1].stockName}</a>${(stockList[1].stockChngPct >= 2||stockList[1].stockChngPct <= -2)?mark[2]:mark[3]}<strong style="${stockList[1].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[1].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[1].stockChngPct}%</strong>`;
+        desc += stockList[1] && (stockList[1].isLimitUp || stockList[1].isLimitDown) ? `<a target="_blank" href="stock/${stockList[2].innerCode}">${stockList[2].stockName}</a>${(stockList[2].stockChngPct >= 2 ||stockList[2].stockChngPct <= -2)?mark[2]:mark[3]}<strong style="${stockList[2].stockChngPct>0?'color:#ca4941;font-weight:normal':(stockList[2].stockChngPct<0?'color:#56a870;font-weight:normal':'')}">${stockList[2].stockChngPct}%</strong>` : '';
       } else {
         desc = '';
       }
@@ -74,18 +74,21 @@ export default {
       }
     },
     abnDesc(value) {
-      if (value > 0.03) {
+      if (value > 3) {
         return '大幅拉升'
-      } else if (value > 0 && value <= 0.03) {
+      } else if (value > 0 && value <= 3) {
         return '拉升'
-      } else if (value < 0 && value >= -0.03) {
+      } else if (value < 0 && value >= -3) {
         return '回落'
-      } else if (value < -0.03) {
+      } else if (value < -3) {
         return '大幅回落'
       } else {
         return ''
       }
     }
+  },
+  methods: {
+
   }
 }
 </script>
