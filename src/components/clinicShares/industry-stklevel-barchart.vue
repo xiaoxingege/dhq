@@ -181,7 +181,7 @@ body {
 <template>
 <div class="dime-tech">
   <div>
-    <div class="techline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>个股在行业内对比</div>
+    <div class="techline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>个股在同行业(申万一级)内对比分析</div>
     <div class="techline-title" v-if='statusType == 10'>
       {{industryFace.title}}<span class="assess1" :class="checkStatus(industryFace.status)" v-if='statusType == 10'>{{industryFace.tag==null?'':industryFace.tag}}</span>
     </div>
