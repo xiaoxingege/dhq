@@ -40,6 +40,10 @@ html {
     text-align: center;
     margin: 20px 0;
     color: #666;
+    img{
+        cursor: pointer;
+        margin-top: 2px;
+    }
 }
 
 .newDetail a,
@@ -144,11 +148,13 @@ html {
     <p class="newTitle">{{result === null ? '':result.news.title}}</p>
     <div class="newDetail">
       <span class="borderR">{{date}}</span>
-      <span class="borderR ml-15">来源：{{result === null ? '':result.news.srcName}}<span v-if="result.news.newsUrl">(<a @click="viewSource(result.news.newsUrl)">查看原文</a>)</span></span>
+        <span class="borderR ml-15">来源：<span v-if="result && result.news">{{result === null ? '':result.news.srcName}}</span><span v-if="result && result.news && result.news.newsUrl">(<a @click="viewSource(result.news.newsUrl)">查看原文</a>)</span></span>
       <span v-if="result !== null && result.equityList!== null && result.equityList.length!==0" class="ml-15">相关股票：
         <a @click="toStock(item.innerCode)" v-for="item in result.equityList" class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span>
       <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-15">相关题材：
         <router-link :to="{ name:'topicDetail' , params:{ topicId : item.topicCode }}" target="_blank" class="mr-15" v-for="item in result.topicList">{{item.topicName}}</router-link></span>
+        <img @click="changeFontSize('add')" src="../assets/images/z3img/A+.png"/>
+        <img @click="changeFontSize('desc')" src="../assets/images/z3img/A-.png"/>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
     <span class="moreNews" v-if="moreInfor && moreInfor.length !== 0">更多相关资讯</span>
@@ -205,7 +211,8 @@ export default {
   data() {
     return {
       type: this.$route.params.detailType,
-      moreInfor: null
+      moreInfor: null,
+      defaultFontSize:12
     }
   },
   computed: {
@@ -321,6 +328,26 @@ export default {
     },
     viewSource(url){
         window.open(url+'openIE')
+    },
+    changeFontSize(text){
+        var mainText = document.getElementsByClassName('newMain')[0]
+        if(text === 'add') {
+            if(this.defaultFontSize === 12){
+                this.defaultFontSize = 14
+                mainText.style.fontSize = this.defaultFontSize+'px'
+            }else if(this.defaultFontSize === 14){
+                this.defaultFontSize = 16
+                mainText.style.fontSize = this.defaultFontSize+'px'
+            }
+        }else if(text === 'desc') {
+            if(this.defaultFontSize === 16){
+                this.defaultFontSize = 14
+                mainText.style.fontSize = this.defaultFontSize+'px'
+            }else if(this.defaultFontSize === 14){
+                this.defaultFontSize = 12
+                mainText.style.fontSize = this.defaultFontSize+'px'
+            }
+        }
     }
 
   },
