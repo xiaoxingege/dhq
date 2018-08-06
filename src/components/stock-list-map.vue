@@ -103,10 +103,13 @@ td {
     <span v-z3-updowncolor="parentValue" v-else-if="condition === 'keep_days'">{{parentValue === ''?'--':parentValue}}天</span>
     <!-- 连续涨跌天数 -->
     <span v-z3-updowncolor="parentValue" v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
+    <!-- 热度指数 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition ==='topic_market.tech_index'">{{Math.ceil(parentValue).toFixed(2)}}</span>
     <!-- 股息率和EPS增长率 -->
     <span v-else>{{parentValue}}</span>
     <span class="stock-down fr" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
     <span class="stock-up fr" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <slot name="newsInfo"></slot>
   </h3>
   <h3 class="clearfix" v-if="!titleName && kLineType === 'industry'">{{titleNameLel2}}
     <span v-z3-updowncolor="parentValue" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{parentValue}}%</span>
@@ -114,10 +117,13 @@ td {
     <span v-z3-updowncolor="parentValue" v-else-if="condition === 'keep_days'">{{parentValue === ''?'--':parentValue}}天</span>
     <!-- 连续涨跌天数 -->
     <span v-z3-updowncolor="parentValue" v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
+    <!-- 热度指数 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition ==='topic_market.tech_index'">{{Math.ceil(parentValue)}}</span>
     <!-- 股息率和EPS增长率 -->
     <span v-else>{{parentValue}}</span>
     <span class="stock-down fr" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
     <span class="stock-up fr" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <slot name="newsInfo"></slot>
   </h3>
   <table>
     <tbody>

@@ -23,6 +23,7 @@ export default {
       topic: []
 
     },
+    bullNewsInfo:null,
     smartEvaluate: '',
     tradeDate: null,
     marketStyle: [],
@@ -56,6 +57,9 @@ export default {
     },
     updateTopicAndIndustry(state, topicAndIndustry) {
       state.topicAndIndustry = topicAndIndustry
+    },
+    setBullNewsInfo(state, result){
+      state.bullNewsInfo = result
     },
     updateSmartEvaluate(state, smartEvaluate) {
       state.smartEvaluate = smartEvaluate
@@ -119,6 +123,17 @@ export default {
       }).then(result => {
         commit('setTopicAndIndustry', result)
       })
+    },
+    getBullNewsInfo({ commit },{ plateId, type, location }){
+        return fetch(`${domain}/openapi/marketVane/newsInfo.shtml?plateId=${plateId}&type=${type}&location=${location}`, {
+            mode: 'cors'
+        }).then((res) => {
+            return res.json()
+        }).then(result => {
+            if (result.errCode === 0) {
+                commit('setBullNewsInfo', result.data)
+            }
+        })
     },
     // test.z3quant.com/openapi/checkTradeDate.shtml?date=20180729
     queryCheckTradeDate({

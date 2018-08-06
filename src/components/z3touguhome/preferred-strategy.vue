@@ -102,14 +102,15 @@
 }
 .lineChart {
     width: 100%;
-    height: 168px;
+    height: 100%;
 }
 
 .syqxTab {
     position: absolute;
-    left: 90px;
+    right: 13%;
     top: 5px;
     z-index: 1;
+    user-select : none;
 }
 
 .syqxTab li {
@@ -144,11 +145,11 @@
     </div>
   </div>
   <div class="preferred-strategy-table-wrap clearfix">
-    <div style="position: relative;">
+    <div style="position: relative; height:100%;">
         <ul class="syqxTab">
-          <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">近1月</li>
-          <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">近6月</li>
-          <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">近1年</li>
+          <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">1月</li>
+          <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">6月</li>
+          <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
           <li @click="changeSyTab($event,0)" :class="{active: flagTime ===0}">全部</li>
         </ul>
      <div class="lineChart" ref="lineChart"></div>
@@ -194,7 +195,7 @@ export default {
       northDate : [] , // 北向资金X轴数据
       shStkConnectMoney: [], // 沪股通资金(亿元)
       szStkConnectMoney:[], // 深股通资金(亿元)
-      c : [], // 南向资金x轴数据
+      southDate : [], // 南向资金x轴数据
       hkStkShMoney :[], // 港股通(沪)资金(亿元)
       hkStkSzMoney : [], // 港股通(深)资金(亿元)
       isMillions : true
@@ -345,52 +346,48 @@ export default {
         let tradeDate = []
         let indexPrice = []
         let marginBalance = []
-          let keysArr = []
-            for(let i in data[0]) {
-               if(keysArr.indexOf(i) === -1) {
-                   keysArr.push(i)
-               }
-            }
         data && data.forEach((item) => {
-          if(item[keysArr[0]] !== null && item[keysArr[2]] !== null) {
-            tradeDate.push(item[keysArr[1]])  // 日期
+          if(item.indexPrice !== null || item.marginBalance !== null) {
+            tradeDate.push(item.tradeDate)  // 日期
           }
-            indexPrice.push(item[keysArr[0]]) // 上证指数
-            marginBalance.push(item[keysArr[2]])  // 两融余额
+          item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
+          
+          item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
         })
-        this.indexPrice = indexPrice
-        this.xAxisData = tradeDate
-        this.marginBalance = marginBalance
+        this.indexPrice = indexPrice.reverse()
+        this.xAxisData = tradeDate.reverse()
+        this.marginBalance = marginBalance.reverse()
     },
     getNorthData(data) { // 北向资金各项数据
       let northDate = []
       let shStkConnectMoney = [] // 沪股通资金(亿元)
       let szStkConnectMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.shStkConnectMoney !== null && item.szStkConnectMoney !== null) {
+        if(item.shStkConnectMoney !== null || item.szStkConnectMoney !== null) {
             northDate.push(item.tradeDate) // 北向日期
         }
-            shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
-            szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
+        item.shStkConnectMoney !== null && shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
+        item.szStkConnectMoney !== null && szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
       })
-      this.northDate = northDate
-      this.shStkConnectMoney = shStkConnectMoney
-      this.szStkConnectMoney = szStkConnectMoney
+      this.northDate = northDate.reverse()
+      this.shStkConnectMoney = shStkConnectMoney.reverse()
+      this.szStkConnectMoney = szStkConnectMoney.reverse()
     },
     getSouthData(data) { // 南向资金各项数据
       let southDate = []
       let hkStkShMoney = [] // 沪股通资金(亿元)
       let hkStkSzMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.hkStkShMoney !== null && item.hkStkSzMoney !== null) {
-          southDate.push(item.tradeDate) // 北向日期
+        if(item.hkStkShMoney !== null || item.hkStkSzMoney !== null) {
+          southDate.push(item.tradeDate) // 南向日期
         }
-            hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
-            hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
+        
+        item.hkStkShMoney && hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
+        item.hkStkSzMoney && hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
         })
-        this.southDate = southDate
-        this.hkStkShMoney = hkStkShMoney
-        this.hkStkSzMoney = hkStkSzMoney
+        this.southDate = southDate.reverse()
+        this.hkStkShMoney = hkStkShMoney.reverse()
+        this.hkStkSzMoney = hkStkSzMoney.reverse()
     },
     drawEcharts(xData,blueLine,redLine) {
       if (this.chart !== null && this.chart !== '' && this.chart !== undefined) {
@@ -402,15 +399,17 @@ export default {
         })
         let millions = this.isMillions
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        
+        // let remArr = []
+        // let flagTime = this.flagTime
         this.chart.setOption({
           legend: { // 右上角(图例)
-            right: 0,
+            left: '20%',
             top: '5px',
             itemHeight : 1,
-            itemGap : 3,
+            itemGap : 1,
             orient: 'vertical',
             selectedMode : false,
+            itemWidth : 10,
             textStyle: {
               color: '#808ba1'
             },
@@ -470,17 +469,25 @@ export default {
             }
           },
           xAxis: {
-            interval: 4,
             type: 'category',
             boundaryGap: false,
+            scale : true,
+            min : 'dataMin',
+            max : 'dataMax',
             axisLabel: {
-              color: '#808ba1'
+              color: '#808ba1',
+              // showMinLabel : true,
+              // showMaxLabel : true,
+              interval: Math.ceil(xData.length/4),
+              align: 'center'
             },
             axisLine : { // 坐标轴轴线相关设置
               onZero : false
             },
             axisTick : { // 坐标轴刻度相关设置
-              show : false
+              show : true,
+              inside: true,
+              alignWithLabel: false
             },
             data: xData
           },
@@ -488,14 +495,21 @@ export default {
             name: Yname,
             show: true,
             type: 'value',
+            position: 'left',
             interVal : 4,
             axisTick : { // 坐标轴刻度相关设置
               show : false
             },
             axisLabel: {  // 坐标轴刻度的相关设置
-              formatter: function(val) {
+              formatter: function(val,index) {
                 let num = millions ? (val/10000).toFixed(2) :Math.round(val)
-                return  num
+                // if(millions && this.flagTime === 1) {
+                //   if(remArr.indexOf(num) === -1) {
+                //     remArr.push(num)
+                //   }
+                //   return remArr[index]
+                // }
+                 return num
               },
               color: '#808ba1'
             },
@@ -503,7 +517,6 @@ export default {
               fontSize: 12,
               color : '#707D90'
             },
-            position: 'left',
             splitLine: {
               show: false,
               lineStyle: {
@@ -511,11 +524,23 @@ export default {
                 color: '#2A2E36'
               }
             },
-            min : 'dataMin',
-            max : 'dataMax',
+            axisLine: {
+              symbol: ['none', 'arrow'],
+              lineStyle: {
+                color: '#23272c'
+              }
+            },
+            min : function(val) {
+              return val.min
+            },
+            max : function(val) {
+              return val.max
+            },
             splitNumber: 5,
             scale: true,
-            boundaryGap: true
+            boundaryGap: true,
+            showMinLabel :false,
+            showMaxLabel : true
           },{
             show: true,
             type: 'value',
@@ -544,7 +569,7 @@ export default {
             // boundaryGap: false
           }],
           series: [{
-             yAxisIndex: 0,
+              yAxisIndex: 0,
               data: blueLine,
               name: this.dataName,
               type: 'line',
@@ -580,17 +605,13 @@ export default {
             containLabel: true
           }
       })
-      const that = this
-      window.onresize = function() {
-        that.chart.resize()
-      }
+       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     changeSyTab(e, dateNum) {
         this.flagTime = dateNum     
     }
   },
   mounted() {
-
     this.initPreferredStrategy()
     // this.autoUpdate()
   },
