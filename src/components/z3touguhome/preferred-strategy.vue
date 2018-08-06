@@ -107,9 +107,10 @@
 
 .syqxTab {
     position: absolute;
-    right: 4%;
+    right: 13%;
     top: 5px;
     z-index: 1;
+    user-select : none;
 }
 
 .syqxTab li {
@@ -146,9 +147,9 @@
   <div class="preferred-strategy-table-wrap clearfix">
     <div style="position: relative; height:100%;">
         <ul class="syqxTab">
-          <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">近1月</li>
-          <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">近6月</li>
-          <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">近1年</li>
+          <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">1月</li>
+          <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">6月</li>
+          <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
           <li @click="changeSyTab($event,0)" :class="{active: flagTime ===0}">全部</li>
         </ul>
      <div class="lineChart" ref="lineChart"></div>
@@ -346,46 +347,47 @@ export default {
         let indexPrice = []
         let marginBalance = []
         data && data.forEach((item) => {
-          if(item.indexPrice !== null && item.marginBalance !== null) {
+          if(item.indexPrice !== null || item.marginBalance !== null) {
             tradeDate.push(item.tradeDate)  // 日期
           }
           item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
           
           item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
         })
-        this.indexPrice = indexPrice
-        this.xAxisData = tradeDate
-        this.marginBalance = marginBalance
+        this.indexPrice = indexPrice.reverse()
+        this.xAxisData = tradeDate.reverse()
+        this.marginBalance = marginBalance.reverse()
     },
     getNorthData(data) { // 北向资金各项数据
       let northDate = []
       let shStkConnectMoney = [] // 沪股通资金(亿元)
       let szStkConnectMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.shStkConnectMoney !== null && item.szStkConnectMoney !== null) {
+        if(item.shStkConnectMoney !== null || item.szStkConnectMoney !== null) {
             northDate.push(item.tradeDate) // 北向日期
         }
         item.shStkConnectMoney !== null && shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
         item.szStkConnectMoney !== null && szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
       })
-      this.northDate = northDate
-      this.shStkConnectMoney = shStkConnectMoney
-      this.szStkConnectMoney = szStkConnectMoney
+      this.northDate = northDate.reverse()
+      this.shStkConnectMoney = shStkConnectMoney.reverse()
+      this.szStkConnectMoney = szStkConnectMoney.reverse()
     },
     getSouthData(data) { // 南向资金各项数据
       let southDate = []
       let hkStkShMoney = [] // 沪股通资金(亿元)
       let hkStkSzMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.hkStkShMoney !== null && item.hkStkSzMoney !== null) {
-          southDate.push(item.tradeDate) // 北向日期
+        if(item.hkStkShMoney !== null || item.hkStkSzMoney !== null) {
+          southDate.push(item.tradeDate) // 南向日期
         }
+        
         item.hkStkShMoney && hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
         item.hkStkSzMoney && hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
         })
-        this.southDate = southDate
-        this.hkStkShMoney = hkStkShMoney
-        this.hkStkSzMoney = hkStkSzMoney
+        this.southDate = southDate.reverse()
+        this.hkStkShMoney = hkStkShMoney.reverse()
+        this.hkStkSzMoney = hkStkSzMoney.reverse()
     },
     drawEcharts(xData,blueLine,redLine) {
       if (this.chart !== null && this.chart !== '' && this.chart !== undefined) {
@@ -473,10 +475,10 @@ export default {
             max : 'dataMax',
             axisLabel: {
               color: '#808ba1',
-             interval : Math.ceil(xData.length/4),
               // showMinLabel : true,
               // showMaxLabel : true,
-              align : 'left'
+              interval:Math.ceil(xData.length/4),
+              align: 'left'
             },
             axisLine : { // 坐标轴轴线相关设置
               onZero : false
@@ -588,6 +590,7 @@ export default {
       })
       const that = this
       window.onresize = function() {
+        console.log('fff')
         that.chart.resize()
       }
     },
@@ -596,7 +599,6 @@ export default {
     }
   },
   mounted() {
-
     this.initPreferredStrategy()
     // this.autoUpdate()
   },
