@@ -195,7 +195,7 @@ export default {
       northDate : [] , // 北向资金X轴数据
       shStkConnectMoney: [], // 沪股通资金(亿元)
       szStkConnectMoney:[], // 深股通资金(亿元)
-      c : [], // 南向资金x轴数据
+      southDate : [], // 南向资金x轴数据
       hkStkShMoney :[], // 港股通(沪)资金(亿元)
       hkStkSzMoney : [], // 港股通(深)资金(亿元)
       isMillions : true
@@ -399,7 +399,8 @@ export default {
         })
         let millions = this.isMillions
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        
+        // let remArr = []
+        // let flagTime = this.flagTime
         this.chart.setOption({
           legend: { // 右上角(图例)
             left: '20%',
@@ -477,14 +478,16 @@ export default {
               color: '#808ba1',
               // showMinLabel : true,
               // showMaxLabel : true,
-              interval:Math.ceil(xData.length/4),
-              align: 'left'
+              interval: Math.ceil(xData.length/4),
+              align: 'center'
             },
             axisLine : { // 坐标轴轴线相关设置
               onZero : false
             },
             axisTick : { // 坐标轴刻度相关设置
-              show : false
+              show : true,
+              inside: true,
+              alignWithLabel: false
             },
             data: xData
           },
@@ -492,14 +495,21 @@ export default {
             name: Yname,
             show: true,
             type: 'value',
+            position: 'left',
             interVal : 4,
             axisTick : { // 坐标轴刻度相关设置
               show : false
             },
             axisLabel: {  // 坐标轴刻度的相关设置
-              formatter: function(val) {
+              formatter: function(val,index) {
                 let num = millions ? (val/10000).toFixed(2) :Math.round(val)
-                return  num
+                // if(millions && this.flagTime === 1) {
+                //   if(remArr.indexOf(num) === -1) {
+                //     remArr.push(num)
+                //   }
+                //   return remArr[index]
+                // }
+                 return num
               },
               color: '#808ba1'
             },
@@ -507,12 +517,17 @@ export default {
               fontSize: 12,
               color : '#707D90'
             },
-            position: 'left',
             splitLine: {
               show: false,
               lineStyle: {
                 type: 'solid',
                 color: '#2A2E36'
+              }
+            },
+            axisLine: {
+              symbol: ['none', 'arrow'],
+              lineStyle: {
+                color: '#23272c'
               }
             },
             min : function(val) {
@@ -523,7 +538,9 @@ export default {
             },
             splitNumber: 5,
             scale: true,
-            boundaryGap: true
+            boundaryGap: true,
+            showMinLabel :false,
+            showMaxLabel : true
           },{
             show: true,
             type: 'value',
@@ -588,11 +605,7 @@ export default {
             containLabel: true
           }
       })
-      const that = this
-      window.onresize = function() {
-        console.log('fff')
-        that.chart.resize()
-      }
+       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     changeSyTab(e, dateNum) {
         this.flagTime = dateNum     
