@@ -1,5 +1,14 @@
 <template>
 <div class="bullBox">
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="mapCondition" :kLineType="kLineType"  :stockUpNo="topicStockUpNo" :stockDownNo="topicStockDownNo" @updateWrapHeight="changeWrapHeight"
+             v-if="showHover" :topicIndexs="topicIndexs" :industryIndexs="industryIndexs">
+    <div slot="newsInfo" v-if="bullNewsInfo" class="clearfix mb-5">
+      <span v-if="bullNewsInfo.postiveIndex === 1" style="background-color: #56a870" class="markBox">利空</span>
+      <span v-else-if="bullNewsInfo.postiveIndex === 2" style="background-color: #ca4941" class="markBox">利好</span>
+      <span v-else-if="bullNewsInfo.postiveIndex === 0" style="background-color: #525a65" class="markBox">中性</span>
+      <span class="markTittle">{{bullNewsInfo.title}}</span>
+    </div>
+  </StockList>
   <div class="bullChartHeader clearfix">
     浏览指标：<select v-model="bullSelected" @change="changeSelect">
       <option value="heatIndex">热度指数</option>
@@ -12,14 +21,14 @@
     <div class="chart_con">
       <div class="fl">
         <p>题材板块</p>
-        <div class="themeBox"></div>
-        <div class="themeBox"></div>
+        <div class="themeBox" @mousemove="move($event)"></div>
+        <div class="themeBox" @mousemove="move($event)"></div>
 
       </div>
       <div class="fl">
         <p>行业板块</p>
-        <div class="industryBox"></div>
-        <div class="industryBox"></div>
+        <div class="industryBox" @mousemove="move($event)"></div>
+        <div class="industryBox" @mousemove="move($event)"></div>
       </div>
     </div>
   </div>
@@ -44,7 +53,6 @@
     </ul>
     <p class="fl">温馨提示：展示题材和行业的连续涨跌天数榜，首尾各12个</p>
   </div>
-  <div></div>
 </div>
 </template>
 <script>
@@ -52,6 +60,7 @@ import echarts from 'echarts'
 import {
   mapState
 } from 'vuex'
+import StockList from 'components/stock-list-map'
 
 const colorsList = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554', '#414554', '#3f4c53', '#3d5451', '#3b5a50', '#3a614f', '#38694f', '#366f4e', '#35764e', '#347d4e', '#32844e', '#31894e', '#31904e', '#30974f', '#2f9e4f', '#2fa450', '#2faa51', '#2fb152', '#2fb854', '#30be56', '#30c558', '#30cc5a']
 const valueRangeHeat = [0, 12, 24, 36, 48, 60, 72, 84, 96]
@@ -63,6 +72,8 @@ export default {
     return {
       currentTime: '',
       bullSelected: 'chngPct',
+      cnodition:'',
+      mapCondition:'chg_pct',
       colors: {
         // 'heatIndex': colorsList.slice().reverse().slice(20),
         'heatIndex': colorsList.slice().reverse(),
@@ -77,13 +88,79 @@ export default {
       // valueRangeHeat: [50, 56, 62, 68, 74, 80, 86, 92, 98],
       valueRangeHeat: [0, 12, 24, 36, 48, 60, 72, 84, 96],
       valueRangePct: [-4, -3, -2, -1, 0, 1, 2, 3, 4],
-      valueRangeDay: [-12, -9, -6, -3, 0, 3, 6, 9, 12]
+      valueRangeDay: [-12, -9, -6, -3, 0, 3, 6, 9, 12],
+        /* 弹窗 */
+      offsetX: 0,
+      offsetY: 0,
+      wrapHeight: 0,
+      showHover: false,
+      kLineType: '',
+      topicStockUpNo: '',
+      topicStockDownNo: '',
+      topicIndexs: ['topic_market.tech_index', 'chg_pct','topic_market.rise_speed_3min', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
+      industryIndexs: ['indu_market.tech_index', 'chg_pct','indu_market.rise_speed_3min','chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days']
+
     }
+  },
+  components: {
+    StockList
   },
   computed: {
     ...mapState({
       topicData: state => state.bullStock.topicData,
-      industryData: state => state.bullStock.industryData
+      industryData: state => state.bullStock.industryData,
+      bullNewsInfo: state => state.bullStock.bullNewsInfo,
+      topicHoverStockValue: function() { // 鼠标移入的时候调用
+            const that = this
+            let topicStock = []
+            let topicStockValue = []
+          console.log(this.kLineType)
+            if(this.kLineType === 'topic'){
+                topicStock = [].concat(this.$store.state.plateMap.topicStock)
+            }else if(this.kLineType === 'industry'){
+                topicStock = [].concat(this.$store.state.plateMap.industryStockData)
+            }
+
+            topicStock.sort((a, b) => (b.size - a.size))
+            topicStock.forEach(function(industry) {
+                industry.value = industry.size
+            })
+          if(this.kLineType === 'topic'){
+              topicStockValue = this.$store.state.plateMap.topicStockValue
+          }else if(this.kLineType === 'industry'){
+              topicStockValue = this.$store.state.plateMap.industryStockValue
+          }
+            topicStock.forEach(function(stock) {
+                if (topicStockValue) {
+                    stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
+                    if (stock.perf !== null && typeof stock.perf !== 'undefined') {
+                        if(that.bullSelected === 'chngPct'){
+                            stock.perfText = (stock.perf >= 0 ? '+' : '') + Number(stock.perf).toFixed(2) +'%'
+                        }else if(that.bullSelected === 'heatIndex'){
+                            stock.perfText = Math.ceil(stock.perf)
+                        }else if(that.bullSelected === 'keepDaysToday'){
+                            stock.perfText = stock.perf+'天'
+                        }
+                    }else {
+                        stock.perfText = '--'
+                    }
+
+                    stock.itemStyle = {
+                        normal: {
+                            color: that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], stock.perf) || '#2f323d'
+                        }
+                    }
+                } else {
+                    stock.perfText = '--'
+                    stock.itemStyle = {
+                        normal: {
+                            color: '#2f323d'
+                        }
+                    }
+                }
+            })
+            return topicStock
+        }
     }),
     visualMin: function() {
       if (this.bullSelected === 'heatIndex') {
@@ -99,6 +176,36 @@ export default {
     }
   },
   methods: {
+    changeWrapHeight: function(wrapHeight) {
+          this.wrapHeight = wrapHeight
+          if (this.wrapHeight > 52) {
+              this.move()
+          }
+      },
+    move: function(event) {
+          if (event) {
+              this.clientX = event.clientX + 50
+              this.clientY = event.clientY + 50
+              this.offsetX = event.clientX + 50
+              this.offsetY = event.clientY + 50
+          }
+          const windowWidth = document.body.clientWidth
+          const windowHeight = window.innerHeight
+          if (document.getElementsByClassName('hover-wrapper').length > 0) {
+              const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
+              // const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+              const wrapHeight = this.wrapHeight
+              if (windowWidth - this.clientX <= wrapWidth) {
+                  this.offsetX = this.clientX - wrapWidth - 100
+              }
+              if (windowHeight - 17 - this.clientY <= wrapHeight) {
+                  this.offsetY = windowHeight - wrapHeight - 17
+              }
+              if (this.offsetY < 0) {
+                  this.offsetY = 0
+              }
+          }
+      },
     getTime() {
       var date = new Date()
       var seperator2 = ':'
@@ -311,15 +418,7 @@ export default {
               color: this.colors[this.bullSelected] // colorsList.slice().reverse()
             },
             dimension: 2
-          }],
-          tooltip: {
-              show: true,
-              triggerOn: 'none',
-              formatter: function(params){
-                  console.log(params.dataIndex)
-                  return 'aaa'
-              }
-          }
+          }]
         })
         this.industryChart.setOption({
           animation: true,
@@ -402,14 +501,14 @@ export default {
                         formatter: (params) => {
                             if (that.bullSelected === 'chngPct') {
                                 if (params.data[3] === null) {
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                    return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                                return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                             }
                             if (that.bullSelected === 'heatIndex') {
-                                return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                                return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                             }
-                            return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                            return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                         }
                     }
                 },
@@ -471,14 +570,14 @@ export default {
                         formatter: (params) => {
                             if (that.bullSelected === 'chngPct') {
                                 if (params.data[3] === null) {
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                    return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                                return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                             }
                             if (that.bullSelected === 'heatIndex') {
-                                return that.industryData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                                return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                             }
-                            return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                            return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                         }
                     }
                 },
@@ -502,27 +601,349 @@ export default {
           window.open(url + 'topic/' + that.topicData[params.dataIndex].topicCode)
         })
         this.chartB.on('dblclick', function(params) {
-          window.open(url + 'industry/' + that.industryData[params.dataIndex].induCode)
+          window.open(url + 'topic/' + that.topicData.slice(12)[params.dataIndex].topicCode)
         })
         this.industryChart.on('dblclick', function(params) {
-            window.open(url + 'topic/' + that.topicData[params.dataIndex].topicCode)
-        })
-        this.industryChartB.on('dblclick', function(params) {
             window.open(url + 'industry/' + that.industryData[params.dataIndex].induCode)
         })
-        this.chart.on('mouseover',function(params){
-            that.chart.dispatchAction({
-                type:'showTip',
-                dataIndex:params.dataIndex
-            })
+        this.industryChartB.on('dblclick', function(params) {
+            window.open(url + 'industry/' + that.industryData.slice(12)[params.dataIndex].induCode)
         })
-        this.chart.on('mouseout',function(params){
-              that.chart.dispatchAction({
-                  type:'hideTip'
-              })
+
+        // show tooltip
+          this.chart.on('mouseover', (params) => {
+              if(that.bullSelected === 'chngPct'){
+                  that.condition = 'mkt_idx.cur_chng_pct'
+                  that.mapCondition = 'chg_pct'
+              }else if(that.bullSelected === 'heatIndex'){
+                  that.condition = 'tech_index'
+                  that.mapCondition = 'topic_market.tech_index'
+
+              }else{
+                  that.condition = 'mkt_idx.keep_days_today'
+                  that.mapCondition = 'keep_days'
+
+              }
+              this.kLineType = 'topic'
+              this.hoverNodeId = that.topicData[params.dataIndex].topicCode
+              this.topicCode = that.topicData[params.dataIndex].topicCode
+              this.showHover = true
+
+              let p1 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryTopicStock', {
+                      topicCode: this.topicCode
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              let p2 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryTopicStockValue', {
+                      isContinue: 1,
+                      condition: that.condition,
+                      topicCode: this.topicCode
+                  }).then(({
+                               result,
+                               condition,
+                               topicCode
+                           }) => {
+                      resolve(topicCode);
+                  })
+              });
+              let p3 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('bullStock/getBullNewsInfo', {
+                      plateId: that.topicData[params.dataIndex].topicCode,
+                      type:1,
+                      location:'top'
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              Promise.all([p1, p2,p3]).then((x) => {
+                  if (x[1] !== this.hoverNodeId) {
+                      console.info('invalide callback and do nothing');
+                      return;
+                  }
+                  this.conditionStock = that.bullSelected
+                  this.hoverNodeParent = {
+                      id:this.topicCode,
+                      perf:params.data[2],
+                      perfText:params.data[2],
+                      name:that.topicData[params.dataIndex].name
+                  }
+                  console.log(this.hoverNodeParent)
+                  const stockInfoList = this.topicHoverStockValue
+                  this.topicStockUpNo = 0;
+                  this.topicStockDownNo = 0;
+                  stockInfoList.forEach((stock) => { // 龙一股
+                      if (stock.name === this.$store.state.plateMap.bestTopicStock.name) {
+                          that.hoverNode = stock
+                      }
+                      if (stock.perf && stock.perf >= 0) {
+                          that.topicStockUpNo++
+                      } else if (stock.perf && stock.perf < 0) {
+                          that.topicStockDownNo++
+                      }
+                  })
+                  const windowHeight = window.innerHeight
+                  const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+                  if (stockInfoList.length > stockNum) {
+                      stockInfoList.length = stockNum
+                  }
+                  this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
+              });
           })
+          this.chart.on('mouseout', (params) => {
+                  this.showHover = false
+          });
 
+          this.chartB.on('mouseover', (params) => {
+              if(that.bullSelected === 'chngPct'){
+                  that.condition = 'mkt_idx.cur_chng_pct'
+                  that.mapCondition = 'chg_pct'
+              }else if(that.bullSelected === 'heatIndex'){
+                  that.condition = 'tech_index'
+                  that.mapCondition = 'topic_market.tech_index'
 
+              }else{
+                  that.condition = 'mkt_idx.keep_days_today'
+                  that.mapCondition = 'keep_days'
+
+              }
+              this.kLineType = 'topic'
+              this.hoverNodeId = that.topicData.slice(12)[params.dataIndex].topicCode
+              this.topicCode = that.topicData.slice(12)[params.dataIndex].topicCode
+              this.showHover = true
+              let p1 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryTopicStock', {
+                      topicCode: this.topicCode
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              let p2 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryTopicStockValue', {
+                      isContinue: 1,
+                      condition: that.condition,
+                      topicCode: this.topicCode
+                  }).then(({
+                               result,
+                               condition,
+                               topicCode
+                           }) => {
+                      resolve(topicCode);
+                  })
+              });
+              let p3 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('bullStock/getBullNewsInfo', {
+                      plateId: that.topicData.slice(12)[params.dataIndex].topicCode,
+                      type:1,
+                      location:'bottom'
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              Promise.all([p1, p2, p3]).then((x) => {
+                  if (x[1] !== this.hoverNodeId) {
+                      console.info('invalide callback and do nothing');
+                      return;
+                  }
+                  this.conditionStock = that.bullSelected
+                  this.hoverNodeParent = {
+                      id:this.topicCode,
+                      perf:params.data[2],
+                      perfText:params.data[2],
+                      name:that.topicData.slice(12)[params.dataIndex].name
+                  }
+                  const stockInfoList = this.topicHoverStockValue
+                  this.topicStockUpNo = 0;
+                  this.topicStockDownNo = 0;
+                  stockInfoList.forEach((stock) => { // 龙一股
+                      if (stock.name === this.$store.state.plateMap.bestTopicStock.name) {
+                          that.hoverNode = stock
+                      }
+                      if (stock.perf && stock.perf >= 0) {
+                          that.topicStockUpNo++
+                      } else if (stock.perf && stock.perf < 0) {
+                          that.topicStockDownNo++
+                      }
+                  })
+                  const windowHeight = window.innerHeight
+                  const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+                  if (stockInfoList.length > stockNum) {
+                      stockInfoList.length = stockNum
+                  }
+                  this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
+              });
+          })
+          this.chartB.on('mouseout', (params) => {
+              this.showHover = false
+          });
+
+          this.industryChart.on('mouseover', (params) => {
+              if(that.bullSelected === 'chngPct'){
+                  that.condition = 'mkt_idx.cur_chng_pct'
+                  that.mapCondition = 'chg_pct'
+              }else if(that.bullSelected === 'heatIndex'){
+                  that.condition = 'tech_index'
+                  that.mapCondition = 'topic_market.tech_index'
+
+              }else{
+                  that.condition = 'mkt_idx.keep_days_today'
+                  that.mapCondition = 'keep_days'
+
+              }
+              this.kLineType = 'industry'
+              this.hoverNodeId = that.industryData[params.dataIndex].induCode
+              this.industryCode = that.industryData[params.dataIndex].induCode
+              this.showHover = true
+              let p1 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryIndustryStock', {
+                      industryCode: this.industryCode
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              let p2 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryIndustryStockValue', {
+                      isContinue: 1,
+                      condition: that.condition,
+                      industryCode: this.industryCode
+                  }).then(({
+                               result,
+                               condition,
+                               industryCode
+                           }) => {
+                      resolve(industryCode);
+                  })
+              });
+              let p3 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('bullStock/getBullNewsInfo', {
+                      plateId: that.industryData[params.dataIndex].induCode,
+                      type:2,
+                      location:'top'
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              Promise.all([p1, p2, p3]).then((x) => {
+                  if (x[1] !== this.hoverNodeId) {
+                      console.info('invalide callback and do nothing');
+                      return;
+                  }
+                  this.conditionStock = that.bullSelected
+                  this.hoverNodeParent = {
+                      id:this.industryCode,
+                      perf:params.data[2],
+                      perfText:params.data[2],
+                      name:that.industryData[params.dataIndex].name
+                  }
+                  const stockInfoList = this.topicHoverStockValue
+                  this.topicStockUpNo = 0;
+                  this.topicStockDownNo = 0;
+                  stockInfoList.forEach((stock) => { // 龙一股
+                      if (stock.name === this.$store.state.plateMap.bestIndustryStock.name) {
+                          that.hoverNode = stock
+                      }
+                      if (stock.perf && stock.perf >= 0) {
+                          that.topicStockUpNo++
+                      } else if (stock.perf && stock.perf < 0) {
+                          that.topicStockDownNo++
+                      }
+                  })
+                  const windowHeight = window.innerHeight
+                  const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+                  if (stockInfoList.length > stockNum) {
+                      stockInfoList.length = stockNum
+                  }
+                  this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
+              });
+          })
+          this.industryChart.on('mouseout', (params) => {
+              this.showHover = false
+          });
+
+          this.industryChartB.on('mouseover', (params) => {
+              if(that.bullSelected === 'chngPct'){
+                  that.condition = 'mkt_idx.cur_chng_pct'
+                  that.mapCondition = 'chg_pct'
+              }else if(that.bullSelected === 'heatIndex'){
+                  that.condition = 'tech_index'
+                  that.mapCondition = 'topic_market.tech_index'
+
+              }else{
+                  that.condition = 'mkt_idx.keep_days_today'
+                  that.mapCondition = 'keep_days'
+
+              }
+              this.kLineType = 'industry'
+              this.hoverNodeId = that.industryData.slice(12)[params.dataIndex].induCode
+              this.industryCode = that.industryData.slice(12)[params.dataIndex].induCode
+              this.showHover = true
+              let p1 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryIndustryStock', {
+                      industryCode: this.industryCode
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              let p2 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('plateMap/queryIndustryStockValue', {
+                      isContinue: 1,
+                      condition: that.condition,
+                      industryCode: this.industryCode
+                  }).then(({
+                               result,
+                               condition,
+                               industryCode
+                           }) => {
+                      resolve(industryCode);
+                  })
+              });
+              let p3 = new Promise((resolve, reject) => {
+                  this.$store.dispatch('bullStock/getBullNewsInfo', {
+                      plateId: that.industryData.slice(12)[params.dataIndex].induCode,
+                      type:2,
+                      location:'bottom'
+                  }).then(() => {
+                      resolve();
+                  })
+              });
+              Promise.all([p1, p2, p3]).then((x) => {
+                  if (x[1] !== this.hoverNodeId) {
+                      console.info('invalide callback and do nothing');
+                      return;
+                  }
+                  this.conditionStock = that.bullSelected
+                  this.hoverNodeParent = {
+                      id:this.industryCode,
+                      perf:params.data[2],
+                      perfText:params.data[2],
+                      name:that.industryData.slice(12)[params.dataIndex].name
+                  }
+                  const stockInfoList = this.topicHoverStockValue
+                  this.topicStockUpNo = 0;
+                  this.topicStockDownNo = 0;
+                  stockInfoList.forEach((stock) => { // 龙一股
+                      if (stock.name === this.$store.state.plateMap.bestIndustryStock.name) {
+                          that.hoverNode = stock
+                      }
+                      if (stock.perf && stock.perf >= 0) {
+                          that.topicStockUpNo++
+                      } else if (stock.perf && stock.perf < 0) {
+                          that.topicStockDownNo++
+                      }
+                  })
+                  const windowHeight = window.innerHeight
+                  const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+                  if (stockInfoList.length > stockNum) {
+                      stockInfoList.length = stockNum
+                  }
+                  this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
+              });
+          })
+          this.industryChartB.on('mouseout', (params) => {
+              this.showHover = false
+          });
       })
     },
     showColor: function(colorArr, valueArr, value) {
@@ -655,5 +1076,23 @@ export default {
     margin-right: 2px;
     color: #fff;
     text-align: center;
+  }
+  .markBox{
+    display: inline-block;
+    padding: 2px;
+    color: #fff;
+    margin-right: 4px;
+    background-color: #ca4941;
+    line-height: 13px;
+    float: left;
+  }
+  .markTittle{
+    display: inline-block;
+    width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 17px;
+    float: left;
   }
 </style>

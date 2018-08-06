@@ -48,9 +48,9 @@
                     <div class="mr-10 fl" v-if="String(item.tradeTime).length === 6">{{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)}}</div>
                     <div class="mr-10 fl" v-if="String(item.tradeTime).length === 5">{{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)}}</div>
                     <div style="width:90%;" class="fl">
-                        <span style="margin-right: 2px;"><a @click="toStockDetail(item.symbol)">{{item.name}}</a>涨停,</span>
+                        <span style="margin-right: 2px;"><a @click="toStockDetail(item.symbol)">{{item.name}}</a>涨停<span v-if="item.topicDataList[0]">,</span><span v-else>。</span></span>
                         <span>{{item.limitUpDays === null ? '' : item.limitUpDays > 0 ? item.limitUpDays+'连板,' : '首板,'}}</span>
-                        <span>{{item.topicDataList[0].topicName+'。'}}</span>
+                        <span v-if="item.topicDataList[0]">{{item.topicDataList[0].topicName+'。'}}</span>
                         <span v-if="item.title">{{'消息面，'+item.title+'。'}}</span>
                     </div>
                 </li>
