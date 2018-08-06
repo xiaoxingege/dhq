@@ -263,34 +263,34 @@ export default {
           [0, 3]
         ],
         topicBottomData: [
-            // [yCateIndex, xCateIndex, value]
-            [2, 0],
-            [2, 1],
-            [2, 2],
-            [2, 3],
-            [1, 0],
-            [1, 1],
-            [1, 2],
-            [1, 3],
-            [0, 0],
-            [0, 1],
-            [0, 2],
-            [0, 3]
+          // [yCateIndex, xCateIndex, value]
+          [2, 0],
+          [2, 1],
+          [2, 2],
+          [2, 3],
+          [1, 0],
+          [1, 1],
+          [1, 2],
+          [1, 3],
+          [0, 0],
+          [0, 1],
+          [0, 2],
+          [0, 3]
         ],
         induBottomData: [
-            // [yCateIndex, xCateIndex, value]
-            [2, 0],
-            [2, 1],
-            [2, 2],
-            [2, 3],
-            [1, 0],
-            [1, 1],
-            [1, 2],
-            [1, 3],
-            [0, 0],
-            [0, 1],
-            [0, 2],
-            [0, 3]
+          // [yCateIndex, xCateIndex, value]
+          [2, 0],
+          [2, 1],
+          [2, 2],
+          [2, 3],
+          [1, 0],
+          [1, 1],
+          [1, 2],
+          [1, 3],
+          [0, 0],
+          [0, 1],
+          [0, 2],
+          [0, 3]
         ]
 
       }
@@ -299,8 +299,8 @@ export default {
       }).then(() => {
         const that = this
 
-        let tData = this.topicData.slice(0,12)
-        let iData = this.industryData.slice(0,12)
+        let tData = this.topicData.slice(0, 12)
+        let iData = this.industryData.slice(0, 12)
 
         for (let i = 0; i < model.topicData.length; i++) {
           if (tData[i][key] === null) {
@@ -333,30 +333,30 @@ export default {
         let iBData = this.industryData.slice(12)
 
         for (let i = 0; i < model.topicBottomData.length; i++) {
-            if (tBData[i][key] === null) {
-                model.topicBottomData[i][2] = 0
-                model.topicBottomData[i][3] = null
-            } else {
-                model.topicBottomData[i][2] = tBData[i][key]
-                model.topicBottomData[i][3] = 0
-            }
+          if (tBData[i][key] === null) {
+            model.topicBottomData[i][2] = 0
+            model.topicBottomData[i][3] = null
+          } else {
+            model.topicBottomData[i][2] = tBData[i][key]
+            model.topicBottomData[i][3] = 0
+          }
 
         }
         for (let j = 0; j < model.induBottomData.length; j++) {
-            if (iBData[j][key] === null) {
-                model.induBottomData[j][2] = 0
-                model.induBottomData[j][3] = null
-            } else {
-                model.induBottomData[j][2] = iBData[j][key]
-                model.induBottomData[j][3] = 0
-            }
+          if (iBData[j][key] === null) {
+            model.induBottomData[j][2] = 0
+            model.induBottomData[j][3] = null
+          } else {
+            model.induBottomData[j][2] = iBData[j][key]
+            model.induBottomData[j][3] = 0
+          }
         }
 
         let dataTB = model.topicBottomData.map(function(item) {
-            return [item[1], item[0], item[2], item[3]];
+          return [item[1], item[0], item[2], item[3]];
         });
         let dataIB = model.induBottomData.map(function(item) {
-            return [item[1], item[0], item[2], item[3]];
+          return [item[1], item[0], item[2], item[3]];
         })
         this.chart = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[0]) || echarts.init(document.getElementsByClassName('themeBox')[0])
         this.chartB = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[1]) || echarts.init(document.getElementsByClassName('themeBox')[1])
@@ -518,20 +518,20 @@ export default {
                         borderWidth: 3
                     }
 
-                }
-            }],
-            visualMap: [{
-                type: 'continuous',
-                show: false,
-                min: this.visualMin,
-                max: this.visualMax,
-                calculable: true,
-                realtime: false,
-                inRange: {
-                    color: this.colors[this.bullSelected] // colorsList.slice().reverse()
-                },
-                dimension: 2
-            }]
+            }
+          }],
+          visualMap: [{
+            type: 'continuous',
+            show: false,
+            min: this.visualMin,
+            max: this.visualMax,
+            calculable: true,
+            realtime: false,
+            inRange: {
+              color: this.colors[this.bullSelected] // colorsList.slice().reverse()
+            },
+            dimension: 2
+          }]
         })
         this.industryChartB.setOption({
             animation: true,
@@ -986,29 +986,29 @@ export default {
 }
 </script>
 <style lang="scss">
-  @import '../../assets/css/base.css';
-  @import "../../assets/scss/style.scss";
-  .bullBox * {
+@import '../../assets/css/base.css';
+@import "../../assets/scss/style.scss";
+.bullBox * {
     font-family: "Microsoft YaHei" !important;
-  }
+}
 
-  .bullBox {
+.bullBox {
     width: 100%;
     height: 100%;
     color: #c9d0d7;
     position: relative;
-  }
+}
 
-  .bullChartHeader {
+.bullChartHeader {
     position: absolute;
     padding: 0 15px;
     width: 100%;
     top: 0;
     height: 40px;
     line-height: 40px;
-  }
+}
 
-  .bullChartHeader select {
+.bullChartHeader select {
     width: 185px;
     border: 0;
     height: 24px;
@@ -1021,54 +1021,54 @@ export default {
     color: #c9d0d7;
     background-color: #23272C;
     cursor: pointer;
-  }
+}
 
-  .currentTime {
+.currentTime {
     line-height: 40px;
     color: #c9d0d7;
-  }
+}
 
-  .bullChart {
+.bullChart {
     position: absolute;
     width: 100%;
     top: 40px;
     bottom: 30px;
     /*padding-top: 15px;*/
     box-sizing: border-box;
-  }
+}
 
-  .chart_con {
+.chart_con {
     height: 100%;
     width: 100%;
-  }
+}
 
-  .bullChart .chart_con > div {
+.bullChart .chart_con > div {
     width: 50%;
     height: 100%;
-  }
+}
 
-  .bullChart .chart_con > div > p {
+.bullChart .chart_con > div > p {
     padding-left: 15px;
     font-size: 16px;
-  }
+}
 
-  .themeBox {
+.themeBox {
     height: calc((100% - 30px)/2);
-  }
+}
 
-  .industryBox {
+.industryBox {
     height: calc((100% - 30px)/2);
-  }
+}
 
-  .bullLegend {
+.bullLegend {
     position: absolute;
     width: 100%;
     bottom: 0;
     height: 30px;
     padding: 0 15px;
-  }
+}
 
-  .bullLegend ul li {
+.bullLegend ul li {
     float: left;
     width: 45px;
     height: 20px;

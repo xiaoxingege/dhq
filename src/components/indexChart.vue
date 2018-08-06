@@ -595,295 +595,513 @@ export default {
       let moveDownX;
       let moveDownY;
       let moveDownName;
-      if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeTime) !== -1) {
-        moveUpX = _this.moveUpBlockData.tradeTime
-        moveUpY = datas.priceArr[timeline.indexOf(_this.moveUpBlockData.tradeTime)]
-        moveUpName = _this.moveUpBlockData.sectionName
-      }
-      if (_this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeTime) !== -1) {
-        moveDownX = _this.moveDownBlockData.tradeTime
-        moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeTime)]
-        moveDownName = _this.moveDownBlockData.sectionName
-      }
+      let pointUpX;
+      let pointDownX;
       const chartHeight = (window.innerHeight * 0.37 * 0.74 - 40) * 0.821
-      let lineUpY = moveUpY + 5; // 上涨板块指示线的终点Y坐标
-      let pointUpY = moveUpY + 5 + 20 * Dvalue / chartHeight; // 上涨板块指示线的终点Y坐标
-      let lineDownY = moveDownY - 5; // 下跌板块指示线的终点Y坐标
-      let pointDownY = moveDownY - 5 - 20 * Dvalue / chartHeight; // 下跌板块指示线的终点Y坐标
-      if (lineUpY + 40 * Dvalue / chartHeight >= Number(datas.line) + Dvalue) { // 涨的板块超出了图表就在点下面
-        lineUpY = moveUpY - 5
-        pointUpY = moveUpY - 5 - 20 * Dvalue / chartHeight
-      }
-      if (lineDownY - 40 * Dvalue / chartHeight <= Number(datas.line) - Dvalue) { // 跌的板块超出了图表就在点上面
-        lineDownY = moveDownY + 5
-        pointDownY = moveDownY + 5 + 20 * Dvalue / chartHeight
-      }
-      // 图表初始化
-      this.chart.setOption({
-        title: {
-          text: chartName,
-          textStyle: {
-            fontSize: 14,
-            fontWeight: 'normal',
-            color: '#fff'
-          },
-          left: 2,
-          top: 5
-        },
-        grid: {
-          left: 65,
-          top: 40,
-          bottom: 30,
-          right: 15
-        },
-        calculable: true,
-        xAxis: [{
-          type: 'category',
-
-          axisLine: {
-            lineStyle: {
-              color: '#535a64',
-              type: 'solid'
-            }
-          },
-          boundaryGap: false,
-          axisTick: {
-            show: false
-          },
-          axisLabel: {
-            interval: 59,
-            textStyle: {
-              color: function(params) {
-                return '#707b8f'
-              }
-            }
-          },
-          data: timeline
-        }],
-        yAxis: [{
-          type: 'value',
-          // scale: true,
-          min: datas === null ? '' : Number(datas.line) - Dvalue,
-          max: datas === null ? '' : Number(datas.line) + Dvalue,
-          axisLabel: {
-            formatter: function(val) {
-              return val.toFixed(2)
-            },
-            textStyle: {
-              color: function(params) {
-                var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
-                if (cc > 0) {
-                  return '#ca4947'
-                } else if (cc < 0) {
-                  return '#56a870'
-                }
-                return '#fff'
-              }
-            }
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              type: 'dashed',
-              color: '#30343b'
-            }
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#535a64',
-              type: 'solid'
-            }
-          },
-          axisTick: {
-            show: false
-          },
-          splitNumber: 4,
-          interval: 2 * Dvalue / 4
-        }],
-        series: [{
-          name: '当前价',
-          symbol: 'circle',
-          showAllSymbol: 'true',
-          symbolSize: function(value, params) {
-            if (params.name === moveUpX) {
-              return 6
-            } else if (params.name === moveDownX) {
-              return 6
+      const markLineHeight = 20 * 2 * Dvalue / chartHeight
+      const lineWidth = document.getElementsByClassName('line-chart')[0].offsetWidth - 65
+      if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeTime) !== -1 && _this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeTime) !== -1) {
+        moveUpX = _this.moveUpBlockData.tradeTime
+        moveUpY = datas.priceArr[timeline.indexOf(moveUpX)]
+        moveUpName = _this.moveUpBlockData.sectionName
+        const upPositionX = (timeline.indexOf(moveUpX) / timeline.length) * lineWidth
+        if (moveUpName.length * 15 / 2 > upPositionX) { // 异动板块左边超出了坐标轴
+          const pointUpXIndex = Math.ceil(((timeline.length - 1) * moveUpName.length * 15 / 2) / lineWidth)
+          pointUpX = timeline[pointUpXIndex]
+        } else if (lineWidth - upPositionX < moveUpName.length * 15 / 2) { // 异动板块右边超出了坐标轴
+          const pointUpXIndex = Math.ceil(((timeline.length - 1) * (lineWidth - moveUpName.length * 15 / 2)) / lineWidth)
+          pointUpX = timeline[pointUpXIndex]
+        } else {
+          pointUpX = moveUpX
+        }
+        moveDownX = _this.moveDownBlockData.tradeTime
+        moveDownY = datas.priceArr[timeline.indexOf(moveDownX)]
+        moveDownName = _this.moveDownBlockData.sectionName
+        const downPositionX = (timeline.indexOf(moveDownX) / timeline.length) * lineWidth
+        if (moveDownName.length * 15 / 2 > downPositionX) { // 异动板块左边超出了坐标轴
+          const pointDownXIndex = Math.ceil(((timeline.length - 1) * moveDownName.length * 15 / 2) / lineWidth)
+          pointDownX = timeline[pointDownXIndex]
+        } else if (lineWidth - downPositionX < moveDownName.length * 15 / 2) { // 异动板块右边超出了坐标轴
+          const pointDownXIndex = Math.ceil(((timeline.length - 1) * (lineWidth - moveDownName.length * 15 / 2)) / lineWidth)
+          pointDownX = timeline[pointDownXIndex]
+        } else {
+          pointDownX = moveDownX
+        }
+        let lineUpY = moveUpY + markLineHeight; // 上涨板块指示线的终点Y坐标
+        let pointUpY = moveUpY + markLineHeight + 20 * Dvalue / chartHeight; // 上涨板块名字Y坐标
+        let lineDownY = moveDownY - markLineHeight; // 下跌板块指示线的终点Y坐标
+        let pointDownY = moveDownY - markLineHeight - 20 * Dvalue / chartHeight; // 下跌板块名字Y坐标
+        // 判断上下是否越界
+        if (lineUpY + 40 * Dvalue / chartHeight >= Number(datas.line) + Dvalue) { // 涨的板块超出了图表就在点下面
+          lineUpY = moveUpY - markLineHeight
+          pointUpY = moveUpY - markLineHeight - 20 * Dvalue / chartHeight
+        }
+        if (lineDownY - 40 * Dvalue / chartHeight <= Number(datas.line) - Dvalue) { // 跌的板块超出了图表就在点上面
+          lineDownY = moveDownY + markLineHeight
+          pointDownY = moveDownY + markLineHeight + 20 * Dvalue / chartHeight
+        }
+        // 判断是否重合
+        const moveUpObj = {
+          left: timeline.indexOf(pointUpX) * lineWidth / (timeline.length - 1),
+          top: pointUpY + 20 * Dvalue / chartHeight,
+          right: timeline.indexOf(pointUpX) * lineWidth / (timeline.length - 1) + moveUpName.length * 15,
+          bottom: pointUpY - 20 * Dvalue / chartHeight
+        }
+        const moveDownObj = {
+          left: timeline.indexOf(pointDownX) * lineWidth / (timeline.length - 1),
+          top: pointDownY + 20 * Dvalue / chartHeight,
+          right: timeline.indexOf(pointDownX) * lineWidth / (timeline.length - 1) + moveDownName.length * 15,
+          bottom: pointDownY - 20 * Dvalue / chartHeight
+        }
+        if (this.isOverlap(moveUpObj, moveDownObj)) {
+          if (timeline.indexOf(moveUpX) > timeline.indexOf(moveDownX)) {
+            if (pointUpY > moveUpY) {
+              pointUpY += 50 * Dvalue / chartHeight
+              lineUpY += 50 * Dvalue / chartHeight
             } else {
-              return 0
+              pointUpY -= 50 * Dvalue / chartHeight
+              lineUpY -= 50 * Dvalue / chartHeight
             }
+          } else {
+            if (pointDownY > moveDownY) {
+              pointDownY += 50 * Dvalue / chartHeight
+              lineDownY += 50 * Dvalue / chartHeight
+            } else {
+              pointDownY -= 50 * Dvalue / chartHeight
+              lineDownY -= 50 * Dvalue / chartHeight
+            }
+          }
+          // 判断上下是否越界
+          if (lineUpY + 40 * Dvalue / chartHeight >= Number(datas.line) + Dvalue) { // 涨的板块超出了图表就在点下面
+            lineUpY = moveUpY - 2.25 * markLineHeight
+            pointUpY = moveUpY - 2.25 * markLineHeight - 20 * Dvalue / chartHeight
+          }
+          if (lineDownY - 40 * Dvalue / chartHeight <= Number(datas.line) - Dvalue) { // 跌的板块超出了图表就在点上面
+            lineDownY = moveDownY + 2.25 * markLineHeight
+            pointDownY = moveDownY + 2.25 * markLineHeight + 20 * Dvalue / chartHeight
+          }
+        }
+        // 图表初始化
+        this.chart.setOption({
+          title: {
+            text: chartName,
+            textStyle: {
+              fontSize: 14,
+              fontWeight: 'normal',
+              color: '#fff'
+            },
+            left: 2,
+            top: 5
           },
-          itemStyle: {
-            normal: {
-              color: function(params) {
-                if (params.name === moveUpX) {
-                  return config.upColor
-                } else if (params.name === moveDownX) {
-                  return config.downColor
-                } else {
+          grid: {
+            left: 65,
+            top: 40,
+            bottom: 30,
+            right: 15
+          },
+          calculable: true,
+          xAxis: [{
+            type: 'category',
+
+            axisLine: {
+              lineStyle: {
+                color: '#535a64',
+                type: 'solid'
+              }
+            },
+            boundaryGap: false,
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              interval: 59,
+              textStyle: {
+                color: function(params) {
+                  return '#707b8f'
+                }
+              }
+            },
+            data: timeline
+          }],
+          yAxis: [{
+            type: 'value',
+            // scale: true,
+            min: datas === null ? '' : Number(datas.line) - Dvalue,
+            max: datas === null ? '' : Number(datas.line) + Dvalue,
+            axisLabel: {
+              formatter: function(val) {
+                return val.toFixed(2)
+              },
+              textStyle: {
+                color: function(params) {
+                  var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
+                  if (cc > 0) {
+                    return '#ca4947'
+                  } else if (cc < 0) {
+                    return '#56a870'
+                  }
                   return '#fff'
                 }
               }
-            }
-          },
-          lineStyle: {
-            normal: {
-              width: 1,
-              color: '#fff'
-            }
-          },
-          animation: false,
-          smooth: true,
-          type: 'line',
-          data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.priceArr))),
-          markLine: {
-            silent: true,
-            symbol: false,
-            animation: false,
-            label: {
-              normal: {
-                show: false
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                type: 'dashed',
+                color: '#30343b'
               }
             },
-            data: [{
-                yAxis: datas === null ? '' : Number(datas.line).toFixed(2)
-              },
-              [{
-                  coord: [moveUpX, moveUpY],
-                  symbol: 'circle',
-                  symbolSize: 0.1,
-                  lineStyle: {
-                    normal: {
-                      width: 1,
-                      type: 'solid',
-                      color: config.upColor
-                    }
-                  }
-                },
-                {
-                  coord: [moveUpX, lineUpY],
-                  symbol: 'circle',
-                  symbolSize: 0.1,
-                  lineStyle: {
-                    normal: {
-                      width: 1,
-                      type: 'solid',
-                      color: config.upColor
-                    }
+            axisLine: {
+              lineStyle: {
+                color: '#535a64',
+                type: 'solid'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitNumber: 4,
+            interval: 2 * Dvalue / 4
+          }],
+          series: [{
+            name: '当前价',
+            symbol: 'circle',
+            showAllSymbol: 'true',
+            symbolSize: function(value, params) {
+              if (params.name === moveUpX) {
+                return 6
+              } else if (params.name === moveDownX) {
+                return 6
+              } else {
+                return 0
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: function(params) {
+                  if (params.name === moveUpX) {
+                    return config.upColor
+                  } else if (params.name === moveDownX) {
+                    return config.downColor
+                  } else {
+                    return '#fff'
                   }
                 }
+              }
+            },
+            lineStyle: {
+              normal: {
+                width: 1,
+                color: '#fff'
+              }
+            },
+            animation: false,
+            smooth: true,
+            type: 'line',
+            data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.priceArr))),
+            markLine: {
+              silent: true,
+              symbol: false,
+              animation: false,
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              data: [{
+                  yAxis: datas === null ? '' : Number(datas.line).toFixed(2)
+                },
+                [{
+                    coord: [moveUpX, moveUpY],
+                    symbol: 'circle',
+                    symbolSize: 0.1,
+                    lineStyle: {
+                      normal: {
+                        width: 1,
+                        type: 'solid',
+                        color: config.upColor
+                      }
+                    }
+                  },
+                  {
+                    coord: [moveUpX, lineUpY],
+                    symbol: 'circle',
+                    symbolSize: 0.1,
+                    lineStyle: {
+                      normal: {
+                        width: 1,
+                        type: 'solid',
+                        color: config.upColor
+                      }
+                    }
+                  }
+                ],
+                [{
+                    coord: [moveDownX, moveDownY],
+                    symbol: 'circle',
+                    symbolSize: 0.1,
+                    lineStyle: {
+                      normal: {
+                        width: 1,
+                        type: 'solid',
+                        color: config.downColor
+                      }
+                    }
+                  },
+                  {
+                    coord: [moveDownX, lineDownY],
+                    symbol: 'circle',
+                    symbolSize: 0.1,
+                    lineStyle: {
+                      normal: {
+                        width: 1,
+                        type: 'solid',
+                        color: config.downColor
+                      }
+                    }
+                  }
+                ]
               ],
-              [{
-                  coord: [moveDownX, moveDownY],
-                  symbol: 'circle',
-                  symbolSize: 0.1,
-                  lineStyle: {
+              lineStyle: {
+                normal: {
+                  type: 'solid',
+                  color: '#fff',
+                  width: 0.3,
+                  opacity: 1
+                }
+              }
+            },
+            markPoint: {
+              silent: false,
+              symbol: 'rect',
+              symbolSize: function(value, params) {
+                if (params.name === '上涨板块') {
+                  return [moveUpName.length * 15, 20]
+                } else if (params.name === '下跌板块') {
+                  return [moveDownName.length * 15, 20]
+                }
+              },
+              label: {
+                position: [0, 0],
+                distance: 0
+              },
+              data: [{
+                  name: '上涨板块',
+                  coord: [pointUpX, pointUpY],
+                  itemStyle: {
                     normal: {
-                      width: 1,
-                      type: 'solid',
-                      color: config.downColor
+                      borderWidth: 1,
+                      borderColor: config.upColor,
+                      color: 'rgba(0,0,0,0)'
+                    }
+                  },
+                  label: {
+                    normal: {
+                      color: config.upColor,
+                      formatter: function() {
+                        return moveUpName
+                      }
                     }
                   }
                 },
                 {
-                  coord: [moveDownX, lineDownY],
-                  symbol: 'circle',
-                  symbolSize: 0.1,
-                  lineStyle: {
+                  name: '下跌板块',
+                  coord: [pointDownX, pointDownY],
+                  itemStyle: {
                     normal: {
-                      width: 1,
-                      type: 'solid',
-                      color: config.downColor
+                      borderWidth: 1,
+                      borderColor: config.downColor,
+                      color: 'rgba(0,0,0,0)'
+                    }
+                  },
+                  label: {
+                    normal: {
+                      color: config.downColor,
+                      formatter: function() {
+                        return moveDownName
+                      }
                     }
                   }
                 }
               ]
-            ],
+            }
+          }, {
+            name: '均值',
+            itemStyle: {
+              normal: {
+                color: '#f4b53c'
+              }
+            },
             lineStyle: {
               normal: {
-                type: 'solid',
-                color: '#fff',
-                width: 0.3,
-                opacity: 1
+                width: 1
               }
-            }
+            },
+            animation: false,
+            smooth: true,
+            type: 'line',
+            showSymbol: false,
+            data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
+          }]
+        })
+      } else {
+        this.chart.setOption({
+          title: {
+            text: chartName,
+            textStyle: {
+              fontSize: 14,
+              fontWeight: 'normal',
+              color: '#fff'
+            },
+            left: 2,
+            top: 5
           },
-          markPoint: {
-            silent: false,
-            symbol: 'rect',
-            symbolSize: function(value, params) {
-              if (params.name === '上涨板块') {
-                return [moveUpName.length * 15, 20]
-              } else if (params.name === '下跌板块') {
-                return [moveDownName.length * 15, 20]
+          grid: {
+            left: 65,
+            top: 40,
+            bottom: 30,
+            right: 15
+          },
+          calculable: true,
+          xAxis: [{
+            type: 'category',
+
+            axisLine: {
+              lineStyle: {
+                color: '#535a64',
+                type: 'solid'
               }
-              /* else {
-                              return [50, 20]
-                            }*/
             },
-            label: {
-              position: [0, 0],
-              distance: 0
+            boundaryGap: false,
+            axisTick: {
+              show: false
             },
-            data: [{
-                name: '上涨板块',
-                coord: [moveUpX, pointUpY],
-                itemStyle: {
-                  normal: {
-                    borderWidth: 1,
-                    borderColor: config.upColor,
-                    color: 'rgba(0,0,0,0)'
+            axisLabel: {
+              interval: 59,
+              textStyle: {
+                color: function(params) {
+                  return '#707b8f'
+                }
+              }
+            },
+            data: timeline
+          }],
+          yAxis: [{
+            type: 'value',
+            // scale: true,
+            min: datas === null ? '' : Number(datas.line) - Dvalue,
+            max: datas === null ? '' : Number(datas.line) + Dvalue,
+            axisLabel: {
+              formatter: function(val) {
+                return val.toFixed(2)
+              },
+              textStyle: {
+                color: function(params) {
+                  var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
+                  if (cc > 0) {
+                    return '#ca4947'
+                  } else if (cc < 0) {
+                    return '#56a870'
                   }
-                },
-                label: {
-                  normal: {
-                    color: config.upColor,
-                    formatter: function() {
-                      return moveUpName
-                    }
-                  }
+                  return '#fff'
+                }
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                type: 'dashed',
+                color: '#30343b'
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#535a64',
+                type: 'solid'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitNumber: 4,
+            interval: 2 * Dvalue / 4
+          }],
+          series: [{
+            name: '当前价',
+            showAllSymbol: 'true',
+            symbolSize: function(value, params) {
+              return 0
+            },
+            itemStyle: {
+              normal: {
+                color: '#fff'
+              }
+            },
+            lineStyle: {
+              normal: {
+                width: 1
+              }
+            },
+            animation: false,
+            smooth: true,
+            type: 'line',
+            data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.priceArr))),
+            markLine: {
+              silent: true,
+              symbol: false,
+              animation: false,
+              label: {
+                normal: {
+                  show: false
                 }
               },
-              {
-                name: '下跌板块',
-                coord: [moveDownX, pointDownY],
-                itemStyle: {
-                  normal: {
-                    borderWidth: 1,
-                    borderColor: config.downColor,
-                    color: 'rgba(0,0,0,0)'
-                  }
-                },
-                label: {
-                  normal: {
-                    color: config.downColor,
-                    formatter: function() {
-                      return moveDownName
-                    }
-                  }
+              data: [{
+                yAxis: datas === null ? '' : Number(datas.line).toFixed(2)
+              }],
+              lineStyle: {
+                normal: {
+                  type: 'solid',
+                  color: '#fff',
+                  width: 0.3,
+                  opacity: 1
                 }
               }
-            ]
-          }
-        }, {
-          name: '均值',
-          itemStyle: {
-            normal: {
-              color: '#f4b53c'
             }
-          },
-          lineStyle: {
-            normal: {
-              width: 1
-            }
-          },
-          animation: false,
-          smooth: true,
-          type: 'line',
-          showSymbol: false,
-          data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
-        }]
-      })
+          }, {
+            name: '均值',
+            itemStyle: {
+              normal: {
+                color: '#f4b53c'
+              }
+            },
+            lineStyle: {
+              normal: {
+                width: 1
+              }
+            },
+            animation: false,
+            smooth: true,
+            type: 'line',
+            showSymbol: false,
+            data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
+          }]
+        })
+      }
+    },
+    isOverlap: function(obj1, obj2) {
+      const l1 = obj1.left;
+      const t1 = obj1.top;
+      const r1 = obj1.right;
+      const b1 = obj1.bottom;
+      const l2 = obj2.left;
+      const t2 = obj2.top;
+      const r2 = obj2.right;
+      const b2 = obj2.bottom;
+      if (r1 >= l2 && l1 <= r2 && b1 <= t2 && t1 >= b2) {
+        return true;
+      } else {
+        return false
+      }
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {

@@ -106,6 +106,7 @@ import chartLegend from 'components/siwei/legend'
 import stockBox from 'components/siwei/stock-box'
 import StockInit from './stock-init'
 import abnormalText from './abnormal-text'
+import Clipboard from 'clipboard'
 import toast from 'components/toast'
 
 let pcid1 = '';
@@ -660,12 +661,12 @@ export default {
       this.isShow = msg
     },
     initCopyFn() {
-      // const clipboard = new Clipboard(this.$refs['plate_copy'], {
-      //  text: () => {
-      //    const copyData = this.$refs['plate-text'].innerText;
-      //    return copyData;
-      //  }
-      // })
+      new Clipboard(this.$refs['plate_copy'], {
+        text: () => {
+          const copyData = this.$refs['plate-text'].innerText;
+          return copyData;
+        }
+      })
       // 产品让去掉复制提示
       // clipboard.on('success', (e) => {
       //   this.toastmsg = '已复制板块异动播报!'

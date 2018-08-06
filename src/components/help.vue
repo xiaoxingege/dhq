@@ -98,7 +98,10 @@
 }
 
 .second_title {
+    line-height: 28px;
+    margin-top: 15px;
     font-weight: bold;
+    font-size: 14px;
 }
 
 .definitions {
@@ -296,58 +299,83 @@ table {
                   </tr>
                   <tr>
                     <td>3</td>
+                    <td>流通A股市值</td>
+                    <td>流通A股股本*价格</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
                     <td>股息率</td>
                     <td>上年末每股现金分红/价格</td>
                   </tr>
                   <tr>
-                    <td>4</td>
+                    <td>5</td>
                     <td>分析师观点</td>
                     <td>近6个月分析师或团队当年度最新标准化评级的时间加权平均</td>
                   </tr>
                   <tr>
-                    <td>5</td>
+                    <td>6</td>
                     <td>业绩公布日期</td>
                     <td>业绩报告公布的日期</td>
                   </tr>
                   <tr>
-                    <td>6</td>
-                    <td>融资融券标的</td>
+                    <td>7</td>
+                    <td>融资融券</td>
                     <td>是否属于融资融券标的</td>
                   </tr>
                   <tr>
-                    <td>7</td>
+                    <td>8</td>
                     <td>历史成交量</td>
                     <td>近60个交易日成交量平均值</td>
                   </tr>
                   <tr>
-                    <td>8</td>
+                    <td>9</td>
                     <td>相对成交量</td>
                     <td>（成交量/历史成交量）*（开市分钟数/240）</td>
                   </tr>
                   <tr>
-                    <td>9</td>
+                    <td>10</td>
                     <td>成交量</td>
                     <td>早开盘至当前的累计成交量</td>
                   </tr>
                   <tr>
-                    <td>10</td>
-                    <td>价格</td>
+                    <td>11</td>
+                    <td>成交量放缩</td>
+                    <td>成交量连续N日的缩放量情况</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>最新价</td>
                     <td>最新一笔成交价</td>
                   </tr>
                   <tr>
-                    <td>11</td>
+                    <td>13</td>
                     <td>目标价格涨幅</td>
                     <td>（每个分析师或团队当年度最新目标价格中位数-价格）/价格</td>
                   </tr>
                   <tr>
-                    <td>12</td>
+                    <td>14</td>
+                    <td>机构调研(近一月)</td>
+                    <td>近1月上市公司调研的机构数量</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>股东质押率</td>
+                    <td>股东质押股份数/总股本</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
                     <td>发行日</td>
                     <td>首发上市日期</td>
                   </tr>
                   <tr>
-                    <td>13</td>
+                    <td>17</td>
                     <td>ST股票</td>
-                    <td>特殊处理状态的股票，简称前带有ST或*ST</td>
+                    <td>特殊处理状态的股票，简称前带有ST 、*ST、SST或S*ST</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>是否停牌</td>
+                    <td>股票停牌状态</td>
                   </tr>
                 </tbody>
               </table>
@@ -588,648 +616,708 @@ table {
                   </tr>
                   <tr>
                     <td>13</td>
+                    <td>KDJ(9,3,3)</td>
+                    <td>随机指标</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>MACD(12,26,9)</td>
+                    <td>指数平滑移动平均线</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
                     <td>向上缺口</td>
                     <td>(最低价-昨日最高价) / 昨日最高价，最低价>昨日最高价</td>
                   </tr>
                   <tr>
-                    <td>14</td>
+                    <td>16</td>
                     <td>向下缺口</td>
                     <td>（最高价-昨日最低价）/昨日最低价，最高价&lt;昨日最低价</td>
                   </tr>
                   <tr>
-                    <td>15</td>
+                    <td>17</td>
                     <td>股价与MA5距离</td>
                     <td>(收盘价-MA5)/MA5</td>
                   </tr>
                   <tr>
-                    <td>16</td>
+                    <td>18</td>
                     <td>股价与MA5金叉</td>
                     <td>昨日收盘价&lt;昨日MA5，收盘价&gt;MA5</td>
                   </tr>
                   <tr>
-                    <td>17</td>
+                    <td>19</td>
                     <td>股价与MA5死叉</td>
                     <td>昨日收盘价&gt;昨日MA5，收盘价&lt;MA5</td>
                   </tr>
                   <tr>
-                    <td>18</td>
+                    <td>20</td>
                     <td>MA5与MA10金叉</td>
                     <td>昨日MA5&lt;昨日MA10，MA5&gt;MA10</td>
                   </tr>
                   <tr>
-                    <td>19</td>
+                    <td>21</td>
                     <td>MA5与MA10死叉</td>
                     <td>昨日MA5&gt;昨日MA10，MA5&lt;MA10</td>
                   </tr>
                   <tr>
-                    <td>20</td>
+                    <td>22</td>
                     <td>MA5在MA10上方</td>
                     <td>MA5>MA10</td>
                   </tr>
                   <tr>
-                    <td>21</td>
+                    <td>23</td>
                     <td>MA5在MA10下方</td>
                     <td>MA5&lt;MA10</td>
                   </tr>
                   <tr>
-                    <td>22</td>
+                    <td>24</td>
                     <td>MA5与MA20金叉</td>
                     <td>昨日MA5&lt;昨日MA20，MA5&gt;MA20</td>
                   </tr>
                   <tr>
-                    <td>23</td>
+                    <td>25</td>
                     <td>MA5与MA20死叉</td>
                     <td>昨日MA5&gt;昨日MA20，MA5&lt;MA20</td>
                   </tr>
                   <tr>
-                    <td>24</td>
+                    <td>26</td>
                     <td>MA5在MA20上方</td>
                     <td>MA5>MA20</td>
                   </tr>
                   <tr>
-                    <td>25</td>
+                    <td>27</td>
                     <td>MA5在MA20下方</td>
                     <td>MA5&lt;MA20</td>
                   </tr>
                   <tr>
-                    <td>26</td>
+                    <td>28</td>
                     <td>股价与MA10距离</td>
                     <td>(收盘价-MA10)/MA10</td>
                   </tr>
                   <tr>
-                    <td>27</td>
+                    <td>29</td>
                     <td>股价与MA10金叉</td>
                     <td>昨日收盘价&lt;昨日MA10，收盘价&gt;MA10</td>
                   </tr>
                   <tr>
-                    <td>28</td>
+                    <td>30</td>
                     <td>股价与MA10死叉</td>
                     <td>昨日收盘价&gt;昨日MA10，收盘价&lt;MA10</td>
                   </tr>
                   <tr>
-                    <td>29</td>
+                    <td>31</td>
                     <td>MA10与MA20金叉</td>
                     <td>昨日MA10&lt;昨日MA20，MA10&gt;MA20</td>
                   </tr>
                   <tr>
-                    <td>30</td>
+                    <td>32</td>
                     <td>MA10与MA20死叉</td>
                     <td>昨日MA10&gt;昨日MA20，MA10&lt;MA20</td>
                   </tr>
                   <tr>
-                    <td>31</td>
+                    <td>33</td>
                     <td>MA10在MA20上方</td>
                     <td>MA10>MA20</td>
                   </tr>
                   <tr>
-                    <td>32</td>
+                    <td>34</td>
                     <td>MA10在MA20下方</td>
                     <td>MA10&lt;MA20</td>
                   </tr>
                   <tr>
-                    <td>33</td>
+                    <td>35</td>
                     <td>MA10与MA30金叉</td>
                     <td>昨日MA10&lt;昨日MA30，MA10&gt;MA30</td>
                   </tr>
                   <tr>
-                    <td>34</td>
+                    <td>36</td>
                     <td>MA10与MA30死叉</td>
                     <td>昨日MA10&gt;昨日MA30，MA10&lt;MA30</td>
                   </tr>
                   <tr>
-                    <td>35</td>
+                    <td>37</td>
                     <td>MA10在MA30上方</td>
                     <td>MA10&gt;MA30</td>
                   </tr>
                   <tr>
-                    <td>36</td>
+                    <td>38</td>
                     <td>MA10在MA30下方</td>
                     <td>MA10&lt;MA30</td>
                   </tr>
                   <tr>
-                    <td>37</td>
+                    <td>39</td>
                     <td>股价与MA20距离</td>
                     <td>(收盘价-MA20)/MA20</td>
                   </tr>
                   <tr>
-                    <td>38</td>
+                    <td>40</td>
                     <td>股价与MA20金叉</td>
                     <td>昨日收盘价&lt;昨日MA20，收盘价&gt;MA20</td>
                   </tr>
                   <tr>
-                    <td>39</td>
+                    <td>41</td>
                     <td>股价与MA20死叉</td>
                     <td>昨日收盘价&gt;昨日MA20，收盘价&lt;MA20</td>
                   </tr>
                   <tr>
-                    <td>40</td>
+                    <td>42</td>
                     <td>MA20与MA30金叉</td>
                     <td>昨日MA20&lt;昨日MA30，MA20&gt;MA30</td>
                   </tr>
                   <tr>
-                    <td>41</td>
+                    <td>43</td>
                     <td>MA20与MA30死叉</td>
                     <td>昨日MA20&gt;昨日MA30，MA20&lt;MA30</td>
                   </tr>
                   <tr>
-                    <td>42</td>
+                    <td>44</td>
                     <td>MA20在MA30上方</td>
                     <td>MA20>MA30</td>
                   </tr>
                   <tr>
-                    <td>43</td>
+                    <td>45</td>
                     <td>MA20在MA30下方</td>
                     <td>MA20&lt;MA30</td>
                   </tr>
                   <tr>
-                    <td>44</td>
+                    <td>46</td>
                     <td>MA20与MA60金叉</td>
                     <td>昨日MA20&lt;昨日MA60，MA20&gt;MA60</td>
                   </tr>
                   <tr>
-                    <td>45</td>
+                    <td>47</td>
                     <td>MA20与MA60死叉</td>
                     <td>昨日MA20&gt;昨日MA60，MA20&lt;MA60</td>
                   </tr>
                   <tr>
-                    <td>46</td>
+                    <td>48</td>
                     <td>MA20在MA60上方</td>
                     <td>MA20>MA60</td>
                   </tr>
                   <tr>
-                    <td>47</td>
+                    <td>49</td>
                     <td>MA20在MA60下方</td>
                     <td>MA20&lt;MA60</td>
                   </tr>
                   <tr>
-                    <td>48</td>
+                    <td>50</td>
                     <td>股价与MA30距离</td>
                     <td>(收盘价-MA30)/MA30</td>
                   </tr>
                   <tr>
-                    <td>49</td>
+                    <td>51</td>
                     <td>股价与MA30金叉</td>
                     <td>昨日收盘价&lt;昨日MA30，收盘价&gt;MA30</td>
                   </tr>
                   <tr>
-                    <td>50</td>
+                    <td>52</td>
                     <td>股价与MA30死叉</td>
                     <td>昨日收盘价&gt;昨日MA30，收盘价&lt;MA30</td>
                   </tr>
                   <tr>
-                    <td>51</td>
+                    <td>53</td>
                     <td>MA30与MA60金叉</td>
                     <td>昨日MA30&lt;昨日MA60，MA30&gt;MA60</td>
                   </tr>
                   <tr>
-                    <td>52</td>
+                    <td>54</td>
                     <td>MA30与MA60死叉</td>
                     <td>昨日MA30&gt;昨日MA60，MA30&lt;MA60</td>
                   </tr>
                   <tr>
-                    <td>53</td>
+                    <td>55</td>
                     <td>MA30在MA60上方</td>
                     <td>MA30>MA60</td>
                   </tr>
                   <tr>
-                    <td>54</td>
+                    <td>56</td>
                     <td>MA30在MA60下方</td>
                     <td>MA30&lt;MA60</td>
                   </tr>
                   <tr>
-                    <td>55</td>
+                    <td>57</td>
                     <td>MA30与MA120金叉</td>
                     <td>昨日MA30&lt;昨日MA120，MA30&gt;MA120</td>
                   </tr>
                   <tr>
-                    <td>56</td>
+                    <td>58</td>
                     <td>MA30与MA120死叉</td>
                     <td>昨日MA30&gt;昨日MA120，MA30&lt;MA120</td>
                   </tr>
                   <tr>
-                    <td>57</td>
+                    <td>59</td>
                     <td>MA30在MA120上方</td>
                     <td>MA30>MA120</td>
                   </tr>
                   <tr>
-                    <td>58</td>
+                    <td>60</td>
                     <td>MA30在MA120下方</td>
                     <td>MA30&lt;MA120</td>
                   </tr>
                   <tr>
-                    <td>59</td>
+                    <td>61</td>
                     <td>股价与MA60距离</td>
                     <td>(收盘价-MA60)/MA60</td>
                   </tr>
                   <tr>
-                    <td>60</td>
+                    <td>62</td>
                     <td>股价与MA60金叉</td>
                     <td>昨日收盘价&lt;昨日MA60，收盘价&gt;MA60</td>
                   </tr>
                   <tr>
-                    <td>61</td>
+                    <td>63</td>
                     <td>股价与MA60死叉</td>
                     <td>昨日收盘价&gt;昨日MA60，收盘价&lt;MA60</td>
                   </tr>
                   <tr>
-                    <td>62</td>
+                    <td>64</td>
                     <td>MA60与MA120金叉</td>
                     <td>昨日MA60&lt;昨日MA120，MA60&gt;MA120</td>
                   </tr>
                   <tr>
-                    <td>63</td>
+                    <td>65</td>
                     <td>MA60与MA120死叉</td>
                     <td>昨日MA60&gt;昨日MA120，MA60&lt;MA120</td>
                   </tr>
                   <tr>
-                    <td>64</td>
+                    <td>66</td>
                     <td>MA60在MA120上方</td>
                     <td>MA60&gt;MA120</td>
                   </tr>
                   <tr>
-                    <td>65</td>
+                    <td>67</td>
                     <td>MA60在MA120下方</td>
                     <td>MA60&lt;MA120</td>
                   </tr>
                   <tr>
-                    <td>66</td>
+                    <td>68</td>
                     <td>MA60与MA250金叉</td>
                     <td>昨日MA60&lt;昨日MA250，MA60&gt;MA250</td>
                   </tr>
                   <tr>
-                    <td>67</td>
+                    <td>69</td>
                     <td>MA60与MA250死叉</td>
                     <td>昨日MA60&gt;昨日MA250，MA60&lt;MA250</td>
                   </tr>
                   <tr>
-                    <td>68</td>
+                    <td>70</td>
                     <td>MA60在MA250上方</td>
                     <td>MA60&gt;MA250</td>
                   </tr>
                   <tr>
-                    <td>69</td>
+                    <td>71</td>
                     <td>MA60在MA250下方</td>
                     <td>MA60&lt;MA250</td>
                   </tr>
                   <tr>
-                    <td>70</td>
+                    <td>72</td>
                     <td>股价与MA120距离</td>
                     <td>(收盘价-MA120)/MA120</td>
                   </tr>
                   <tr>
-                    <td>71</td>
+                    <td>73</td>
                     <td>股价与MA120金叉</td>
                     <td>昨日收盘价&lt;昨日MA120，收盘价&gt;MA120</td>
                   </tr>
                   <tr>
-                    <td>72</td>
+                    <td>74</td>
                     <td>股价与MA120死叉</td>
                     <td>昨日收盘价&gt;昨日MA120，收盘价&lt;MA120</td>
                   </tr>
                   <tr>
-                    <td>73</td>
+                    <td>75</td>
                     <td>MA120与MA250金叉</td>
                     <td>昨日MA120&lt;昨日MA250，MA120&gt;MA250</td>
                   </tr>
                   <tr>
-                    <td>74</td>
+                    <td>76</td>
                     <td>MA120与MA250死叉</td>
                     <td>昨日MA120&gt;昨日MA250，MA120&lt;MA250</td>
                   </tr>
                   <tr>
-                    <td>75</td>
+                    <td>77</td>
                     <td>MA120在MA250上方</td>
                     <td>MA120&gt;MA250</td>
                   </tr>
                   <tr>
-                    <td>76</td>
+                    <td>78</td>
                     <td>MA120在MA250下方</td>
                     <td>MA120&lt;MA250</td>
                   </tr>
                   <tr>
-                    <td>77</td>
+                    <td>79</td>
                     <td>股价与MA250距离</td>
                     <td>(收盘价-MA250)/MA250</td>
                   </tr>
                   <tr>
-                    <td>78</td>
+                    <td>80</td>
                     <td>股价与MA250金叉</td>
                     <td>昨日收盘价&lt;昨日MA250，收盘价&gt;MA250</td>
                   </tr>
                   <tr>
-                    <td>79</td>
+                    <td>81</td>
                     <td>股价与MA250死叉</td>
                     <td>昨日收盘价&gt;昨日MA250，收盘价&lt;MA250</td>
                   </tr>
                   <tr>
-                    <td>80</td>
+                    <td>82</td>
                     <td>涨跌幅</td>
                     <td>(收盘价-昨收价)/昨收价</td>
                   </tr>
                   <tr>
-                    <td>81</td>
+                    <td>83</td>
                     <td>涨跌幅(开盘)</td>
                     <td>(收盘价-开盘价)/开盘价</td>
                   </tr>
                   <tr>
-                    <td>82</td>
+                    <td>84</td>
                     <td>10日创新高</td>
                     <td>收盘价&gt;过去9个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>83</td>
+                    <td>85</td>
                     <td>10日创新低</td>
                     <td>收盘价&lt;过去9个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>84</td>
+                    <td>86</td>
                     <td>股价与10日最高价距离</td>
                     <td>（收盘价-过去9个交易日最高价的最大值）/过去9个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>85</td>
+                    <td>87</td>
                     <td>股价与10日最低价距离</td>
                     <td>(收盘价-过去9个交易日最低价的最小值)/ 过去9个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>86</td>
+                    <td>88</td>
                     <td>20日创新高</td>
                     <td>收盘价>过去19个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>87</td>
+                    <td>89</td>
                     <td>20日创新低</td>
                     <td>收盘价&lt;过去19个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>88</td>
+                    <td>90</td>
                     <td>股价与20日最高价距离</td>
                     <td>（收盘价-过去19个交易日最高价的最大值）/过去19个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>89</td>
+                    <td>91</td>
                     <td>股价与20日最低价距离</td>
                     <td>(收盘价-过去19个交易日最低价的最小值)/ 过去19个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>90</td>
+                    <td>92</td>
                     <td>30日创新高</td>
                     <td>收盘价>过去29个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>91</td>
+                    <td>93</td>
                     <td>30日创新低</td>
                     <td>收盘价&lt;过去29个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>92</td>
+                    <td>94</td>
                     <td>股价与30日最高价距离</td>
                     <td>（收盘价-过去29个交易日最高价的最大值）/过去29个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>93</td>
+                    <td>95</td>
                     <td>股价与30日最低价距离</td>
                     <td>(收盘价-过去29个交易日最低价的最小值)/ 过去29个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>94</td>
+                    <td>96</td>
                     <td>60日创新高</td>
                     <td>收盘价>过去59个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>95</td>
+                    <td>97</td>
                     <td>60日创新低</td>
                     <td>收盘价&lt;过去59个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>96</td>
+                    <td>98</td>
                     <td>股价与60日最高价距离</td>
                     <td>（收盘价-过去59个交易日最高价的最大值）/过去59个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>97</td>
+                    <td>99</td>
                     <td>股价与60日最低价距离</td>
                     <td>(收盘价-过去59个交易日最低价的最小值)/ 过去59个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>98</td>
+                    <td>100</td>
                     <td>120日创新高</td>
                     <td>收盘价>过去119个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>99</td>
+                    <td>101</td>
                     <td>120日创新低</td>
                     <td>收盘价&lt;过去119个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>100</td>
+                    <td>102</td>
                     <td>股价与120日最高价距离</td>
                     <td>（收盘价-过去119个交易日最高价的最大值）/过去119个交易日最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>101</td>
+                    <td>103</td>
                     <td>股价与120日最低价距离</td>
                     <td>(收盘价-过去119个交易日最低价的最小值)/ 过去119个交易日最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>102</td>
+                    <td>104</td>
                     <td>52周创新高</td>
                     <td>收盘价&gt;过去52自然周最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>103</td>
+                    <td>105</td>
                     <td>52周创新低</td>
                     <td>收盘价&lt;过去52自然周最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>104</td>
+                    <td>106</td>
                     <td>股价与52周最高价距离</td>
                     <td>（收盘价-过去52自然周最高价的最大值）/过去52自然周最高价的最大值</td>
                   </tr>
                   <tr>
-                    <td>105</td>
+                    <td>107</td>
                     <td>股价与52周最低价距离</td>
                     <td>(收盘价-过去52自然周最低价的最小值)/ 过去52自然周最低价的最小值</td>
                   </tr>
                   <tr>
-                    <td>106</td>
+                    <td>108</td>
                     <td>头肩底</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>107</td>
+                    <td>109</td>
                     <td>单底</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>108</td>
+                    <td>110</td>
                     <td>双底</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>109</td>
+                    <td>111</td>
                     <td>双底带回踩</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>110</td>
+                    <td>112</td>
                     <td>三重底</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>111</td>
+                    <td>113</td>
                     <td>强势上升</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>112</td>
+                    <td>114</td>
                     <td>震荡上升</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>113</td>
+                    <td>115</td>
                     <td>头肩顶</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>114</td>
+                    <td>116</td>
                     <td>单顶</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>115</td>
+                    <td>117</td>
                     <td>双顶</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>116</td>
+                    <td>118</td>
                     <td>双顶带回踩</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>117</td>
+                    <td>119</td>
                     <td>三重顶</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>118</td>
+                    <td>120</td>
                     <td>强势下跌</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>119</td>
+                    <td>121</td>
                     <td>震荡下跌</td>
                     <td>技术形态，通过距离算法寻找特征点得出</td>
                   </tr>
                   <tr>
-                    <td>120</td>
+                    <td>122</td>
                     <td>三只乌鸦</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>121</td>
+                    <td>123</td>
                     <td>看涨反冲</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>122</td>
+                    <td>124</td>
                     <td>乌云盖顶</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>123</td>
+                    <td>125</td>
                     <td>看涨吞没</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>124</td>
+                    <td>126</td>
                     <td>看涨孕线</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>125</td>
+                    <td>127</td>
                     <td>相同低价</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>126</td>
+                    <td>128</td>
                     <td>三外升</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>127</td>
+                    <td>129</td>
                     <td>三内升</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>128</td>
+                    <td>130</td>
                     <td>红三兵</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>129</td>
+                    <td>131</td>
                     <td>十字启明星</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>130</td>
+                    <td>132</td>
                     <td>弃婴</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>131</td>
+                    <td>133</td>
                     <td>竖状三明治</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>132</td>
+                    <td>134</td>
                     <td>奇特三川底</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>133</td>
+                    <td>135</td>
                     <td>向上跳空并列阳线</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>134</td>
+                    <td>136</td>
                     <td>向上跳空三法</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>135</td>
+                    <td>137</td>
                     <td>向上跳空并列阴阳线</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>136</td>
+                    <td>138</td>
                     <td>看涨三线直击</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>137</td>
+                    <td>139</td>
                     <td>上升三法</td>
                     <td>蜡烛图形态，通过识别K线特定的形态得出</td>
                   </tr>
                   <tr>
-                    <td>138</td>
+                    <td>140</td>
                     <td>均线多头排列</td>
                     <td>MA5>MA10>MA20>MA30</td>
                   </tr>
                   <tr>
-                    <td>139</td>
+                    <td>141</td>
                     <td>均线空头排列</td>
                     <td>MA5&lt;MA10&lt;MA20&lt;MA30</td>
                   </tr>
                   <tr>
-                    <td>140</td>
+                    <td>142</td>
                     <td>Beta值</td>
                     <td>过去1年个股收益率相对市场收益率的回归系数，市场收益率为全部A股流通市值加权平均</td>
                   </tr>
                   <tr>
-                    <td>141</td>
+                    <td>143</td>
                     <td>平均真实波幅</td>
                     <td>即ATR指标，个股振幅(TR)的14日指数移动平均，振幅= max[最高-最低，max(最高，昨收)-min(最低，昨收)]</td>
+                  </tr>
+                  <tr>
+                    <td>144</td>
+                    <td>换手率</td>
+                    <td>当前的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>145</td>
+                    <td>累计5日换手率</td>
+                    <td>累计5个交易日的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>146</td>
+                    <td>累计10日换手率</td>
+                    <td>累计10个交易日的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>147</td>
+                    <td>累计20日换手率</td>
+                    <td>累计20个交易日的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>148</td>
+                    <td>累计30日换手率</td>
+                    <td>累计30个交易日的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>149</td>
+                    <td>累计60日换手率</td>
+                    <td>累计60个交易日的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>150</td>
+                    <td>累计120日换手率</td>
+                    <td>累计120个交易日的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>151</td>
+                    <td>累计250日换手率</td>
+                    <td>累计250个交易日的换手率</td>
+                  </tr>
+                  <tr>
+                    <td>152</td>
+                    <td>连续涨跌天数</td>
+                    <td>连续上涨或者连续下跌的天数，自定义输入负值代表下跌</td>
+                  </tr>
+                  <tr>
+                    <td>153</td>
+                    <td>连阳连阴天数</td>
+                    <td>连续阳线或者连续阴线的天数，自定义输入负值代表阴线</td>
                   </tr>
                 </tbody>
               </table>
@@ -1283,7 +1371,16 @@ table {
             <p style="">2.&nbsp;&nbsp;在择时信号生成方面，如计算MA5和MA10金叉，为了保证价格的连续性，避免分红、并股等对价格产生的影响，并进一步影响择时指标的走势。因此采用后复权价格对择时指标进行计算，保证指标的连续性。需要强调的是，一些不依赖于高、开、低、收价格的择时指标不受此影响。另外，计算择时指标时，程序会跳过停牌没有交易的期间，会将有交易的时间连接起来，进行指标计算。</p>
           </div>
           <div class="jumpto-block">
-            <h3 class="first_title" id="jumpto_6">七、买卖滑点</h3>
+            <h3 class="first_title" id="jumpto_6">七、交易设置</h3>
+            <p>交易设置是对策略的交易参数进行设置，包括初始金额、资金分配、买入价格、最大持仓数、个股最大仓位、交易费用、收益对比基准、卖出价格、无风险利率、入选股排序、买卖滑点、条件优先序、回测时间、调仓周期等字段，是保证策略完整性和真实性不可缺少的部分。鉴于资金分配、买卖滑点、条件优先序3个条件不易理解，特说明如下：</p>
+            <h4 class="second_title">1. 资金分配</h4>
+            <p>资金分配是对准备买入的股票，确定买入金额的过程。Z3_Quant目前提供3种资金分配方式，分别如下：</p>
+            <p>
+              <span class="definitions">●	资金等权：</span>是指对于T日准备买入的股票，根据可用的资金进行等比例分配，各股票买入金额相同；<br/>
+              <span class="definitions">●	市值等权：</span>是指对于T日准备买入的股票，根据可用的资金以市值大小为权重进行分配，市值越大，买入的金额越多。即：单只股票买入金额=可用的资金总额*(股票市值/各股票市值的和)；<br>
+              <span class="definitions">●	最大持仓数等分：</span>是指对于T日准备买入的股票，根据可用的资金以还可买入股票只数进行等比例分配。即：单只股票买入金额=可用的资金总额/(最大持仓数-当前持仓数)。
+            </p>
+            <h4 class="second_title">2. 买卖滑点</h4>
             <p style="">之所以设定滑点，是因为当您下单时，尤其是金额较高的，会对当前价格造成一定的冲击而形成冲击成本，从而导致真实成交价与下单预期价格形成偏差。滑点的设置，就是为了使您更好的模拟真实市场表现，更加贴近现实。为了简便，Z3_Quant采用固定滑点设置模式。</p>
             <p style="">通常，固定滑点分为固定值和百分比值，分别如下：</p>
             <p>
@@ -1291,6 +1388,12 @@ table {
               <span class="definitions">●	百分比：</span>是指在预期价格的基础上加减一个预期价格的百分比值。比如0.2%，买入时成交价格=预期价格*（1+0.2%），卖出时成交价格=预期价格*（1-0.2%）。
             </p>
             <p style="">这里我们采用百分比值的设定方式，具体百分比值由您通过页面下拉值进行设置。</p>
+            <h4 class="second_title">3. 条件优先序</h4>
+            <p>在创建回测策略时，交易设置模块的“条件优先序”有两个选项，择时条件优先/仓位控制优先，其区别在于：</p>
+            <p>
+              <span class="definitions">●	择时条件优先：</span>选择此选项时，股票的买、卖全部由择时条件决定，如果未发出买、卖信号，则不进行股票交易。另外，卖出股票时，可卖出的份额将全部被卖出；<br>
+              <span class="definitions">●	仓位控制优先：</span>选择此选项时，在调仓日股票的买、卖由仓位模型决定。有加仓空间时，则视为买入信号，如果持仓的股票数量未达上限，则通过“选择股票池”补充股票后再行加仓；在调仓日有减仓空间时，则视为卖出信号，对持仓的股票进行减仓卖出。
+            </p>
           </div>
           <div class="jumpto-block">
             <h3 class="first_title" id="jumpto_7">八、风险指标</h3>
@@ -1488,7 +1591,7 @@ table {
             <a href="#jumpto_6">
               <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
               <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
-              <span>买卖滑点</span>
+              <span>交易设置</span>
             </a>
           </li>
           <li>
@@ -1498,6 +1601,21 @@ table {
               <span>风险指标</span>
             </a>
           </li>
+          <!--
+          <li>
+            <a href="#jumpto_8">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
+              <span>资金分配</span>
+            </a>
+          </li>
+          <li>
+            <a href="#jumpto_9">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
+              <span>条件优先序</span>
+            </a>
+          </li>-->
         </ul>
       </div>
     </div>
