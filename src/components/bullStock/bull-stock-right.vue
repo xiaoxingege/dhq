@@ -193,8 +193,7 @@ th {
     text-align: center;
 
 }
-.stock-table-box tr:not(:first-child) td:nth-child(2) {
-    }
+.stock-table-box tr:not(:first-child) td:nth-child(2) {}
 .stock-table-box tr:not(:first-child) td:nth-child(2) a {
     cursor: pointer;
     color: $backupYellow;
@@ -269,7 +268,7 @@ th {
     left: 75px;
     top: 8px;
     cursor: pointer;
-    z-index: 999999;
+    z-index: 999;
     cursor: pointer;
 }
 
