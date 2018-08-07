@@ -348,7 +348,7 @@ export default {
         window.open('/stock/' + code + '.shtml')
     },
     viewSource(url){
-        window.open(url)
+        window.open(url+'openIE')
     },
     changeFontSize(text){
         var mainText = document.getElementsByClassName('newMain')[0]
