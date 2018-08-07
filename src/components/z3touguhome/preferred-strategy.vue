@@ -507,7 +507,7 @@ export default {
             axisLabel: {  // 坐标轴刻度的相关设置
               formatter: function(val,index,msg) {
                 let num = null
-                if( millions && flagTime === 1) {
+                if(millions && flagTime === 1) {
                   num = ((val)/10000).toFixed(3)
                 }else {
                   num = millions ? ((val)/10000).toFixed(2) : Math.round(val)
