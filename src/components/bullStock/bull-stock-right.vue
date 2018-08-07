@@ -351,6 +351,7 @@ th {
 .ai-content {
     padding: 26px 19px 23px;
     line-height: 20px;
+    overflow-y: auto;
 
 }
 .con-txt {
@@ -573,8 +574,8 @@ li.hoverli {
       <tr v-for="(style,index) of marketStyle" v-if="marketStyle && marketStyle.length>0">
         <td>{{style.section||'--'}}</td>
         <td><a :href="'/stock/'+style.innerCode" target="_blank">{{style.name||'--'}}</a></td>
-        <td v-z3-updowncolor="style.stat==null?'--':style.chng">{{style.stat==null?'--':(style.price | price)}}</td>
-        <td v-z3-updowncolor="style.stat==null?'--':style.chng">{{style.stat==null?'--':(style.chng | chngPct)}}</td>
+        <td v-z3-updowncolor="style.stat==null?'--':style.chng">{{style.stat==null?'--':checkPrice(style.price)}}</td>
+        <td v-z3-updowncolor="style.stat==null?'--':style.chng">{{style.stat==null?'--':checkChng(style.chng)}}</td>
         <td class='pro-td' @mouseover="enterProgress($event,index)" @mouseout="leaveProgress($event,index)">
           <div class="progress-box">
             <span class="progress redbg fl" :style="{'width':style.stat==null?'0%':checkWidth(style.stat.upNum,style.stat)}"></span>
@@ -666,8 +667,8 @@ export default {
     toast
   },
   computed: mapState({
-    stockStyle: state => state.bullStock.stockStyle,
-    topicAndIndustry: state => state.bullStock.topicAndIndustry,
+    // stockStyle: state => state.bullStock.stockStyle,
+    // topicAndIndustry: state => state.bullStock.topicAndIndustry,
     smartEvaluate: state => state.bullStock.smartEvaluate,
     tradeDate: state => state.bullStock.tradeDate,
     marketStyle: state => state.bullStock.marketStyle,
@@ -675,10 +676,10 @@ export default {
 
   }),
   methods: {
-    initStyle() {
-      this.$store.dispatch('bullStock/queryStockStyle')
+    // initStyle() {
+    //   this.$store.dispatch('bullStock/queryStockStyle')
 
-    },
+    // },
     init() {
       this.$store.dispatch('bullStock/queryMarketStyle')
       this.$store.dispatch('bullStock/queryStockStyleNew')
@@ -686,17 +687,17 @@ export default {
     initEvaluate() {
       this.$store.dispatch('bullStock/querySmartEvaluate')
     },
-    initTopicAndIndustry() {
-      if (this.browseIndex) {
-        this.$store.dispatch('bullStock/queryTopicAndIndustry', {
-          browseIndex: this.browseIndex
-        })
-      } else {
-        this.$store.dispatch('bullStock/queryTopicAndIndustry', {
-          browseIndex: this.defaultKeep
-        })
-      }
-    },
+    // initTopicAndIndustry() {
+    //   if (this.browseIndex) {
+    //     this.$store.dispatch('bullStock/queryTopicAndIndustry', {
+    //       browseIndex: this.browseIndex
+    //     })
+    //   } else {
+    //     this.$store.dispatch('bullStock/queryTopicAndIndustry', {
+    //       browseIndex: this.defaultKeep
+    //     })
+    //   }
+    // },
     enterProgress(e, i) {
       this.isPopup = true
       this.tops = (e.currentTarget.offsetTop) + 70
@@ -709,7 +710,7 @@ export default {
       const clipboard = new Clipboard(this.$refs.copyicon, {
         text: () => {
           const copyData = this.$refs.copytext.innerText;
-          console.log(this.$refs.copytext.innerText)
+          //  console.log(this.$refs.copytext.innerText)
           return copyData;
         }
       })
@@ -750,7 +751,7 @@ export default {
       if (n.getDay() === 6 || n.getDay() === 0) {
         return false;
       }
-      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
+      if (n.getTime() - b.getTime() >= 0 && (n.getTime() - e.getTime()) < 0) {
         // this.reFresh()
         return true;
       } else {
@@ -803,7 +804,7 @@ export default {
       // // var hour = date.getHours();
       // var minute = date.getMinutes();
       // var nowTime=hour*100+minute;
-      console.log(nowTime)
+      //  console.log(nowTime)
       if (date % fiveMinute === 0) {
         return 0;
       } else {
@@ -813,32 +814,28 @@ export default {
     },
     getCode() {
       console.log(this.getLeaveTime())
+
+      if (!this.timer) this.timer = setInterval(this.timerHandler, 1000);
+    },
+    timerHandler() {
       if (this.tradeDate === true) {
         // console.log(this.tradeDate)
-        var inTime = this.timeRange('9:30', '11:30')
+        const TIME_COUNT = this.getLeaveTime();
+        this.count = TIME_COUNT;
+        // console.log(this.count)
+        this.count--;
+        if (this.count === 0) {
+          this.initEvaluate()
+          this.count = 300;
+
+        }
+        var inTime = this.timeRange('9:30', '11:30');
         var inTime2 = this.timeRange('13:00', '15:00')
+
         if (inTime || inTime2) {
-          // this.$forceUpdate()
-          const TIME_COUNT = this.getLeaveTime();
-          if (!this.timer) {
-            this.count = TIME_COUNT;
-            console.log(this.count)
-            // this.show = false;
-            this.timer = setInterval(() => {
-              if (this.count > 0 && this.count <= TIME_COUNT) {
-                this.count--;
-              } else {
-                // this.show = true;
-                clearInterval(this.timer);
-                this.timer = null;
-                this.initEvaluate()
-                if (this.count === 0) {
-                  this.count = 300
-                  this.getCode()
-                }
-              }
-            }, 1000)
-          }
+          this.countText = true
+          this.closeText = false
+
         } else {
           this.countText = false
           this.closeText = true
@@ -851,7 +848,6 @@ export default {
         this.closeText = true
         //  this.$refs.timer.innerHTML = '休市中';
       }
-
     },
     checkContinu(num) {
       if (num > 0) {
@@ -893,6 +889,25 @@ export default {
         return num
       }
     },
+    checkChng(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + value.toFixed(2) + '%';
+        } else {
+          return value.toFixed(2) + '%';
+        }
+      }
+    },
+    checkPrice(value) {
+      let val = Number(value);
+      if (isNaN(val)) {
+        return '--'
+      } else {
+        return val.toFixed(2);
+      }
+    },
     changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
@@ -910,7 +925,7 @@ export default {
       let con = ''
       content.forEach((p, i) => {
         if (i === 1) {
-          con += '<div style="padding-top:23px;">' + p + '</div>'
+          con += '<div style="padding-top:2%;">' + p + '</div>'
         } else {
           con += '<div class="con-txt">' + p + '</div>'
         }
@@ -937,10 +952,10 @@ export default {
     // this.updateTime = setInterval(() => {
     //   this.time = new Date()
     // }, 1000)
-    this.initStyle()
+    // this.initStyle()
     this.init()
     this.initEvaluate()
-    this.initTopicAndIndustry()
+    // this.initTopicAndIndustry()
     this.initTradeDate()
     this.copyText()
     // this.getCode()   
@@ -951,7 +966,7 @@ export default {
   },
   destroyed() {
     // this.updateTime && clearInterval(this.updateTime)
-    this.updateTime && clearInterval(this.updateTime)
+    this.timer && clearInterval(this.timer)
   }
 }
 </script>
