@@ -10,7 +10,7 @@ input {
     font-family: "Microsoft YaHei";
     box-sizing: border-box;
     text-align: justify;
-    user-select: none;
+    /* user-select: none; */
     box-sizing: border-box;
     font-size: $fontSizeBase;
     color: $wordsColorBase;
@@ -112,6 +112,11 @@ th {
     height: 89%;
 }
 .style-table-box2 tr:not(:first-child) td:nth-child(2) {
+
+    color: $backupYellow;
+}
+.style-table-box2 tr:not(:first-child) td:nth-child(2) a {
+    cursor: pointer;
     color: $backupYellow;
 }
 /* .style-table-box2 tr td:nth-child(3) {
@@ -188,15 +193,17 @@ th {
     text-align: center;
 
 }
-.stock-table-box tr:not(:first-child) td:nth-child(2) {
-    cursor: pointer;
-}
+.stock-table-box tr:not(:first-child) td:nth-child(2) {}
 .stock-table-box tr:not(:first-child) td:nth-child(2) a {
+    cursor: pointer;
     color: $backupYellow;
 
 }
 .stock-table-box tr td:nth-child(5) {
     text-align: left;
+}
+.stock-table-box tr:not(:first-child) td:nth-child(5) {
+    padding-top: 9px;
 }
 .stock-table-box tr:nth-child(1) td:nth-child(5) {
     /* text-align: left; */
@@ -258,10 +265,10 @@ th {
     height: 15px;
     background: url("../../assets/images/z3img/help.png") no-repeat;
     position: relative;
-    left: 71px;
+    left: 75px;
     top: 8px;
     cursor: pointer;
-    z-index: 999999;
+    z-index: 999;
     cursor: pointer;
 }
 
@@ -346,6 +353,9 @@ th {
     line-height: 20px;
 
 }
+.con-txt {
+    padding-top: 10px;
+}
 .ai-content-no {
     min-height: 145px;
 }
@@ -381,7 +391,8 @@ th {
 }
 .time-txt {
     display: inline-block;
-    width: 80px;
+    /*  width: 80px; */
+    width: 65px;
 }
 .pro-td {
     width: 20%;
@@ -542,7 +553,8 @@ li.hoverli {
       <span class="fl">智能点评</span>
       <div class="fr">
         <i class="time_icon"></i>
-        <span ref="timer" class="time-txt">{{count}}秒后</span>
+        <span ref="timer" class="time-txt" v-show='countText'>{{count}}秒后</span>
+        <span ref="timer" class="time-txt" v-show='closeText'>休市中</span>
         <em class="copy_icon" ref='copyicon' title="复制分享链接"></em>
       </div>
     </div>
@@ -560,9 +572,9 @@ li.hoverli {
       </tr>
       <tr v-for="(style,index) of marketStyle" v-if="marketStyle && marketStyle.length>0">
         <td>{{style.section||'--'}}</td>
-        <td>{{style.name||'--'}}</td>
-        <td v-z3-updowncolor="style.chng">{{style.stat==null?'--':style.price | price}}</td>
-        <td v-z3-updowncolor="style.chng">{{style.stat==null?'--':style.chng | chngPct}}</td>
+        <td><a :href="'/stock/'+style.innerCode" target="_blank">{{style.name||'--'}}</a></td>
+        <td v-z3-updowncolor="style.stat==null?'--':style.chng">{{style.stat==null?'--':(style.price | price)}}</td>
+        <td v-z3-updowncolor="style.stat==null?'--':style.chng">{{style.stat==null?'--':(style.chng | chngPct)}}</td>
         <td class='pro-td' @mouseover="enterProgress($event,index)" @mouseout="leaveProgress($event,index)">
           <div class="progress-box">
             <span class="progress redbg fl" :style="{'width':style.stat==null?'0%':checkWidth(style.stat.upNum,style.stat)}"></span>
@@ -570,7 +582,7 @@ li.hoverli {
             <span class="progress greenbg fr" :style="{'width':style.stat==null?'0%':checkWidth(style.stat.downNum,style.stat)}"></span>
           </div>
         </td>
-        <td v-z3-updowncolor="style.chng">{{style.suggest||'--'}}</td>
+        <td v-z3-updowncolor="style.suggest==null?'--':style.chng">{{style.suggest||'--'}}</td>
       </tr>
       <tr v-if="marketStyle.length<=0" class="tr-no2 ">
         <td></td>
@@ -621,9 +633,9 @@ import {
 } from 'vuex'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
-import {
-  formatDate
-} from 'utils/date'
+// import {
+//   formatDate
+// } from 'utils/date'
 export default {
 
   data() {
@@ -643,7 +655,9 @@ export default {
       isPopup: false,
       tops: 100,
       activeColor: 0,
-      time: ''
+      time: '',
+      countText: true,
+      closeText: false
 
     }
   },
@@ -728,12 +742,11 @@ export default {
       var b = new Date();
       var e = new Date();
       var n = new Date();
-
       b.setHours(strb[0]);
       b.setMinutes(strb[1]);
       e.setHours(stre[0]);
       e.setMinutes(stre[1]);
-
+      // alert((n.getHours () + ':' + n.getMinutes ()))
       if (n.getDay() === 6 || n.getDay() === 0) {
         return false;
       }
@@ -748,11 +761,14 @@ export default {
     },
     reFresh() {
       //  var inTime = this.timeRange('9:10', '11:40')
-      //  var inTime2 = this.timeRange('12:50', '15:30')
+      //  var inTime2 = this.timeRange('12:10', '15:30')
       // if (inTime || inTime2) {
-      //   this.initRealTimeType();
+      //   // this.initRealTimeType();
+      //   this.getCode()
       // }
-      // this.alltimers = setTimeout(this.reFresh, 30000)
+
+      // this.alltimers = setTimeout(this.reFresh, 1000)
+
     },
     zero(obj) {
       return obj < 10 ? '0' + obj : obj;
@@ -775,6 +791,12 @@ export default {
       })
     },
     getLeaveTime() {
+      // this.updateTime = setInterval(() => {
+      //     this.time = new Date()
+
+      // }, 1000)
+      //  var time = formatDate('9:00', 'hh:mm')
+      // console.log(time.getTime())
       var date = new Date().getTime();
       var fiveMinute = 5 * 60 * 1000
       var nowTime = Math.ceil((fiveMinute - date % fiveMinute) / 1000)
@@ -793,10 +815,10 @@ export default {
       console.log(this.getLeaveTime())
       if (this.tradeDate === true) {
         // console.log(this.tradeDate)
-        var inTime = this.timeRange('9:00', '11:30')
-        var inTime2 = this.timeRange('13:00', '15:30')
+        var inTime = this.timeRange('9:30', '11:30')
+        var inTime2 = this.timeRange('13:00', '15:00')
         if (inTime || inTime2) {
-          this.$forceUpdate()
+          // this.$forceUpdate()
           const TIME_COUNT = this.getLeaveTime();
           if (!this.timer) {
             this.count = TIME_COUNT;
@@ -812,18 +834,22 @@ export default {
                 this.initEvaluate()
                 if (this.count === 0) {
                   this.count = 300
-                  // this.getCode()
+                  this.getCode()
                 }
               }
             }, 1000)
           }
         } else {
-          this.$refs.timer.innerHTML = '休市中';
+          this.countText = false
+          this.closeText = true
+          // this.$refs.timer.innerHTML = '休市中';
 
         }
 
       } else {
-        this.$refs.timer.innerHTML = '休市中';
+        this.countText = false
+        this.closeText = true
+        //  this.$refs.timer.innerHTML = '休市中';
       }
 
     },
@@ -882,8 +908,12 @@ export default {
       }
       const content = val.split('/n')
       let con = ''
-      content.forEach((p) => {
-        con += '<p>' + p + '</p>'
+      content.forEach((p, i) => {
+        if (i === 1) {
+          con += '<div style="padding-top:23px;">' + p + '</div>'
+        } else {
+          con += '<div class="con-txt">' + p + '</div>'
+        }
       })
       return con
 
@@ -895,18 +925,18 @@ export default {
       this.$store.dispatch('bullStock/queryTopicAndIndustry', {
         browseIndex: this.browseIndex
       });
-    },
-    time() {
-      let time = formatDate(this.time, 'hh:mm')
-      if (time === '9:00' || time === '15:30') {
-        this.getCode()
-      }
-    }
+    } // ,
+    // time() {
+    //   let time = formatDate(this.time, 'hh:mm')
+    //   if (time === '9:35' || time === '16:30') {
+    //     this.getCode()
+    //   }
+    // }
   },
   mounted() {
-    setInterval(() => {
-      this.time = new Date()
-    }, 1000)
+    // this.updateTime = setInterval(() => {
+    //   this.time = new Date()
+    // }, 1000)
     this.initStyle()
     this.init()
     this.initEvaluate()
@@ -914,14 +944,14 @@ export default {
     this.initTradeDate()
     this.copyText()
     // this.getCode()   
-    var _this = this
-    this.updateTopicandIndu = setInterval(function() {
-      _this.initTopicAndIndustry()
-    }, 60000)
+    // var _this = this
+    // this.updateTopicandIndu = setInterval(function() {
+    //   _this.initTopicAndIndustry()
+    // }, 60000)
   },
   destroyed() {
     // this.updateTime && clearInterval(this.updateTime)
-    this.updateTopicandIndu && clearInterval(this.updateTopicandIndu)
+    this.updateTime && clearInterval(this.updateTime)
   }
 }
 </script>
