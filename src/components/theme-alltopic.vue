@@ -108,7 +108,8 @@ span {
 }
 .main-list {
     position: absolute;
-    width: 100%;
+    /*  width: 100%; */
+    width: 99.9%;
     height: 100%;
     padding-top: 30px;
     overflow-y: auto;
