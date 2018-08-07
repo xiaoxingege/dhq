@@ -30,6 +30,7 @@ html {
     line-height: 20px;
     text-indent: 2em;
     color: #666;
+    font-size: 14px;
 }
 
 .newMain p {
@@ -40,9 +41,27 @@ html {
     text-align: center;
     margin: 20px 0;
     color: #666;
-    img{
+    .showA{
+        width: 19px;
+        height:12px;
         cursor: pointer;
         margin-top: 2px;
+        background-image: url("../assets/images/z3img/hoverA+.png");
+        background-repeat: no-repeat;
+    }
+    .showA:hover{
+        background-image: url("../assets/images/z3img/A+.png");
+    }
+    .showB{
+        width: 19px;
+        height:12px;
+        cursor: pointer;
+        margin-top: 2px;
+        background-image: url("../assets/images/z3img/A-.png");
+        background-repeat: no-repeat;
+    }
+    .showB:hover{
+        background-image: url("../assets/images/z3img/hoverA-.png");
     }
 }
 
@@ -153,8 +172,8 @@ html {
         <a @click="toStock(item.innerCode)" v-for="item in result.equityList" class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span>
       <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-15">相关题材：
         <router-link :to="{ name:'topicDetail' , params:{ topicId : item.topicCode }}" target="_blank" class="mr-15" v-for="item in result.topicList">{{item.topicName}}</router-link></span>
-        <img @click="changeFontSize('add')" src="../assets/images/z3img/A+.png"/>
-        <img @click="changeFontSize('desc')" src="../assets/images/z3img/A-.png"/>
+        <span @click="changeFontSize('add')" class="showA"></span>
+        <span @click="changeFontSize('desc')" class="showB"></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
     <span class="moreNews" v-if="moreInfor && moreInfor.length !== 0">更多相关资讯</span>
@@ -212,7 +231,9 @@ export default {
     return {
       type: this.$route.params.detailType,
       moreInfor: null,
-      defaultFontSize:12
+      defaultFontSize:14,
+      showA:true,
+      showB:true
     }
   },
   computed: {
@@ -327,7 +348,7 @@ export default {
         window.open('/stock/' + code + '.shtml')
     },
     viewSource(url){
-        window.open(url+'openIE')
+        window.open(url)
     },
     changeFontSize(text){
         var mainText = document.getElementsByClassName('newMain')[0]
