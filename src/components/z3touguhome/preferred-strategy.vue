@@ -109,8 +109,8 @@
 
 .syqxTab {
     position: absolute;
-    right: 10%;
-    top: 10px;
+    right: 10.5%;
+    top: 14px;
     z-index: 1;
     user-select : none;
 }
@@ -406,7 +406,7 @@ export default {
         this.chart.setOption({
           legend: { // 右上角(图例)
             left: '20%',
-            top: '7px',
+            top: '13px',
             itemHeight : 1,
             itemGap : 10, // 图例之间间隔
             orient: 'vertical',
@@ -606,7 +606,7 @@ export default {
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
-            width: millions ? '91.5%' : '90%',
+            width: millions ? '90%' : '90%',
             height: '75%',
             left: '5%',
             top: '20%',
