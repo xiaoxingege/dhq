@@ -401,8 +401,8 @@ export default {
         })
         let millions = this.isMillions
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        
         let flagTime = this.flagTime
+        let isMouseBool = this.isMouseBool
         this.chart.setOption({
           legend: { // 右上角(图例)
             left: '20%',
@@ -426,6 +426,7 @@ export default {
           tooltip: { // 提示框
             show: true,
             trigger: 'axis', // 触发类型 axis(坐标轴触发)
+            triggerOn : isMouseBool ? 'mousemove|click' : 'none',
             padding: [10, 55, 10, 20],
             textStyle: {
               align: 'left',
@@ -626,6 +627,8 @@ export default {
     //  let time = setTimeout(() => {
     //       this.isMouseBool = true
     //    },800)
+    this.isMouseBool = false
+    time && clearTimeout(time)
      if(this.chart && event.keyCode === 37){
             if(that.dataIndex !== 0) {
                 that.dataIndex = that.dataIndex - 1
@@ -645,13 +648,13 @@ export default {
                 });
             }
         }
+        let time = setTimeout(() => {
+          this.isMouseBool = true
+        },600)
         
     },
     mouseOver(ev) {
-      if(this.isMouseBool === true) {
-        this.$refs.lineChart.focus()
-      }
-      
+      this.isMouseBool === true && this.$refs.lineChart.focus()
     }
   },
   mounted() {
