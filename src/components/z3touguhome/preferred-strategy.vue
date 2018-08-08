@@ -109,8 +109,8 @@
 
 .syqxTab {
     position: absolute;
-    right: 10%;
-    top: 10px;
+    right: 10.5%;
+    top: 14px;
     z-index: 1;
     user-select : none;
 }
@@ -154,7 +154,7 @@
           <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
           <li @click="changeSyTab($event,0)" :class="{active: flagTime ===0}">全部</li>
         </ul>
-     <div class="lineChart" ref="lineChart" @keydown="keyDown($event)" @mouseover="mouseOver($event)" tabindex="0" onfocus='console.log("获取焦点")'></div>
+     <div class="lineChart" ref="lineChart" @keydown="keyDown($event)" @mouseover="mouseOver($event)" tabindex="0"></div>
     </div>
   </div>
 </div>
@@ -200,8 +200,7 @@ export default {
       southDate : [], // 南向资金x轴数据
       hkStkShMoney :[], // 港股通(沪)资金(亿元)
       hkStkSzMoney : [], // 港股通(深)资金(亿元)
-      isMillions : true,
-      isMouseBool : true
+      isMillions : true
     }
   },
   watch: {
@@ -350,7 +349,7 @@ export default {
         let indexPrice = []
         let marginBalance = []
         data && data.forEach((item) => {
-          if(item.indexPrice !== null && item.marginBalance !== null) {
+          if(item.indexPrice !== null || item.marginBalance !== null) {
             tradeDate.push(item.tradeDate)  // 日期
             item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
             item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
@@ -365,7 +364,7 @@ export default {
       let shStkConnectMoney = [] // 沪股通资金(亿元)
       let szStkConnectMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.shStkConnectMoney !== null && item.szStkConnectMoney !== null) {
+        if(item.shStkConnectMoney !== null || item.szStkConnectMoney !== null) {
             northDate.push(item.tradeDate) // 北向日期
             shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
             szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
@@ -380,7 +379,7 @@ export default {
       let hkStkShMoney = [] // 沪股通资金(亿元)
       let hkStkSzMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.hkStkShMoney !== null && item.hkStkSzMoney !== null) {
+        if(item.hkStkShMoney !== null || item.hkStkSzMoney !== null) {
           southDate.push(item.tradeDate) // 南向日期
           item.hkStkShMoney && hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
           item.hkStkSzMoney && hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
@@ -401,12 +400,11 @@ export default {
         })
         let millions = this.isMillions
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        
         let flagTime = this.flagTime
         this.chart.setOption({
           legend: { // 右上角(图例)
             left: '20%',
-            top: '7px',
+            top: '5%',
             itemHeight : 1,
             itemGap : 10, // 图例之间间隔
             orient: 'vertical',
@@ -436,10 +434,9 @@ export default {
             },
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
+              console.log(params)
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
-          
-                if (i === 0) {
                   let seriesName = params[i].seriesName
                   let result = Number(params[i].value)
                   let res = ''
@@ -448,25 +445,10 @@ export default {
                   }else {
                       res = 0
                   }
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>'+ seriesName +': ' + res
-                }
-                if (i === 1) {
-                  let seriesName = params[i].seriesName
-                  let result = Number(params[i].value)
-                  let res = ''
-                  if(millions){
-                      res = isNaN(result) ? '--' : Number(result) === 0 ? 0 : Number(result).toFixed(2)
-                  }else {
-                    if(Number(result) !== 0) {
-                        res = isNaN(result) ? '--' : result >=10000 ? Number(result/10000).toFixed(2) + '万亿' : Number(result).toFixed(2) + '亿'
-                    }else {
-                        res = 0
-                    }
-                  }
+                  if(params[i].data !== null) {
                     s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>'+ seriesName +': ' +res
-                }
+                    params[i].color + '"></span>'+ seriesName +': ' + res
+                  }
               }
               return s
             }
@@ -606,7 +588,7 @@ export default {
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
-            width: millions ? '91.5%' : '90%',
+            width: millions ? '90%' : '90%',
             height: '75%',
             left: '5%',
             top: '20%',
@@ -621,11 +603,6 @@ export default {
     },
     keyDown(ev) {
     const that = this
-      // time && clearTimeout(time)
-    //  this.isMouseBool = false
-    //  let time = setTimeout(() => {
-    //       this.isMouseBool = true
-    //    },800)
      if(this.chart && event.keyCode === 37){
             if(that.dataIndex !== 0) {
                 that.dataIndex = that.dataIndex - 1
@@ -648,10 +625,7 @@ export default {
         
     },
     mouseOver(ev) {
-      if(this.isMouseBool === true) {
-        this.$refs.lineChart.focus()
-      }
-      
+       this.$refs.lineChart.focus()
     }
   },
   mounted() {

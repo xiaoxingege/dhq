@@ -1113,6 +1113,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
+            triggerOn:'mousemove',
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
               if (cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null) {
@@ -1158,6 +1159,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
+            triggerOn:'mousemove',
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
               if (lxztData[params[0].dataIndex][1] === null) {
