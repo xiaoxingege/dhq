@@ -879,6 +879,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
+            triggerOn:'mousemove',
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
               if (that.$store.state.bubbles.zbgLine[params[0].dataIndex][1] === null) {

@@ -1050,6 +1050,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
+            triggerOn:'mousemove',
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
               if (czgLineData.condition[params[0].dataIndex][1] === null && czgLineData.szIndex[params[0].dataIndex][1] === null) {
