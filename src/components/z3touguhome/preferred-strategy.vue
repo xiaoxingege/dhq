@@ -103,12 +103,14 @@
 .lineChart {
     width: 100%;
     height: 100%;
+    border:0;
+    outline:0;
 }
 
 .syqxTab {
     position: absolute;
-    right: 13%;
-    top: 5px;
+    right: 10.5%;
+    top: 14px;
     z-index: 1;
     user-select : none;
 }
@@ -145,14 +147,14 @@
     </div>
   </div>
   <div class="preferred-strategy-table-wrap clearfix">
-    <div style="position: relative; height:100%;">
+    <div style="position: relative; height:100%; width:100%;">
         <ul class="syqxTab">
           <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">1月</li>
           <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">6月</li>
           <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
           <li @click="changeSyTab($event,0)" :class="{active: flagTime ===0}">全部</li>
         </ul>
-     <div class="lineChart" ref="lineChart"></div>
+     <div class="lineChart" ref="lineChart" @keydown="keyDown($event)" @mouseover="mouseOver($event)" tabindex="0" onfocus='console.log("获取焦点")'></div>
     </div>
   </div>
 </div>
@@ -198,7 +200,8 @@ export default {
       southDate : [], // 南向资金x轴数据
       hkStkShMoney :[], // 港股通(沪)资金(亿元)
       hkStkSzMoney : [], // 港股通(深)资金(亿元)
-      isMillions : true
+      isMillions : true,
+      isMouseBool : true
     }
   },
   watch: {
@@ -347,12 +350,11 @@ export default {
         let indexPrice = []
         let marginBalance = []
         data && data.forEach((item) => {
-          if(item.indexPrice !== null || item.marginBalance !== null) {
+          if(item.indexPrice !== null && item.marginBalance !== null) {
             tradeDate.push(item.tradeDate)  // 日期
+            item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
+            item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
           }
-          item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
-          
-          item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
         })
         this.indexPrice = indexPrice.reverse()
         this.xAxisData = tradeDate.reverse()
@@ -363,11 +365,11 @@ export default {
       let shStkConnectMoney = [] // 沪股通资金(亿元)
       let szStkConnectMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.shStkConnectMoney !== null || item.szStkConnectMoney !== null) {
+        if(item.shStkConnectMoney !== null && item.szStkConnectMoney !== null) {
             northDate.push(item.tradeDate) // 北向日期
-        }
-        item.shStkConnectMoney !== null && shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
-        item.szStkConnectMoney !== null && szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
+            shStkConnectMoney.push(item.shStkConnectMoney)  // 沪股通资金(亿元)
+            szStkConnectMoney.push(item.szStkConnectMoney)  // 深股通资金(亿元)
+        }   
       })
       this.northDate = northDate.reverse()
       this.shStkConnectMoney = shStkConnectMoney.reverse()
@@ -378,18 +380,18 @@ export default {
       let hkStkShMoney = [] // 沪股通资金(亿元)
       let hkStkSzMoney = [] // 深股通资金(亿元)
       data && data.forEach((item) => {
-        if(item.hkStkShMoney !== null || item.hkStkSzMoney !== null) {
+        if(item.hkStkShMoney !== null && item.hkStkSzMoney !== null) {
           southDate.push(item.tradeDate) // 南向日期
+          item.hkStkShMoney && hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
+          item.hkStkSzMoney && hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
         }
-        
-        item.hkStkShMoney && hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
-        item.hkStkSzMoney && hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
         })
         this.southDate = southDate.reverse()
         this.hkStkShMoney = hkStkShMoney.reverse()
         this.hkStkSzMoney = hkStkSzMoney.reverse()
     },
-    drawEcharts(xData,blueLine,redLine) {
+    drawEcharts(xData,blueLine,redLine) { // 图表
+      const that = this
       if (this.chart !== null && this.chart !== '' && this.chart !== undefined) {
         this.chart.dispose();
       }
@@ -399,17 +401,17 @@ export default {
         })
         let millions = this.isMillions
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        // let remArr = []
-        // let flagTime = this.flagTime
+        
+        let flagTime = this.flagTime
         this.chart.setOption({
           legend: { // 右上角(图例)
             left: '20%',
-            top: '5px',
+            top: '13px',
             itemHeight : 1,
-            itemGap : 1,
+            itemGap : 10, // 图例之间间隔
             orient: 'vertical',
             selectedMode : false,
-            itemWidth : 10,
+            itemWidth : 15,
             textStyle: {
               color: '#808ba1'
             },
@@ -433,6 +435,7 @@ export default {
               type: 'line'
             },
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
           
@@ -479,14 +482,15 @@ export default {
               // showMinLabel : true,
               // showMaxLabel : true,
               interval: Math.ceil(xData.length/4),
-              align: 'center'
+              align: 'center',
+              padding : [0,0,0,10]
             },
             axisLine : { // 坐标轴轴线相关设置
               onZero : false
             },
             axisTick : { // 坐标轴刻度相关设置
-              show : true,
-              inside: true,
+              show : false,
+              inside: false,
               alignWithLabel: false
             },
             data: xData
@@ -496,20 +500,19 @@ export default {
             show: true,
             type: 'value',
             position: 'left',
-            interVal : 4,
+            // interval : Math.ceil(blueLine.length/0.3),
             axisTick : { // 坐标轴刻度相关设置
               show : false
             },
             axisLabel: {  // 坐标轴刻度的相关设置
-              formatter: function(val,index) {
-                let num = millions ? (val/10000).toFixed(2) :Math.round(val)
-                // if(millions && this.flagTime === 1) {
-                //   if(remArr.indexOf(num) === -1) {
-                //     remArr.push(num)
-                //   }
-                //   return remArr[index]
-                // }
-                 return num
+              formatter: function(val,index,msg) {
+                let num = null
+                if(millions && flagTime === 1) {
+                  num = ((val)/10000).toFixed(3)
+                }else {
+                  num = millions ? ((val)/10000).toFixed(2) : Math.round(val)
+                }
+                return num
               },
               color: '#808ba1'
             },
@@ -540,11 +543,11 @@ export default {
             scale: true,
             boundaryGap: true,
             showMinLabel :false,
-            showMaxLabel : true
+            showMaxLabel : false
           },{
             show: true,
             type: 'value',
-            interVal : 4,
+            // interval : Math.ceil(redLine.length/1),
             axisLabel: {  // 坐标轴刻度的相关设置
               formatter: function(val) {
                 return Math.round(Number(val))
@@ -562,11 +565,17 @@ export default {
                 color: '#2A2E36'
               }
             },
-            min : null,
-            max : null,
-            // splitNumber: 5,
-             scale: true // 是否必须包含0刻度，true不包含
-            // boundaryGap: false
+            min : function(val) {
+              return val.min
+            },
+            max : function(val) {
+              return val.max
+            },
+             splitNumber: 5,
+             scale: true, // 是否必须包含0刻度，true不包含
+             boundaryGap: true,
+             showMinLabel :false,
+             showMaxLabel : false
           }],
           series: [{
               yAxisIndex: 0,
@@ -597,7 +606,7 @@ export default {
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
-            width: '90%',
+            width: millions ? '90%' : '90%',
             height: '75%',
             left: '5%',
             top: '20%',
@@ -609,10 +618,45 @@ export default {
     },
     changeSyTab(e, dateNum) {
         this.flagTime = dateNum     
+    },
+    keyDown(ev) {
+    const that = this
+      // time && clearTimeout(time)
+    //  this.isMouseBool = false
+    //  let time = setTimeout(() => {
+    //       this.isMouseBool = true
+    //    },800)
+     if(this.chart && event.keyCode === 37){
+            if(that.dataIndex !== 0) {
+                that.dataIndex = that.dataIndex - 1
+                this.chart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 0,// 第几条series
+                    dataIndex: that.dataIndex// 第几个tooltip
+                });
+            }
+        }else if(this.chart && event.keyCode === 39){
+            if(that.dataIndex !== 240) {
+                that.dataIndex = that.dataIndex + 1
+                this.chart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 0,// 第几条series
+                    dataIndex: that.dataIndex// 第几个tooltip
+                });
+            }
+        }
+        
+    },
+    mouseOver(ev) {
+      if(this.isMouseBool === true) {
+        this.$refs.lineChart.focus()
+      }
+      
     }
   },
   mounted() {
     this.initPreferredStrategy()
+
     // this.autoUpdate()
   },
   destroyed() {
