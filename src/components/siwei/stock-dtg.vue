@@ -1020,6 +1020,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
+            triggerOn:'mousemove',
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
               if (zdCompareData.up[params[0].dataIndex][1] === null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null) {
