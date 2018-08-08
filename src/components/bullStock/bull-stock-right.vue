@@ -349,9 +349,10 @@ th {
     padding-left: 10px;
 }
 .ai-content {
-    padding: 26px 19px 23px;
+    padding: 26px 19px 40px;
     line-height: 20px;
     overflow-y: auto;
+    height: 100%;
 
 }
 .con-txt {
@@ -459,6 +460,9 @@ th {
 li.hoverli {
     color: $blueWordsColor;
 }
+.initWait {
+    top: -23px;
+}
 </style>
 <template>
 <div class="bull-stock-wrap">
@@ -549,6 +553,7 @@ li.hoverli {
       </table>
     </div>
   </div> -->
+
   <div class="ai-review">
     <div class="nav-title">
       <span class="fl">智能点评</span>
@@ -559,7 +564,10 @@ li.hoverli {
         <em class="copy_icon" ref='copyicon' title="复制分享链接"></em>
       </div>
     </div>
-    <div class="ai-content" ref='copytext' v-html="checkBr(smartEvaluate)" :class="smartEvaluate===''?'ai-content-no':''">
+    <StockInit startTime='9:00' endTime='9:30' @propShow="getShow" v-if='isShow'>
+      <img src="../../assets/images/icons/wait-cup.png" alt="">
+    </StockInit>
+    <div class="ai-content" ref='copytext' v-html="checkBr(smartEvaluate.content)" :class="smartEvaluate===''?'ai-content-no':''" v-else>
 
     </div>
   </div>
@@ -634,6 +642,8 @@ import {
 } from 'vuex'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
+import StockInit from 'components/siwei/stock-init'
+
 // import {
 //   formatDate
 // } from 'utils/date'
@@ -658,13 +668,15 @@ export default {
       activeColor: 0,
       time: '',
       countText: true,
-      closeText: false
+      closeText: false,
+      isShow: true
 
     }
   },
   props: ['browseIndex'],
   components: {
-    toast
+    toast,
+    StockInit
   },
   computed: mapState({
     // stockStyle: state => state.bullStock.stockStyle,
@@ -780,9 +792,6 @@ export default {
       var nowMonth = this.zero(now.getMonth() + 1);
       var nowDay = this.zero(now.getDate());
       var newDate = nowYear + nowMonth + nowDay
-      // console.log(nowYear)       
-      // console.log(nowMonth)       
-      // console.log(nowDay)     
 
       this.$store.dispatch('bullStock/queryCheckTradeDate', {
         date: newDate
@@ -792,12 +801,6 @@ export default {
       })
     },
     getLeaveTime() {
-      // this.updateTime = setInterval(() => {
-      //     this.time = new Date()
-
-      // }, 1000)
-      //  var time = formatDate('9:00', 'hh:mm')
-      // console.log(time.getTime())
       var date = new Date().getTime();
       var fiveMinute = 5 * 60 * 1000
       var nowTime = Math.ceil((fiveMinute - date % fiveMinute) / 1000)
@@ -830,7 +833,7 @@ export default {
 
         }
         var inTime = this.timeRange('9:30', '11:30');
-        var inTime2 = this.timeRange('13:00', '15:00')
+        var inTime2 = this.timeRange('13:00', '18:00')
 
         if (inTime || inTime2) {
           this.countText = true
@@ -848,6 +851,11 @@ export default {
         this.closeText = true
         //  this.$refs.timer.innerHTML = '休市中';
       }
+    },
+    getShow(msg) {
+      this.$nextTick(() => {
+        this.isShow = msg
+      })
     },
     checkContinu(num) {
       if (num > 0) {
@@ -940,18 +948,9 @@ export default {
       this.$store.dispatch('bullStock/queryTopicAndIndustry', {
         browseIndex: this.browseIndex
       });
-    } // ,
-    // time() {
-    //   let time = formatDate(this.time, 'hh:mm')
-    //   if (time === '9:35' || time === '16:30') {
-    //     this.getCode()
-    //   }
-    // }
+    }
   },
   mounted() {
-    // this.updateTime = setInterval(() => {
-    //   this.time = new Date()
-    // }, 1000)
     // this.initStyle()
     this.init()
     this.initEvaluate()
