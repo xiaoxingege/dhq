@@ -950,7 +950,7 @@ ol li {
         </div>
         <div class="left-con3 clearfix">
           <div class="right-top right-top2"><strong>相关资讯</strong></div>
-          <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="informatList.length>0">
+          <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="!showInitBox">
             <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
               <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom" target="_blank">
                 <span class="fl assess" :class="checkAssessBg(infor.postiveIndex)" v-if="infor.postiveIndex!==null">{{checkAssessTxt(infor.postiveIndex)}}</span>
@@ -962,7 +962,7 @@ ol li {
             </a>
 
           </div>
-          <div class="in-content-no" :style="{  height: (fullHeight1+36) + 'px' }" v-if="informatList.length<=0">
+          <div class="in-content-no" :style="{  height: (fullHeight1+36) + 'px' }" v-else>
             <!-- <a class="clearfix in-content-b" >
                暂无相关资讯
                </a> -->
@@ -1083,7 +1083,8 @@ export default {
       iconHelpMsg: '',
       iconHelpMsgUdown: '题材涨跌幅通过成份股的流通市值加权平均涨跌幅计算而来，再通过∏(1+r',
       iconHelpMsgHeat: '题材热度通过题材的涨跌幅、近1周涨跌幅、成份股上涨数量占比，并叠加一定的全局惩罚参数和单个题材惩罚参数加权平均计算而来，完全从技术层面评价题材热度。',
-      iconHelpMsgPublic: '题材舆情通过监听全网财经新闻、董秘问答、社区讨论数据等，采用文本挖掘算法、图算法等相关理论计算题材关注度，并通过成份股的舆情做进一步修正，完全从舆情层面评价题材。'
+      iconHelpMsgPublic: '题材舆情通过监听全网财经新闻、董秘问答、社区讨论数据等，采用文本挖掘算法、图算法等相关理论计算题材关注度，并通过成份股的舆情做进一步修正，完全从舆情层面评价题材。',
+      showInitBox :false
 
     }
   },
@@ -1523,9 +1524,16 @@ export default {
       /* console.log(this.stockData.stockList)*/
     },
     initInformatList() {
-      this.$store.dispatch('topic/queryInformatList', {
+      this.$store.dispatch('topic/queryInformatList', { // 记录 记录记录记录
         topicCode: this.topicCode,
         inforPageSize: this.inforPageSize
+      }).then(() => {
+        if(this.informatList.data.data.length !== 0) {
+          this.showInitBox = true
+        }else {
+          this.showInitBox = false
+        }
+        
       })
     },
     enterNumberTopic(e, innerCode) {
