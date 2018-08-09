@@ -697,7 +697,10 @@ export default {
       this.$store.dispatch('bullStock/queryStockStyleNew')
     },
     initEvaluate() {
-      this.$store.dispatch('bullStock/querySmartEvaluate')
+      this.$store.dispatch('bullStock/querySmartEvaluate').then(() => {
+        // this.getDate = this.tradeDate
+        this.getCode()
+      })
     },
     // initTopicAndIndustry() {
     //   if (this.browseIndex) {
@@ -728,14 +731,14 @@ export default {
       })
       clipboard.on('success', (e) => {
         this.toastmsg = '复制成功!'
-        this.showToast = true
+        // this.showToast = true
         setTimeout(() => {
           this.showToast = false
         }, 2500)
       })
       clipboard.on('error', (e) => {
         this.toastmsg = '复制失败!'
-        this.showToast = true
+        // this.showToast = true
         setTimeout(() => {
           this.showToast = false
         }, 2500)
@@ -797,11 +800,11 @@ export default {
         date: newDate
       }).then(() => {
         // this.getDate = this.tradeDate
-        this.getCode()
+        // this.getCode()
       })
     },
     getLeaveTime() {
-      var date = new Date().getTime();
+      var date = new Date(this.smartEvaluate.time).getTime();
       var fiveMinute = 5 * 60 * 1000
       var nowTime = Math.ceil((fiveMinute - date % fiveMinute) / 1000)
       // // var hour = date.getHours();
@@ -816,24 +819,25 @@ export default {
       }
     },
     getCode() {
-      console.log(this.getLeaveTime())
-
+      //  console.log(this.getLeaveTime())
+      const TIME_COUNT = this.getLeaveTime();
+      this.count = TIME_COUNT;
       if (!this.timer) this.timer = setInterval(this.timerHandler, 1000);
+
     },
     timerHandler() {
       if (this.tradeDate === true) {
         // console.log(this.tradeDate)
-        const TIME_COUNT = this.getLeaveTime();
-        this.count = TIME_COUNT;
-        // console.log(this.count)
+
         this.count--;
-        if (this.count === 0) {
+        //  console.log(this.count)
+        if (this.count <= 0) {
           this.initEvaluate()
           this.count = 300;
 
         }
         var inTime = this.timeRange('9:30', '11:30');
-        var inTime2 = this.timeRange('13:00', '18:00')
+        var inTime2 = this.timeRange('13:00', '15:00')
 
         if (inTime || inTime2) {
           this.countText = true
@@ -958,13 +962,13 @@ export default {
     this.initTradeDate()
     this.copyText()
     // this.getCode()   
-    // var _this = this
-    // this.updateTopicandIndu = setInterval(function() {
-    //   _this.initTopicAndIndustry()
-    // }, 60000)
+    var _this = this
+    this.updateStyle = setInterval(function() {
+      _this.init()
+    }, 6000)
   },
   destroyed() {
-    // this.updateTime && clearInterval(this.updateTime)
+    this.updateStyle && clearInterval(this.updateStyle)
     this.timer && clearInterval(this.timer)
   }
 }
