@@ -822,6 +822,18 @@ export default {
       //  console.log(this.getLeaveTime())
       const TIME_COUNT = this.getLeaveTime();
       this.count = TIME_COUNT;
+      var inTime = this.timeRange('9:30', '11:30');
+      var inTime2 = this.timeRange('13:00', '15:00')
+      if (inTime || inTime2) {
+        this.countText = true
+        this.closeText = false
+
+      } else {
+        this.countText = false
+        this.closeText = true
+        // this.$refs.timer.innerHTML = '休市中';
+
+      }
       if (!this.timer) this.timer = setInterval(this.timerHandler, 1000);
 
     },
@@ -838,7 +850,6 @@ export default {
         }
         var inTime = this.timeRange('9:30', '11:30');
         var inTime2 = this.timeRange('13:00', '15:00')
-
         if (inTime || inTime2) {
           this.countText = true
           this.closeText = false
