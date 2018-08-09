@@ -27,7 +27,7 @@ html {
 }
 
 .newMain {
-    line-height: 20px;
+    line-height: 24px;
     text-indent: 2em;
     color: #666;
     font-size: 14px;
@@ -52,6 +52,14 @@ html {
     .showA:hover{
         background-image: url("../assets/images/z3img/A+.png");
     }
+    .hideA{
+      width: 19px;
+      height:12px;
+      cursor: default;
+      margin-top: 2px;
+      background-image: url("../assets/images/z3img/A+gray.png");
+      background-repeat: no-repeat;
+    }
     .showB{
         width: 19px;
         height:12px;
@@ -62,6 +70,14 @@ html {
     }
     .showB:hover{
         background-image: url("../assets/images/z3img/hoverA-.png");
+    }
+    .hideB{
+      width: 19px;
+      height:12px;
+      cursor: default;
+      margin-top: 2px;
+      background-image: url("../assets/images/z3img/A-gray.png");
+      background-repeat: no-repeat;
     }
 }
 
@@ -172,8 +188,8 @@ html {
         <a @click="toStock(item.innerCode)" v-for="item in result.equityList" class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span>
       <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-15">相关题材：
         <router-link :to="{ name:'topicDetail' , params:{ topicId : item.topicCode }}" target="_blank" class="mr-15" v-for="item in result.topicList">{{item.topicName}}</router-link></span>
-        <span @click="changeFontSize('add')" class="showA"></span>
-        <span @click="changeFontSize('desc')" class="showB"></span>
+        <span @click="changeFontSize('add')" :class="showA ? 'showA' : 'hideA'"></span>
+        <span @click="changeFontSize('desc')" :class="showB ? 'showB' : 'hideB'"></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
     <span class="moreNews" v-if="moreInfor && moreInfor.length !== 0">更多相关资讯</span>
@@ -293,6 +309,9 @@ export default {
       this.type = this.$route.params.detailType
       this.getDetailPages()
       this.$router.go(0)
+    },
+    defaultFontSize:function () {
+        localStorage.setItem('fontSize', String(this.defaultFontSize));
     }
   },
   methods: {
@@ -356,24 +375,44 @@ export default {
             if(this.defaultFontSize === 12){
                 this.defaultFontSize = 14
                 mainText.style.fontSize = this.defaultFontSize+'px'
+                this.showB = true
             }else if(this.defaultFontSize === 14){
                 this.defaultFontSize = 16
                 mainText.style.fontSize = this.defaultFontSize+'px'
+                this.showA = false
+                this.showB = true
+            }else {
+                return
             }
         }else if(text === 'desc') {
             if(this.defaultFontSize === 16){
                 this.defaultFontSize = 14
                 mainText.style.fontSize = this.defaultFontSize+'px'
+                this.showA = true
             }else if(this.defaultFontSize === 14){
                 this.defaultFontSize = 12
                 mainText.style.fontSize = this.defaultFontSize+'px'
+                this.showB = false
+                this.showA = true
             }
+        }else {
+            return
         }
     }
-
   },
   mounted() {
     this.getDetailPages()
+    if(localStorage.getItem('fontSize')) {
+        this.defaultFontSize = Number(localStorage.getItem('fontSize'))
+        if(this.defaultFontSize === 16){
+            this.showA = false
+            this.showB = true
+        }else if(this.defaultFontSize === 12){
+            this.showA = true
+            this.showB = false
+        }
+        document.getElementsByClassName('newMain')[0].style.fontSize = this.defaultFontSize + 'px'
+    }
   }
 }
 </script>

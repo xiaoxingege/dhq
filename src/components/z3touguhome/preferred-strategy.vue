@@ -381,8 +381,8 @@ export default {
       data && data.forEach((item) => {
         if(item.hkStkShMoney !== null || item.hkStkSzMoney !== null) {
           southDate.push(item.tradeDate) // 南向日期
-          item.hkStkShMoney && hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
-          item.hkStkSzMoney && hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
+          hkStkShMoney.push(item.hkStkShMoney)  // 港股通(沪)资金(亿元)
+          hkStkSzMoney.push(item.hkStkSzMoney)  // 港股通(深)资金(亿元)
         }
         })
         this.southDate = southDate.reverse()
@@ -434,7 +434,6 @@ export default {
             },
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
-              console.log(params)
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                   let seriesName = params[i].seriesName
