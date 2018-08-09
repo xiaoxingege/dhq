@@ -942,7 +942,7 @@ ol li {
           <div class="con1-ti box-flex-1">
             <strong>行业简介：</strong>
             <!-- <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> -->
-            <span class="tip-1">{{cutStr(checkNull(detail.induDesc)+'',201)}}<i>{{checkNull(detail.induDesc)}}</i></span>
+            <span class="tip-1">{{cutStr(checkNull(detail.induDesc)+'',201)}}<i v-if="strLen((detail.topicDesc)+'')>200">{{checkNull(detail.induDesc)}}</i></span>
             <!-- </router-link> -->
           </div>
           <!-- <div class="con1-event box-flex-1">
@@ -1087,7 +1087,7 @@ export default {
       iconHelpMsgUdown: '行业涨跌幅通过成份股的流通市值加权平均涨跌幅计算而来，再通过∏(1+r',
       iconHelpMsgHeat: '行业热度通过行业的涨跌幅、近1周涨跌幅、成份股上涨数量占比，并叠加一定的全局惩罚参数和单个行业惩罚参数加权平均计算而来，完全从技术层面评价行业热度。',
       iconHelpMsgPublic: '行业舆情通过监听全网财经新闻、董秘问答、社区讨论数据等，采用文本挖掘算法、图算法等相关理论计算行业关注度，并通过成份股的舆情做进一步修正，完全从舆情层面评价行业。',
-      showInitBox : false
+      showInitBox: false
 
 
     }
@@ -1508,9 +1508,9 @@ export default {
         induCode: this.induCode,
         inforPageSize: this.inforPageSize
       }).then(() => {
-         if(this.informatList.data.data.length !== 0) {
+        if (this.informatList.data.data.length !== 0) {
           this.showInitBox = true
-         }else {
+        } else {
           this.showInitBox = false
         }
       })
@@ -2067,6 +2067,25 @@ export default {
     },
     cutStr(str, len) {
       return cutString(str, len)
+    },
+    strLen(str, len) {
+      // length属性读出来的汉字长度为1
+      if (str.length * 2 <= len) {
+        return str
+      }
+      var strlen = 0
+      var s = ''
+      for (var i = 0; i < str.length; i++) {
+        s = s + str.charAt(i)
+        if (str.charCodeAt(i) > 128) {
+          strlen = strlen + 2
+
+        } else {
+          strlen = strlen + 1
+
+        }
+      }
+      return strlen
     },
     updateStock(stock) {
       this.$store.commit('industry/UPDATE_TOPIC_RELSTOCK', stock)
