@@ -11,7 +11,7 @@
   </StockList>
   <div class="bullChartHeader clearfix">
     浏览指标：<select v-model="bullSelected" @change="changeSelect">
-      <option value="heatIndex">热度指数</option>
+      <option value="techIndex">热度指数</option>
       <option value="chngPct">涨跌幅</option>
       <option value="keepDaysToday">连续涨跌天数</option>
     </select>
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <div class="bullLegend clearfix" v-if="bullSelected === 'heatIndex'">
+  <div class="bullLegend clearfix" v-if="bullSelected === 'techIndex'">
     <ul class="clearfix fr">
       <li v-for="item in valueRangeHeat" :style="{background:showColor(colors[bullSelected], ranges[bullSelected],item)}">{{item}}
       </li>
@@ -75,13 +75,13 @@ export default {
       cnodition:'',
       mapCondition:'chg_pct',
       colors: {
-        // 'heatIndex': colorsList.slice().reverse().slice(20),
-        'heatIndex': colorsList.slice().reverse(),
+        // 'techIndex': colorsList.slice().reverse().slice(20),
+        'techIndex': colorsList.slice().reverse(),
         'chngPct': colorsList.slice().reverse(),
         'keepDaysToday': colorsList.slice().reverse()
       },
       ranges: {
-        'heatIndex': valueRangeHeat,
+        'techIndex': valueRangeHeat,
         'chngPct': valueRangePct,
         'keepDaysToday': valueRangeDay
       },
@@ -136,7 +136,7 @@ export default {
                     if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                         if(that.bullSelected === 'chngPct'){
                             stock.perfText = (stock.perf >= 0 ? '+' : '') + Number(stock.perf).toFixed(2) +'%'
-                        }else if(that.bullSelected === 'heatIndex'){
+                        }else if(that.bullSelected === 'techIndex'){
                             stock.perfText = Math.ceil(stock.perf)
                         }else if(that.bullSelected === 'keepDaysToday'){
                             stock.perfText = stock.perf+'天'
@@ -163,7 +163,7 @@ export default {
         }
     }),
     visualMin: function() {
-      if (this.bullSelected === 'heatIndex') {
+      if (this.bullSelected === 'techIndex') {
         const range = this.ranges[this.bullSelected];
         return range[0]
       }
@@ -387,15 +387,24 @@ export default {
                 show: true,
                 formatter: (params) => {
                   if (that.bullSelected === 'chngPct') {
-                    if (params.data[3] === null) {
+                    if (params.data[2] === null) {
                       return that.topicData[params.dataIndex].name + '\n\n' + '--'
                     }
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
-                  if (that.bullSelected === 'heatIndex') {
+                  if (that.bullSelected === 'techIndex') {
+                      if(params.data[2] === null){
+                          return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                      }
                     return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                   }
-                  return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                  if(that.bullSelected === 'keepDaysToday'){
+                      if (params.data[2] === null) {
+                          return that.topicData[params.dataIndex].name + '\n\n' + '-- 天'
+                      }
+                      return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                  }
+
                 }
               }
             },
@@ -454,18 +463,27 @@ export default {
             label: {
               normal: {
                 show: true,
-                formatter: (params) => {
-                  if (that.bullSelected === 'chngPct') {
-                    if (params.data[3] === null) {
-                      return that.topicData[params.dataIndex].name + '\n\n' + '--'
-                    }
-                    return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                  formatter: (params) => {
+                      if (that.bullSelected === 'chngPct') {
+                          if (params.data[2] === null) {
+                              return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                          }
+                          return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                      }
+                      if (that.bullSelected === 'techIndex') {
+                          if(params.data[2] === null){
+                              return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                          }
+                          return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                      }
+                      if(that.bullSelected === 'keepDaysToday'){
+                          if (params.data[2] === null) {
+                              return that.topicData[params.dataIndex].name + '\n\n' + '-- 天'
+                          }
+                          return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                      }
+
                   }
-                  if (that.bullSelected === 'heatIndex') {
-                    return that.industryData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
-                  }
-                  return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
-                }
               }
             },
             itemStyle: {
@@ -500,15 +518,24 @@ export default {
                         show: true,
                         formatter: (params) => {
                             if (that.bullSelected === 'chngPct') {
-                                if (params.data[3] === null) {
-                                    return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + '--'
+                                if (params.data[2] === null) {
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                                return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                             }
-                            if (that.bullSelected === 'heatIndex') {
-                                return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                            if (that.bullSelected === 'techIndex') {
+                                if(params.data[2] === null){
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                }
+                                return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                             }
-                            return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                            if(that.bullSelected === 'keepDaysToday'){
+                                if (params.data[2] === null) {
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '-- 天'
+                                }
+                                return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                            }
+
                         }
                     }
                 },
@@ -569,15 +596,24 @@ export default {
                         show: true,
                         formatter: (params) => {
                             if (that.bullSelected === 'chngPct') {
-                                if (params.data[3] === null) {
-                                    return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + '--'
+                                if (params.data[2] === null) {
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                                return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                             }
-                            if (that.bullSelected === 'heatIndex') {
-                                return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                            if (that.bullSelected === 'techIndex') {
+                                if(params.data[2] === null){
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                }
+                                return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                             }
-                            return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                            if(that.bullSelected === 'keepDaysToday'){
+                                if (params.data[2] === null) {
+                                    return that.topicData[params.dataIndex].name + '\n\n' + '-- 天'
+                                }
+                                return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                            }
+
                         }
                     }
                 },
@@ -615,7 +651,7 @@ export default {
               if(that.bullSelected === 'chngPct'){
                   that.condition = 'mkt_idx.cur_chng_pct'
                   that.mapCondition = 'chg_pct'
-              }else if(that.bullSelected === 'heatIndex'){
+              }else if(that.bullSelected === 'techIndex'){
                   that.condition = 'tech_index'
                   that.mapCondition = 'topic_market.tech_index'
 
@@ -700,7 +736,7 @@ export default {
               if(that.bullSelected === 'chngPct'){
                   that.condition = 'mkt_idx.cur_chng_pct'
                   that.mapCondition = 'chg_pct'
-              }else if(that.bullSelected === 'heatIndex'){
+              }else if(that.bullSelected === 'techIndex'){
                   that.condition = 'tech_index'
                   that.mapCondition = 'topic_market.tech_index'
 
@@ -783,7 +819,7 @@ export default {
               if(that.bullSelected === 'chngPct'){
                   that.condition = 'mkt_idx.cur_chng_pct'
                   that.mapCondition = 'chg_pct'
-              }else if(that.bullSelected === 'heatIndex'){
+              }else if(that.bullSelected === 'techIndex'){
                   that.condition = 'tech_index'
                   that.mapCondition = 'topic_market.tech_index'
 
@@ -866,7 +902,7 @@ export default {
               if(that.bullSelected === 'chngPct'){
                   that.condition = 'mkt_idx.cur_chng_pct'
                   that.mapCondition = 'chg_pct'
-              }else if(that.bullSelected === 'heatIndex'){
+              }else if(that.bullSelected === 'techIndex'){
                   that.condition = 'tech_index'
                   that.mapCondition = 'topic_market.tech_index'
 

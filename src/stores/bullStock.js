@@ -34,7 +34,7 @@ export default {
       if (result.errCode === 0) {
         for (var i = 0; i < result.data.topic_list.length; i++) {
           state.topicData[i] = {
-            heatIndex: result.data.topic_list[i].topicMarket.heatIndex,
+            techIndex: result.data.topic_list[i].topicMarket.techIndex,
             chngPct: result.data.topic_list[i].topicMarket.chngPct,
             keepDaysToday: result.data.topic_list[i].topicMarket.keepDaysToday,
             name: result.data.topic_list[i].topicName,
@@ -43,7 +43,7 @@ export default {
         }
         for (var j = 0; j < result.data.indu_list.length; j++) {
           state.industryData[j] = {
-            heatIndex: result.data.indu_list[j].induMarket.heatIndex,
+            techIndex: result.data.indu_list[j].induMarket.techIndex,
             chngPct: result.data.indu_list[j].induMarket.chngPct,
             keepDaysToday: result.data.indu_list[j].induMarket.keepDaysToday,
             name: result.data.indu_list[j].induName,
