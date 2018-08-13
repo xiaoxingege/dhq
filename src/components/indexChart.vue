@@ -157,8 +157,8 @@
         </div>
       </div>
       <div @mouseover="showAlert(0)" @mouseout="hideAlert(0)" class="chartInfo_bar clearfix">
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.upNum, total, 2)}"></div>
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.downNum, total, 2)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.upNum, total, 2, true)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.downNum, total, 2, true)}"></div>
       </div>
       <span class="info-alert">股票上涨/下跌数及占A股比例（去除停牌）</span>
     </div>
@@ -175,8 +175,8 @@
         </div>
       </div>
       <div @mouseover="showAlert(1)" @mouseout="hideAlert(1)" class="chartInfo_bar clearfix">
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitUpNum, total, 2)}"></div>
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitDownNum, total, 2)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitUpNum, total, 2, true)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitDownNum, total, 2, true)}"></div>
       </div>
       <span class="info-alert">股票涨停/跌停数及占A股比例（去除停牌）</span>
     </div>
@@ -194,8 +194,8 @@
         </div>
       </div>
       <div @mouseover="showAlert(2)" @mouseout="hideAlert(2)" class="chartInfo_bar clearfix">
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newHighNum, total, 2)}"></div>
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newLowNum, total, 2)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newHighNum, total, 2, true)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newLowNum, total, 2, true)}"></div>
       </div>
       <span class="info-alert">股价创60日新高/新低数及占A股比例（去除停牌）</span>
     </div>
@@ -213,8 +213,8 @@
         </div>
       </div>
       <div @mouseover="showAlert(3)" @mouseout="hideAlert(3)" class="chartInfo_bar clearfix">
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5UpNum, total, 2)}"></div>
-        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5DownNum, total, 2)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5UpNum, total, 2, true)}"></div>
+        <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5DownNum, total, 2, true)}"></div>
       </div>
       <span class="info-alert">股价上穿/下穿5日均线数及占A股比例（去除停牌）</span>
     </div>
@@ -1103,9 +1103,9 @@ export default {
         return false
       }
     },
-    toPercent(x, y, n) {
+    toPercent(x, y, n, isWidth) {
       if (y === 0 || x === null || x === 'null') {
-        return '--'
+          if(isWidth){ return '0%'; } else { return '--' }
       }
       return Number(x / y * 100).toFixed(n) + '%'
     },
