@@ -585,7 +585,13 @@ export default {
         state.stockLine = []
         let stockResult = []
         let lineResult = {}
-
+         if(result.data.isstop === true) {
+           // 停牌
+           timeline.forEach(function(k, v) {
+                state.stockLine.push([k, 500])
+           })
+          return
+         }
         for (let i = 0; i < result.data.dataArray.length; i++) {
           stockResult[result.data.dataArray[i].tradeMin] = result.data.dataArray[i].currentPx
         }
@@ -599,6 +605,7 @@ export default {
           }
         }
         timeline.forEach(function(k, v) {
+          console.log(lineResult[k])
           if (lineResult[k] !== undefined) {
             state.stockLine.push([k, lineResult[k]])
           } else {
