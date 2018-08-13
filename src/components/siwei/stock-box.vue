@@ -161,7 +161,7 @@ export default {
     margin: 0;
 }
 .bottomLeft > div {
-    margin-bottom: 7px;
+    margin-bottom: 3px;
 }
 .bottomLeft .bottomLeft-timeline {
     width: 100%;

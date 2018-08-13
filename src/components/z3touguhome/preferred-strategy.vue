@@ -154,7 +154,7 @@
           <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
           <li @click="changeSyTab($event,0)" :class="{active: flagTime ===0}">全部</li>
         </ul>
-     <div class="lineChart" ref="lineChart" @keydown="keyDown($event)" @mouseover="mouseOver($event)" tabindex="0"></div>
+     <div class="lineChart" ref="lineChart" @keydown="keyDown($event)" @mouseenter="mouseEnter($event)" tabindex="0"></div>
     </div>
   </div>
 </div>
@@ -555,7 +555,7 @@ export default {
              splitNumber: 5,
              scale: true, // 是否必须包含0刻度，true不包含
              boundaryGap: true,
-             showMinLabel :false,
+             showMinLabel : false,
              showMaxLabel : false
           }],
           series: [{
@@ -587,7 +587,7 @@ export default {
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
-            width: millions ? '90%' : '90%',
+            width: '90%',
             height: '75%',
             left: '5%',
             top: '20%',
@@ -602,7 +602,7 @@ export default {
     },
     keyDown(ev) {
     const that = this
-     if(this.chart && event.keyCode === 37){
+     if(this.chart && event.keyCode === 37) {
             if(that.dataIndex !== 0) {
                 that.dataIndex = that.dataIndex - 1
                 this.chart.dispatchAction({
@@ -611,7 +611,7 @@ export default {
                     dataIndex: that.dataIndex// 第几个tooltip
                 });
             }
-        }else if(this.chart && event.keyCode === 39){
+        }else if(this.chart && event.keyCode === 39) {
             if(that.dataIndex !== 240) {
                 that.dataIndex = that.dataIndex + 1
                 this.chart.dispatchAction({
@@ -623,7 +623,7 @@ export default {
         }
         
     },
-    mouseOver(ev) {
+    mouseEnter(ev) {
        this.$refs.lineChart.focus()
     }
   },
