@@ -491,7 +491,7 @@ export default {
             nameTextStyle : {
                fontSize: 12,
                align : 'left',
-               color : '#707d90',
+               color : '#707d90'
             },
             show: true,
             type: 'value',
