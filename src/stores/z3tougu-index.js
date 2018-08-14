@@ -20,6 +20,7 @@ export default {
     shenZRank: null,
     zXBRank: null,
     cYBRank: null,
+    sectorsData:null,
     topIndustry: [],
     hotTopic: [],
     preferredIndustryData: [],
@@ -91,10 +92,11 @@ export default {
     setSectorsData(state, options) {
       const result = options.result
       if (result.errCode === 0) {
-        state.zXBRank = result.data['2'] // 中小板
-        state.cYBRank = result.data['6'] // 创业板
-        state.shangZRank = result.data['SH'] // 上证A股
-        state.shenZRank = result.data['SZ'] // 深证A股
+          state.sectorsData = result.data
+          /*  state.zXBRank = result.data['2'] // 中小板
+            state.cYBRank = result.data['6'] // 创业板
+            state.shangZRank = result.data['SH'] // 上证A股
+            state.shenZRank = result.data['SZ'] // 深证A股*/
       }
     },
     setTopIndustry(state, options) {
