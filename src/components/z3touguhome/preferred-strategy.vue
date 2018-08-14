@@ -499,6 +499,7 @@ export default {
             data: xData
           },
           yAxis: [{
+<<<<<<< HEAD
             // name: Yname,
             // nameLocation : 'end',
             // nameTextStyle : {
@@ -507,6 +508,15 @@ export default {
             //    color : '#707d90',
             //    height: '100%'
             // },
+=======
+            name: Yname,
+            nameLocation : 'end',
+            nameTextStyle : {
+               fontSize: 12,
+               align : 'left',
+               color : '#707d90'
+            },
+>>>>>>> 4c39df583c7842746ca4805639e3763f7fdc2d55
             show: true,
             type: 'value',
             position: 'left',

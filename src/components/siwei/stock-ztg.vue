@@ -1369,12 +1369,12 @@ export default {
         cursor: default;
     }
     .line {
-        height: 18px;
+        height: 14px;
         width: 1px;
-        border-left: 1px solid #292C34;
+        border-left: 1px solid #4A525C;
         margin: 0 10px;
         position: relative;
-        top: 5px;
+        top: 3px;
         cursor: none;
     }
     .copy {
