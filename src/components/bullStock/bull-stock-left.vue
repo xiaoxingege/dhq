@@ -466,21 +466,21 @@ export default {
                   formatter: (params) => {
                       if (that.bullSelected === 'chngPct') {
                           if (params.data[2] === null) {
-                              return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                              return that.industryData[params.dataIndex].name + '\n\n' + '--'
                           }
-                          return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                          return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                       }
                       if (that.bullSelected === 'techIndex') {
                           if(params.data[2] === null){
-                              return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                              return that.industryData[params.dataIndex].name + '\n\n' + '--'
                           }
-                          return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                          return that.industryData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                       }
                       if(that.bullSelected === 'keepDaysToday'){
                           if (params.data[2] === null) {
-                              return that.topicData[params.dataIndex].name + '\n\n' + '-- 天'
+                              return that.industryData[params.dataIndex].name + '\n\n' + '-- 天'
                           }
-                          return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                          return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                       }
 
                   }
@@ -519,21 +519,21 @@ export default {
                         formatter: (params) => {
                             if (that.bullSelected === 'chngPct') {
                                 if (params.data[2] === null) {
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                    return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                                return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                             }
                             if (that.bullSelected === 'techIndex') {
                                 if(params.data[2] === null){
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                    return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                                return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                             }
                             if(that.bullSelected === 'keepDaysToday'){
                                 if (params.data[2] === null) {
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '-- 天'
+                                    return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + '-- 天'
                                 }
-                                return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                                return that.topicData.slice(12)[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                             }
 
                         }
@@ -597,21 +597,21 @@ export default {
                         formatter: (params) => {
                             if (that.bullSelected === 'chngPct') {
                                 if (params.data[2] === null) {
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                    return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
+                                return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                             }
                             if (that.bullSelected === 'techIndex') {
                                 if(params.data[2] === null){
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                                    return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + '--'
                                 }
-                                return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
+                                return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                             }
                             if(that.bullSelected === 'keepDaysToday'){
                                 if (params.data[2] === null) {
-                                    return that.topicData[params.dataIndex].name + '\n\n' + '-- 天'
+                                    return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + '-- 天'
                                 }
-                                return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
+                                return that.industryData.slice(12)[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                             }
 
                         }
