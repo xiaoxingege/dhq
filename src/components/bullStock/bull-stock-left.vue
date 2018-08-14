@@ -306,9 +306,17 @@ export default {
           if (tData[i][key] === null) {
             model.topicData[i][2] = 0
             model.topicData[i][3] = null
+              if(this.bullSelected === 'techIndex'){
+                  model.topicData[i][4] = 48
+              }else{
+                  model.topicData[i][4] = 0
+              }
+
           } else {
             model.topicData[i][2] = tData[i][key]
             model.topicData[i][3] = 0
+            model.topicData[i][4] = tData[i][key]
+
           }
 
         }
@@ -316,17 +324,24 @@ export default {
           if (iData[j][key] === null) {
             model.induData[j][2] = 0
             model.induData[j][3] = null
+              if(this.bullSelected === 'techIndex'){
+                  model.induData[j][4] = 48
+              }else{
+                  model.induData[j][4] = 0
+              }
+
           } else {
             model.induData[j][2] = iData[j][key]
             model.induData[j][3] = 0
+            model.induData[j][4] = iData[j][key]
           }
         }
 
         let dataT = model.topicData.map(function(item) {
-          return [item[1], item[0], item[2], item[3]];
+          return [item[1], item[0], item[2], item[3], item[4]];
         });
         let dataI = model.induData.map(function(item) {
-          return [item[1], item[0], item[2], item[3]];
+          return [item[1], item[0], item[2], item[3], item[4]];
         })
 
         let tBData = this.topicData.slice(12)
@@ -336,9 +351,16 @@ export default {
           if (tBData[i][key] === null) {
             model.topicBottomData[i][2] = 0
             model.topicBottomData[i][3] = null
+              if(this.bullSelected === 'techIndex'){
+                  model.topicBottomData[i][4] = 48
+              }else{
+                  model.topicBottomData[i][4] = 0
+              }
+
           } else {
             model.topicBottomData[i][2] = tBData[i][key]
             model.topicBottomData[i][3] = 0
+            model.topicBottomData[i][4] = tBData[i][key]
           }
 
         }
@@ -346,17 +368,24 @@ export default {
           if (iBData[j][key] === null) {
             model.induBottomData[j][2] = 0
             model.induBottomData[j][3] = null
+              if(this.bullSelected === 'techIndex'){
+                  model.induBottomData[j][4] = 48
+              }else{
+                  model.induBottomData[j][4] = 0
+              }
+
           } else {
             model.induBottomData[j][2] = iBData[j][key]
             model.induBottomData[j][3] = 0
+            model.induBottomData[j][4] = iBData[j][key]
           }
         }
 
         let dataTB = model.topicBottomData.map(function(item) {
-          return [item[1], item[0], item[2], item[3]];
+          return [item[1], item[0], item[2], item[3], item[4]];
         });
         let dataIB = model.induBottomData.map(function(item) {
-          return [item[1], item[0], item[2], item[3]];
+          return [item[1], item[0], item[2], item[3], item[4]];
         })
         this.chart = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[0]) || echarts.init(document.getElementsByClassName('themeBox')[0])
         this.chartB = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[1]) || echarts.init(document.getElementsByClassName('themeBox')[1])
@@ -426,7 +455,7 @@ export default {
             inRange: {
               color: this.colors[this.bullSelected] // colorsList.slice().reverse()
             },
-            dimension: 2
+            dimension: 4
           }]
         })
         this.industryChart.setOption({
@@ -441,7 +470,7 @@ export default {
             inRange: {
               color: this.colors[this.bullSelected]
             },
-            dimension: 2
+            dimension: 4
           }],
           grid: {
             height: '100%',
@@ -557,7 +586,7 @@ export default {
             inRange: {
               color: this.colors[this.bullSelected] // colorsList.slice().reverse()
             },
-            dimension: 2
+            dimension: 4
           }]
         })
         this.industryChartB.setOption({
@@ -572,7 +601,7 @@ export default {
                 inRange: {
                     color: this.colors[this.bullSelected]
                 },
-                dimension: 2
+                dimension: 4
             }],
             grid: {
                 height: '100%',
