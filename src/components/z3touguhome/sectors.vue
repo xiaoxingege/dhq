@@ -93,12 +93,22 @@
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
+      <tr v-for="item of nullArray" v-if="JSON.stringify(rankUp) === '{}'">
+        <td>{{item.name}}</td>
+        <td style="color:#c9d0d7;">{{item.price}}</td>
+        <td style="color:#c9d0d7;">{{item.stockChg}}</td>
+      </tr>
     </table>
     <table class="sectors-table">
       <tr v-for="(value,key) of rankDown">
         <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
+      </tr>
+      <tr v-for="item of nullArray" v-if="JSON.stringify(rankDown) === '{}'">
+        <td>{{item.name}}</td>
+        <td style="color:#c9d0d7;">{{item.price}}</td>
+        <td style="color:#c9d0d7;">{{item.stockChg}}</td>
       </tr>
     </table>
   </div>
@@ -123,8 +133,8 @@ export default {
       type: 'SHQuote',
       page: 0,
       size: 10,
-      rankUp: {},
-      rankDown: {},
+      rankUp: null,
+      rankDown: null,
       updateDataPid: null,
       intervalTime: 6
     }
@@ -142,6 +152,18 @@ export default {
     StockBox
   },
   computed: {
+    sectorsData(){
+        const sectorsData = this.$store.state.z3touguIndex.sectorsData // 上证A股
+        return sectorsData
+    },
+      nullArray(){
+        let arr = [];
+        const nullObj = { name:'--',price:'--',stockChg:'--' }
+        for(let i = 0; i<10; i++){
+            arr.push(nullObj)
+        }
+        return arr
+      },
     shangZRankData: function() {
       const shangZRankData = this.$store.state.z3touguIndex.shangZRank // 上证A股
       return shangZRankData
@@ -168,18 +190,23 @@ export default {
           size: this.size
         })
         .then(() => {
-          if (this.type === 'SHQuote') {
-            this.rankUp = this.shangZRankData['1']
-            this.rankDown = this.shangZRankData['-1']
-          } else if (this.type === 'SZQuote') {
-            this.rankUp = this.shenZRankData['1']
-            this.rankDown = this.shenZRankData['-1']
-          } else if (this.type === 'ZXQuote') {
-            this.rankUp = this.zXBRankData['1']
-            this.rankDown = this.zXBRankData['-1']
-          } else if (this.type === 'GMEQuote') {
-            this.rankUp = this.cYBRankData['1']
-            this.rankDown = this.cYBRankData['-1']
+          if(JSON.stringify(this.sectorsData) === '{}'){
+              this.rankUp = {}
+              this.rankDown = {}
+          }else{
+              if (this.type === 'SHQuote') {
+                  this.rankUp = this.sectorsData['SH']['1']
+                  this.rankDown = this.sectorsData['SH']['-1']
+              } else if (this.type === 'SZQuote') {
+                  this.rankUp = this.sectorsData['SZ']['1']
+                  this.rankDown = this.sectorsData['SZ']['-1']
+              } else if (this.type === 'ZXQuote') {
+                  this.rankUp = this.sectorsData['2']['1']
+                  this.rankDown = this.sectorsData['2']['-1']
+              } else if (this.type === 'GMEQuote') {
+                  this.rankUp = this.sectorsData['6']['1']
+                  this.rankDown = this.sectorsData['6']['-1']
+              }
           }
         })
     },

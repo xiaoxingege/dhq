@@ -110,7 +110,7 @@
 .syqxTab {
     position: absolute;
     right: 10.5%;
-    top: 14px;
+    top: 15px;
     z-index: 1;
     user-select : none;
 }
@@ -136,6 +136,12 @@
         padding-bottom: 0.1rem;
     }
 }
+@media (-webkit-min-device-pixel-ratio : 1.5),(min-device-pixel-ratio: 1.5) {
+    .syqxTab {
+      right: 13%;
+      top: 5px;
+  }
+}
 </style>
 <template>
 <div class="preferred-strategy-con">
@@ -148,7 +154,7 @@
   </div>
   <div class="preferred-strategy-table-wrap clearfix">
     <div style="position: relative; height:100%; width:100%;">
-        <ul class="syqxTab">
+        <ul class="syqxTab" ref="syqxTab">
           <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">1月</li>
           <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">6月</li>
           <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
@@ -398,20 +404,21 @@ export default {
           width: window.screen.width / 100 + 'rem',
           height: 2.1 + 'rem'
         })
-        let millions = this.isMillions
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        let flagTime = this.flagTime
+        let [millions,flagTime,devScreen] = [this.isMillions,this.flagTime,window.devicePixelRatio]
+    
         this.chart.setOption({
           legend: { // 右上角(图例)
             left: '20%',
-            top: '5%',
+            top: devScreen === 1.5 ? '2px' : '13px',
             itemHeight : 1,
-            itemGap : 10, // 图例之间间隔
+            itemGap :devScreen === 1.5 ? 5 :10, // 图例之间间隔
             orient: 'vertical',
             selectedMode : false,
             itemWidth : 15,
             textStyle: {
-              color: '#808ba1'
+              color: '#808ba1',
+              fontSize : 12
             },
             data: [{
               name: this.dataName,
@@ -424,14 +431,16 @@ export default {
           tooltip: { // 提示框
             show: true,
             trigger: 'axis', // 触发类型 axis(坐标轴触发)
-            padding: [10, 55, 10, 20],
+            padding: 10,
             textStyle: {
               align: 'left',
-              fontFamily: '微软雅黑'
+              fontFamily: '微软雅黑',
+              fontSize : 12
             },
             axisPointer: {
               type: 'line'
             },
+            confine: true, // 是否限制在图表内
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
               var s = params[0].name
@@ -478,6 +487,12 @@ export default {
           },
           yAxis: [{
             name: Yname,
+            nameLocation : 'end',
+            nameTextStyle : {
+               fontSize: 12,
+               align : 'left',
+               color : '#707d90',
+            },
             show: true,
             type: 'value',
             position: 'left',
@@ -496,10 +511,6 @@ export default {
                 return num
               },
               color: '#808ba1'
-            },
-            nameTextStyle: {
-              fontSize: 12,
-              color : '#707D90'
             },
             splitLine: {
               show: false,
@@ -628,6 +639,7 @@ export default {
     }
   },
   mounted() {
+    console.log(window.devicePixelRatio)
     this.initPreferredStrategy()
 
     // this.autoUpdate()
