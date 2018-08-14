@@ -110,7 +110,7 @@
 .syqxTab {
     position: absolute;
     right: 10.5%;
-    top: 15px;
+    top: 7px;
     z-index: 1;
     user-select : none;
 }
@@ -139,7 +139,7 @@
 @media (-webkit-min-device-pixel-ratio : 1.5),(min-device-pixel-ratio: 1.5) {
     .syqxTab {
       right: 13%;
-      top: 5px;
+      top: 7px;
   }
 }
 </style>
@@ -206,7 +206,8 @@ export default {
       southDate : [], // 南向资金x轴数据
       hkStkShMoney :[], // 港股通(沪)资金(亿元)
       hkStkSzMoney : [], // 港股通(深)资金(亿元)
-      isMillions : true
+      isMillions : true,
+      devScreen : window.devicePixelRatio || 1
     }
   },
   watch: {
@@ -357,8 +358,8 @@ export default {
         data && data.forEach((item) => {
           if(item.indexPrice !== null || item.marginBalance !== null) {
             tradeDate.push(item.tradeDate)  // 日期
-            item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
-            item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
+            indexPrice.push(item.indexPrice) // 上证指数
+            marginBalance.push(item.marginBalance)  // 两融余额
           }
         })
         this.indexPrice = indexPrice.reverse()
@@ -404,15 +405,27 @@ export default {
           width: window.screen.width / 100 + 'rem',
           height: 2.1 + 'rem'
         })
+        
+        let [millions,flagTime,devScreen] = [this.isMillions,this.flagTime,this.devScreen]
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        let [millions,flagTime,devScreen] = [this.isMillions,this.flagTime,window.devicePixelRatio]
-    
         this.chart.setOption({
+          title:{
+            show : true,
+            text : Yname,
+            left : 15,
+            top : 5,
+            textStyle : {
+              color : '#707d90',
+              fontSize : 12,
+              align: 'center',
+              fontWeight : 'normal'
+            }
+          },
           legend: { // 右上角(图例)
             left: '20%',
-            top: devScreen === 1.5 ? '2px' : '13px',
+            top: 6,
             itemHeight : 1,
-            itemGap :devScreen === 1.5 ? 5 :10, // 图例之间间隔
+            itemGap :devScreen === 1.5 ? 5 : 10, // 图例之间间隔
             orient: 'vertical',
             selectedMode : false,
             itemWidth : 15,
@@ -486,13 +499,14 @@ export default {
             data: xData
           },
           yAxis: [{
-            name: Yname,
-            nameLocation : 'end',
-            nameTextStyle : {
-               fontSize: 12,
-               align : 'left',
-               color : '#707d90'
-            },
+            // name: Yname,
+            // nameLocation : 'end',
+            // nameTextStyle : {
+            //    fontSize: 12,
+            //    align : 'left',
+            //    color : '#707d90',
+            //    height: '100%'
+            // },
             show: true,
             type: 'value',
             position: 'left',
@@ -639,7 +653,6 @@ export default {
     }
   },
   mounted() {
-    console.log(window.devicePixelRatio)
     this.initPreferredStrategy()
 
     // this.autoUpdate()
