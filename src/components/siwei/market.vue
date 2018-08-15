@@ -32,7 +32,7 @@
               <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
             </div>
             <div class="news" v-if="stock.moveRelaNewsId">
-              <span :class="stock.newsPostiveIndex > 1?'mark good':'mark bad'">{{stock.newsPostiveIndex > 1?'利好':'利空'}}</span>
+              <span :class='{"mark":true,"good":(stock.newsPostiveIndex === 2),"bad":(stock.newsPostiveIndex === 1),"normal":(stock.newsPostiveIndex === 0)}'>{{stock.newsPostiveIndex|newsMark}}</span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
             </div>
             <ul class='topics' v-if="stock.topicDataList && stock.topicDataList.length > 0">
@@ -63,7 +63,7 @@
                 <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
                 <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
               </div>
-              <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.newsPostiveIndex > 1?'mark good':'mark bad'">{{plate.newsPostiveIndex > 1?'利好':'利空'}}</span>
+              <div class="news" v-if="plate.moveRelaNewsId"><span :class='{"mark":true,"good":(plate.newsPostiveIndex === 2),"bad":(plate.newsPostiveIndex === 1),"normal":(plate.newsPostiveIndex === 0)}'>{{plate.newsPostiveIndex|newsMark}}</span>
                 <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
               </div>
               <table class="stockList">
@@ -274,6 +274,9 @@ export default {
     },
     simpleCode(code) {
       return code.substring(0, 6);
+    },
+    newsMark(value) {
+      return value === 2 ? "利好" : (value === 1 ? "利空" : "中性");
     }
   },
   methods: {
