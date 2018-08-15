@@ -34,6 +34,27 @@ function dealNull(arr, key) {
     }
     return arr.concat(apendArr)
 }
+function timelineNum(hours,mins){
+    let num = 0
+    if(hours >=9 && hours <=11){
+        if(hours === 9){
+            if( mins >= 30 ){ num = mins - 30 }else { num = 0 }
+        }else if(hours > 9){
+            if(hours === 11 && mins >=30){ num = 120 }else { num = ((hours-10)*60) +mins +30 }
+        }
+    }else if(hours >=13 && hours <15){
+        num = ((hours-10)*60) -60 +mins
+    }else{
+      if(hours >= 15 || (hours > 0 && hours < 9)){
+        num = 240
+      }else if(hours === 12){
+          num = 120
+      }
+    }
+    console.log(num)
+    return num
+}
+
 let beforenoon = autoTimeline('9:30', '11:30')
 let afternoon = autoTimeline('13:00', '15:00')
 beforenoon.splice(beforenoon.length - 1, 1)
@@ -107,7 +128,9 @@ export default {
       endValue: null
     },
     isInit: true,
-    stockLine: []
+    stockLine: [],
+    stockyAxis: [],
+    stockPrevClose: null
 
   },
   mutations: {
@@ -583,28 +606,39 @@ export default {
     setStockLine(state, result) {
       if (result.errCode === 0) {
         state.stockLine = []
-        let stockResult = []
-        let lineResult = {}
+        state.stockyAxis = []
+        state.stockPrevClose = result.data.prevClosePx
+        let date = new Date()
 
-        for (let i = 0; i < result.data.dataArray.length; i++) {
-          stockResult[result.data.dataArray[i].tradeMin] = result.data.dataArray[i].currentPx
-        }
+          if(result.data.isstop) {
+              for( let i = 0; i<timelineNum(date.getHours(),date.getMinutes()); i++){
+                  state.stockLine.push(result.data.prevClosePx)
+              }
+          }else{
+              let stockResult = []
+              let lineResult = {}
 
-        for (let key in stockResult) {
-          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
-          if (time === '11:30' || time === '13:00') {
-            lineResult['11:30/13:00'] = stockResult[key]
-          } else {
-            lineResult[time] = stockResult[key]
+              for (let i = 0; i < result.data.dataArray.length; i++) {
+                  stockResult[result.data.dataArray[i].tradeMin] = result.data.dataArray[i].currentPx
+                  state.stockyAxis.push(result.data.dataArray[i].currentPx)
+              }
+
+              for (let key in stockResult) {
+                  let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+                  if (time === '11:30' || time === '13:00') {
+                      lineResult['11:30/13:00'] = stockResult[key]
+                  } else {
+                      lineResult[time] = stockResult[key]
+                  }
+              }
+              timeline.forEach(function(k, v) {
+                  if (lineResult[k] !== undefined) {
+                      state.stockLine.push([k, lineResult[k]])
+                  } else {
+                      state.stockLine.push([k, null])
+                  }
+              })
           }
-        }
-        timeline.forEach(function(k, v) {
-          if (lineResult[k] !== undefined) {
-            state.stockLine.push([k, lineResult[k]])
-          } else {
-            state.stockLine.push([k, null])
-          }
-        })
       } else {
         state.stockLine = []
       }

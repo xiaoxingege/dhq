@@ -217,7 +217,7 @@
   </div>
   <LeadStock :rangeCode="rangeCode" :condition="condition" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock && !isEnlarge"></LeadStock>
   <div class="drag-wrap" ref="drag_wrap" v-show="!isEnlarge">
-    <img src="../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" v-z3-drag="{containment:'drag_wrap'}" />
+    <img src="../assets/images/stock-map/ball.png" alt="" class="ball" @mouseenter="inBall" @mouseleave="outBall" v-z3-drag="{containment:'drag_wrap'}" />
     <!-- <img src="../assets/images/stock-map/glowing-ball.png" alt="" class="focus-ball" @mouseover="showLeadStockBox" v-if="isShowWholeBall"/> -->
   </div>
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">

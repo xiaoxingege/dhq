@@ -110,7 +110,7 @@
 .syqxTab {
     position: absolute;
     right: 10.5%;
-    top: 14px;
+    top: 7px;
     z-index: 1;
     user-select : none;
 }
@@ -136,6 +136,12 @@
         padding-bottom: 0.1rem;
     }
 }
+@media (-webkit-min-device-pixel-ratio : 1.5),(min-device-pixel-ratio: 1.5) {
+    .syqxTab {
+      right: 13%;
+      top: 7px;
+  }
+}
 </style>
 <template>
 <div class="preferred-strategy-con">
@@ -148,7 +154,7 @@
   </div>
   <div class="preferred-strategy-table-wrap clearfix">
     <div style="position: relative; height:100%; width:100%;">
-        <ul class="syqxTab">
+        <ul class="syqxTab" ref="syqxTab">
           <li @click="changeSyTab($event,1)" :class="{active: flagTime ===1}">1月</li>
           <li @click="changeSyTab($event,2)" :class="{active: flagTime ===2}">6月</li>
           <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
@@ -200,7 +206,9 @@ export default {
       southDate : [], // 南向资金x轴数据
       hkStkShMoney :[], // 港股通(沪)资金(亿元)
       hkStkSzMoney : [], // 港股通(深)资金(亿元)
-      isMillions : true
+      isMillions : true,
+      devScreen : window.devicePixelRatio || 1,
+      dataIndex : 0
     }
   },
   watch: {
@@ -351,8 +359,8 @@ export default {
         data && data.forEach((item) => {
           if(item.indexPrice !== null || item.marginBalance !== null) {
             tradeDate.push(item.tradeDate)  // 日期
-            item.indexPrice !== null && indexPrice.push(item.indexPrice) // 上证指数
-            item.marginBalance !== null && marginBalance.push(item.marginBalance)  // 两融余额
+            indexPrice.push(item.indexPrice) // 上证指数
+            marginBalance.push(item.marginBalance)  // 两融余额
           }
         })
         this.indexPrice = indexPrice.reverse()
@@ -398,20 +406,33 @@ export default {
           width: window.screen.width / 100 + 'rem',
           height: 2.1 + 'rem'
         })
-        let millions = this.isMillions
+        
+        let [millions,flagTime,devScreen] = [this.isMillions,this.flagTime,this.devScreen]
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
-        let flagTime = this.flagTime
         this.chart.setOption({
+          title:{
+            show : true,
+            text : Yname,
+            left : 15,
+            top : 5,
+            textStyle : {
+              color : '#707d90',
+              fontSize : 12,
+              align: 'center',
+              fontWeight : 'normal'
+            }
+          },
           legend: { // 右上角(图例)
             left: '20%',
-            top: '5%',
+            top: 6,
             itemHeight : 1,
-            itemGap : 10, // 图例之间间隔
+            itemGap :devScreen === 1.5 ? 5 : 10, // 图例之间间隔
             orient: 'vertical',
             selectedMode : false,
             itemWidth : 15,
             textStyle: {
-              color: '#808ba1'
+              color: '#808ba1',
+              fontSize : 12
             },
             data: [{
               name: this.dataName,
@@ -424,14 +445,17 @@ export default {
           tooltip: { // 提示框
             show: true,
             trigger: 'axis', // 触发类型 axis(坐标轴触发)
-            padding: [10, 55, 10, 20],
+            padding: 10,
+            triggerOn : 'mousemove',
             textStyle: {
               align: 'left',
-              fontFamily: '微软雅黑'
+              fontFamily: '微软雅黑',
+              fontSize : 12
             },
             axisPointer: {
               type: 'line'
             },
+            confine: true, // 是否限制在图表内
             formatter: function(params) {
               that.dataIndex = params[0].dataIndex
               var s = params[0].name
@@ -477,7 +501,14 @@ export default {
             data: xData
           },
           yAxis: [{
-            name: Yname,
+            // name: Yname,
+            // nameLocation : 'end',
+            // nameTextStyle : {
+            //    fontSize: 12,
+            //    align : 'left',
+            //    color : '#707d90',
+            //    height: '100%'
+            // },
             show: true,
             type: 'value',
             position: 'left',
@@ -496,10 +527,6 @@ export default {
                 return num
               },
               color: '#808ba1'
-            },
-            nameTextStyle: {
-              fontSize: 12,
-              color : '#707D90'
             },
             splitLine: {
               show: false,
@@ -555,7 +582,7 @@ export default {
              splitNumber: 5,
              scale: true, // 是否必须包含0刻度，true不包含
              boundaryGap: true,
-             showMinLabel :false,
+             showMinLabel : false,
              showMaxLabel : false
           }],
           series: [{
@@ -587,7 +614,7 @@ export default {
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
-            width: millions ? '90%' : '90%',
+            width: '90%',
             height: '75%',
             left: '5%',
             top: '20%',
@@ -602,7 +629,7 @@ export default {
     },
     keyDown(ev) {
     const that = this
-     if(this.chart && event.keyCode === 37){
+     if(this.chart && event.keyCode === 37) {
             if(that.dataIndex !== 0) {
                 that.dataIndex = that.dataIndex - 1
                 this.chart.dispatchAction({
@@ -611,7 +638,7 @@ export default {
                     dataIndex: that.dataIndex// 第几个tooltip
                 });
             }
-        }else if(this.chart && event.keyCode === 39){
+        }else if(this.chart && event.keyCode === 39) {
             if(that.dataIndex !== 240) {
                 that.dataIndex = that.dataIndex + 1
                 this.chart.dispatchAction({

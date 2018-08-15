@@ -27,7 +27,7 @@
             </div>
             <div class="fr" style="margin-right: 5px" v-z3-updowncolor="item.moveSignalId -1.5">{{item.reasonShortLine}}</div>
           </div>
-          <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>{{item.title}}</div>
+          <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span><router-link :to="{name:'detailPages', params:{detailType:'news', id:item.moveRelaNewsId}}" target="_blank" class="news_tit">{{item.title}}</router-link></div>
           <ul class="topicStock clearfix">
             <li v-for="value in item.topicDataList" :value="value.topicCode" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
@@ -908,7 +908,7 @@ export default {
       const datetime = new Date();
       const hour = datetime.getHours();
       const minute = datetime.getMinutes();
-      if ((hour < 9 || hour === 9) && minute < 5) {
+      if (hour < 9 || (hour === 9 && minute < 5)) {
         let picd1 = setInterval(() => {
           that.$store.dispatch('bubbles/getBubblesLine', {
             type: 1,
@@ -1015,6 +1015,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../../assets/css/base.css';
+@import '../../assets/scss/style.scss';
 
 .con {}
 .ztgBox {
@@ -1125,5 +1126,11 @@ export default {
     color: #fff;
     margin-right: 4px;
     background-color: #ca4941;
+}
+.news_tit {
+  color: $wordsColorBase;
+}
+.news_tit:hover {
+  color: $blueWordsColor;
 }
 </style>

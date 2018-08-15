@@ -487,7 +487,7 @@ export default {
             },
             {
               text: '涨跌幅',
-              value: stock.yData !== null ? stock.yData + '%' : '--'
+              value: stock.yData !== null ? Number(stock.yData).toFixed(2) + '%' : '--'
             },
             {
               text: '绝对涨速',
