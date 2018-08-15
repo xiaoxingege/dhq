@@ -1,6 +1,6 @@
 <template>
 <div class="stock-kline">
-  <div class="ma"><span class="ma20">MA20：{{lastKData.ma20}}</span><span class="ma60">MA60：{{lastKData.ma60}}</span><span class="ma120">MA120：{{lastKData.ma120}}</span>
+  <div class="ma"><span class="ma20">MA20:{{lastKData.ma20}}</span><span class="ma60">MA60:{{lastKData.ma60}}</span><span class="ma120">MA120:{{lastKData.ma120}}</span>
     <div></div>
   </div>
   <div ref="chart" :style="{width:chartWidth+'px', height:chartHeight+'px'}"></div>
@@ -165,14 +165,14 @@ export default ({
           }
         },
         grid: [{
-            left: 35,
+            left: 45,
             right: 10,
             top: 35,
             height: '60%',
             show: false
           },
           {
-            left: 35,
+            left: 45,
             right: 10,
             bottom: 0,
             height: '15%',
@@ -242,6 +242,11 @@ export default ({
             },
             splitArea: {
               show: false
+            },
+            axisLabel: {
+              formatter: function(value) {
+                return Number(value).toFixed(2);
+              }
             },
             axisLine: {
               lineStyle: {
