@@ -163,7 +163,6 @@
      <div class="lineChart" ref="lineChart" @keydown="keyDown($event)" @mouseover="mouseOver($event)" tabindex="0"></div>
     </div>
   </div>
-  <ConsoleLayer></ConsoleLayer>
 </div>
 </template>
 <script>
@@ -175,7 +174,6 @@ import { mapState } from 'vuex'
 import {
   ctx
 } from '../../z3tougu/config'
-import ConsoleLayer from 'components/consoleMsg-layer'
 export default {
   props: [],
   data() {
@@ -224,8 +222,7 @@ export default {
   components: {
     NavBar,
     PositionBox,
-    DataTable,
-    ConsoleLayer
+    DataTable
   },
   computed: {
     ...mapState({
