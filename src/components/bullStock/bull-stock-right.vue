@@ -624,7 +624,7 @@ li.hoverli {
         <td v-z3-updowncolor="style.chng">{{style.chng | chngPct}}</td>
         <td class="progress-box2"><span class="progress2 redbg" :style="'width:'+ Math.ceil(Math.abs(style.value))+'%;'">{{Math.round(style.value)}}</span>
         </td>
-        <td>{{changeDate(style.tradeDate)||'--'}}</td>
+        <td>{{changeDate(style.startDate)||'--'}}</td>
       </tr>
       <tr v-if="stockStyleNew.length<=0" class="tr-no2 ">
         <td></td>
@@ -938,7 +938,11 @@ export default {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
     changeDate(time) {
-      return (time + '').substring(4, 6) + '.' + (time + '').substring(6, (time + '').length)
+      if (time === undefined) {
+        return '--'
+      } else {
+        return (time + '').substring(4, 6) + '.' + (time + '').substring(6, (time + '').length)
+      }
     },
     checkBr(val) {
       if (val === '' || val === null || val === undefined) {
