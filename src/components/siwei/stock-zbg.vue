@@ -908,7 +908,7 @@ export default {
       const datetime = new Date();
       const hour = datetime.getHours();
       const minute = datetime.getMinutes();
-      if ((hour < 9 || hour === 9) && minute < 5) {
+      if (hour < 9 || (hour === 9 && minute < 5)) {
         let picd1 = setInterval(() => {
           that.$store.dispatch('bubbles/getBubblesLine', {
             type: 1,
