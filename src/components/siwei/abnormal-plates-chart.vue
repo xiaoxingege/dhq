@@ -217,8 +217,9 @@ export default {
           },
           markPoint: {
             silent: false,
-            symbol: 'roundRect',
+            symbol: 'rect',
             symbolSize: [60, 30],
+            // symbolOffset:['50%',0],
             itemStyle: {
               normal: {
                 color: '#fff',
@@ -262,12 +263,15 @@ export default {
         const color = riseSpeed >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
         const markPointSize = 60 + (name.length - 4) * 10;
+        // 最后10分钟异动
+        const offsetX = this.timeline.indexOf(time) > 231 ? -markPointSize / 2 + 1 : 0;
         if (itemIndex !== 0) {
           // 如果coordY超过min max 则显示不出来，避免因为计算（四舍五入）导致超界，做-1操作。
           const coordY = riseSpeed >= 0 ? itemIndex + (interval / 2 - 1) : itemIndex - (interval / 2 - 1);
           let point = {
             coord: [time, coordY],
             symbolSize: [markPointSize, 20],
+            symbolOffset: [offsetX, 0],
             itemStyle: {
               normal: {
                 borderColor: color

@@ -454,6 +454,10 @@ export default {
     font-size: 12px;
 }
 .news-nav-top {
+    position:absolute;
+    top:0;
+    z-index:999;
+    width:100%;
     height: 26px;
     background-color: #1a1b1f;
     border: 1px solid #0d1112;
@@ -554,6 +558,7 @@ export default {
 }
 .news-list {
     position: relative;
+    margin-top: 30px;
     li {
         margin-bottom: 2px;
     }
