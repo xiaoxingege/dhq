@@ -128,7 +128,9 @@ export default {
       endValue: null
     },
     isInit: true,
-    stockLine: []
+    stockLine: [],
+    stockyAxis: [],
+    stockPrevClose: null
 
   },
   mutations: {
@@ -604,6 +606,8 @@ export default {
     setStockLine(state, result) {
       if (result.errCode === 0) {
         state.stockLine = []
+        state.stockyAxis = []
+        state.stockPrevClose = result.data.prevClosePx
         let date = new Date()
 
           if(result.data.isstop) {
@@ -616,6 +620,7 @@ export default {
 
               for (let i = 0; i < result.data.dataArray.length; i++) {
                   stockResult[result.data.dataArray[i].tradeMin] = result.data.dataArray[i].currentPx
+                  state.stockyAxis.push(result.data.dataArray[i].currentPx)
               }
 
               for (let key in stockResult) {

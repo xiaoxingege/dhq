@@ -34,7 +34,11 @@
                         </div>
                         <div class="fr" style="margin-right: 5px" v-z3-updowncolor="item.moveSignalId -1.5">{{item.reasonShortLine}}</div>
                     </div>
-                    <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>{{item.title}}</div>
+                    <div v-if="item.title" style="margin-bottom: 5px;">
+                        <span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span>
+                        <span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>
+                        <span class="markBox" v-if="item.moveSignalId === 0" style="background-color: #525a65">中性</span>
+                        <router-link :to="{name:'detailPages', params:{detailType:'news', id:item.moveRelaNewsId}}" target="_blank" class="news_tit">{{item.title}}</router-link></div>
                     <ul class="topicStock clearfix">
                         <li v-for="value in item.topicDataList" @dblclick="toThemeDetail(value.topicCode,$event)">
                             <div class="name">{{value.topicName}}</div>
@@ -49,7 +53,7 @@
                     <div class="mr-10 fl" v-if="String(item.tradeTime).length === 5">{{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)}}</div>
                     <div style="width:90%;" class="fl">
                         <span style="margin-right: 2px;"><a @click="toStockDetail(item.symbol)">{{item.name}}</a>涨停<span v-if="item.topicDataList[0]">,</span><span v-else>。</span></span>
-                        <span>{{item.limitUpDays === null ? '' : item.limitUpDays > 0 ? item.limitUpDays+'连板,' : '首板,'}}</span>
+                        <span>{{item.limitUpDays === null ? '' : item.limitUpDays > 1 ? item.limitUpDays+'连板,' : '首板,'}}</span>
                         <span v-if="item.topicDataList[0]">{{item.topicDataList[0].topicName + (item.topicDataList[0].topicName.indexOf('概念') > 0 ? '。':'概念。')}}</span>
                         <span v-if="item.title">{{'消息面，'+item.title+'。'}}</span>
                     </div>
@@ -1228,7 +1232,7 @@ export default {
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 @import '../../assets/css/base.css';
-
+@import '../../assets/scss/style.scss';
 .ztgBox {
     width: 100%;
     height: 100%;
@@ -1328,6 +1332,12 @@ export default {
     color: #fff;
     margin-right: 4px;
     background-color: #ca4941;
+}
+.news_tit {
+    color: $wordsColorBase;
+}
+.news_tit:hover {
+    color: $blueWordsColor;
 }
 
 .initWait {

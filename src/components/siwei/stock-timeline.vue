@@ -23,6 +23,18 @@ export default {
     }
   },
   methods: {
+    dealData(zeroArr) {
+          var r = []
+          if (typeof zeroArr === 'undefined') {
+              return r
+          }
+          for (var i = 0; i < zeroArr.length; i++) {
+              if (zeroArr[i]) {
+                  r.push(zeroArr[i])
+              }
+          }
+          return r
+      },
     autoTimeline(starts, ends) {
       var timeline = []
       var startHour = starts.split(':')[0] * 1
@@ -51,17 +63,25 @@ export default {
         afternoon[0] = '11:30/13:00'
         let timeline = beforenoon.concat(afternoon)
         let stockData = this.$store.state.bubbles.stockLine
+        let stockPrev = Number(this.$store.state.bubbles.stockPrevClose)
+        let stockyAxis = this.$store.state.bubbles.stockyAxis
+        let tmpMax = Math.max.apply(Math, this.dealData(stockyAxis))
+        let tmpMin = Math.min.apply(Math, this.dealData(stockyAxis))
+
+        let Dvalue = Math.abs(tmpMax - stockPrev) > Math.abs(tmpMin - stockPrev) ? Math.abs(tmpMax - stockPrev) : Math.abs(tmpMin - stockPrev)
+
 
         this.lineChart.setOption({
           grid: {
             left: 0,
-            top: 0,
-            bottom: 0,
+            top: 5,
+            bottom: 5,
             right: 0
           },
           calculable: true,
           xAxis: [{
             type: 'category',
+            show:false,
             axisLine: {
               lineStyle: {
                 color: '#343741',
@@ -90,6 +110,9 @@ export default {
           yAxis: [{
             type: 'value',
             scale: true,
+            show:false,
+            min: stockPrev - Dvalue,
+            max: stockPrev + Dvalue,
             axisLabel: {
               formatter: function(val) {
                 return val.toFixed(2)
@@ -114,7 +137,9 @@ export default {
             },
             axisTick: {
               show: false
-            }
+            },
+            splitNumber:4,
+            interval: 2 * Dvalue / 4
           }],
           series: [{
             name: '个股分时线',
