@@ -174,6 +174,7 @@ import { mapState } from 'vuex'
 import {
   ctx
 } from '../../z3tougu/config'
+// import ConsoleLayer from 'components/consoleMsg-layer'
 export default {
   props: [],
   data() {
@@ -457,6 +458,7 @@ export default {
             },
             confine: true, // 是否限制在图表内
             formatter: function(params) {
+              console.log(params)
               that.dataIndex = params[0].dataIndex
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
@@ -637,6 +639,11 @@ export default {
                     seriesIndex: 0,// 第几条series
                     dataIndex: that.dataIndex// 第几个tooltip
                 });
+                this.chart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 1,// 第几条series
+                    dataIndex: that.dataIndex// 第几个tooltip
+                });
             }
         }else if(this.chart && event.keyCode === 39) {
             if(that.dataIndex !== 240) {
@@ -644,6 +651,11 @@ export default {
                 this.chart.dispatchAction({
                     type: 'showTip',
                     seriesIndex: 0,// 第几条series
+                    dataIndex: that.dataIndex// 第几个tooltip
+                });
+                this.chart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 1,// 第几条series
                     dataIndex: that.dataIndex// 第几个tooltip
                 });
             }
