@@ -81,7 +81,7 @@ body {
     /* padding: 0 20px 20px 0; */
     /* padding-right: 20px;*/
     padding-bottom: 10px;
-    min-width: 1217px;
+    /* min-width: 1217px; */
 }
 span {
     color: #c9d0d7;
@@ -113,6 +113,7 @@ span {
     height: 100%;
     padding-top: 30px;
     overflow-y: auto;
+    min-width: 1217px;
 }
 .topic-num {
     margin-left: 6px;
