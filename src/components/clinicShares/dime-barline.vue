@@ -212,7 +212,6 @@ import echarts from 'echarts'
 /* import {
   formatDateStr
 } from 'utils/date' */
-import config from '../../z3tougu/config'
 export default ({
   props: ['innerCode', 'indexFace', 'statusType'],
   data() {
