@@ -265,8 +265,8 @@ th {
     width: 15px;
     height: 15px;
     background: url("../../assets/images/z3img/help.png") no-repeat;
-    position: relative;
-    left: 75px;
+    position: absolute;
+    left: 70px;
     top: 8px;
     cursor: pointer;
     z-index: 999;
