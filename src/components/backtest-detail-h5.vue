@@ -173,7 +173,7 @@ import Onelinebacktest from 'components/one-line-backtest'
 import Twobarbacktest from 'components/two-bar-backtest'
 import Onebarbacktest from 'components/one-bar-backtest'
 export default {
-  data () {
+  data() {
     return {
       navText1: [
         ['收益曲线图', 'syqxt'],
@@ -202,7 +202,7 @@ export default {
     goldResult: state => state.backtestDetailH5.strategyResult,
     backtestResult: state => state.backtestDetailH5.backtestResult,
     syqxtData: state => state.backtestDetailH5.syqxtData,
-    recommendData: function () {
+    recommendData: function() {
       if (this.goldResult === null) {
         return {
           choseStockData: null,
@@ -382,7 +382,7 @@ export default {
         }
       }
     },
-    sellConditionData: function () {
+    sellConditionData: function() {
       if (this.recommendData.sellConditiondata === null) {
         return {
           buyData: null,
@@ -441,7 +441,7 @@ export default {
         }
       }
     },
-    tradeParamData: function () {
+    tradeParamData: function() {
       if (this.recommendData.tradeParamsData === null) {
         return []
       } else {
@@ -456,7 +456,7 @@ export default {
         ]
       }
     },
-    tableData: function () {
+    tableData: function() {
       if (this.backtestResult === null || this.backtestResult === '') {
         return []
       } else {
@@ -480,11 +480,11 @@ export default {
     strategyIdData: state => state.backtestDetailH5.strategyIdData
   }),
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     }
   },
-  mounted () {
+  mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
 
     this.strategyId = this.$route.params.strategyId

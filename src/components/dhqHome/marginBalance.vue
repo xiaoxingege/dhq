@@ -81,7 +81,7 @@ export default {
               fontFamily: 'Microsoft YaHei',
               fontWeight: 400
             },
-            left: 50,
+            left: 6,
             top: 5
           },
           legend: {
@@ -126,7 +126,7 @@ export default {
           },
           grid: {
             left: 10,
-            top: 30,
+            top: 35,
             width: '95%',
             height: '80%',
             containLabel: true
@@ -251,12 +251,12 @@ export default {
     width: 100%;
 }
 .margin-balance-top {
-    height: 15%;
+    height: 11.5%;
     position: relative;
 }
 .margin-balance-chart {
     width: 100%;
-    height: 85%;
+    height: 88.5%;
 }
 .mb-help-img {
     width: 15px;

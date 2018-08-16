@@ -112,7 +112,7 @@ html {
 </style>
 <template>
 <div class="map" v-bind:class="{'map_pad':showCondition}">
-  <div class="mask" :style="{height:maskHeight+'px'}" v-if="isShowMask"></div>
+  <div class="mask" :style="{height:maskHeight+'px'}" v-show="isShowMask"></div>
   <div class="condition_wrap clearfix" v-if="showCondition">
     <div class="tab-type clearfix">
       <span class="selected-color">个股</span>

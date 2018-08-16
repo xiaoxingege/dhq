@@ -55,13 +55,15 @@
 import echarts from 'echarts'
 import util from '../../dhq/util'
 export default {
-  props: ['isResizeBottomChart', 'stockCode', 'stockName', 'timestamp', 'stockCodeList'],
+  props: ['isResizeBottomChart', 'stockCode', 'stockName', 'stockCodeList'],
   data() {
     return {
       stockVal: null,
       upDown: null,
       upDownExtent: null,
-      userId: this.$store.state.user.userId
+      userId: this.$store.state.user.userId,
+      updateDataPid: null,
+      intervalTime: 3
     }
   },
   components: {},
@@ -203,9 +205,9 @@ export default {
               color: function(params) {
                 var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
                 if (cc > 0) {
-                  return '#ca4947'
+                  return '#fc2721'
                 } else if (cc < 0) {
-                  return '#56a870'
+                  return '#0bc846'
                 }
                 return '#fff'
               }
@@ -272,7 +274,7 @@ export default {
           name: '均值',
           itemStyle: {
             normal: {
-              color: '#f4b53c '
+              color: '#f4b53c'
             }
           },
           lineStyle: {
@@ -290,56 +292,29 @@ export default {
     },
     toZhiShu() {
       util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sy_zhishu&userId=' + this.userId, 'WT.ti', document.title)
-    }
-  },
-  watch: {
-    timestamp() {
-      const dpIndexData = this.$store.state.dhqIndex.dpIndexData
-      dpIndexData.forEach((stock) => {
-        if (stock.stockCode === this.stockCode) {
-          this.stockVal = stock.stockVal
-          this.upDown = stock.upDown
-          this.upDownExtent = stock.upDownExtent
-          return
-        }
-      })
-      this.refreshEcharts(this.lsChartData, this.stockName)
     },
-    isResizeBottomChart() {
-      echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
-        height: window.innerHeight * 0.34 < 710 * 0.34 ? 710 * 0.34 : window.innerHeight * 0.34
-      })
+    autoUpdate: function() {
+      if (this.updateDataPid) {
+        clearInterval(this.updateDataPid)
+      } else {
+        this.updateDataPid = setInterval(() => {
+          this.init()
+        }, 1000 * this.intervalTime)
+      }
     },
-    stockCode() {
-      const dpIndexData = this.$store.state.dhqIndex.dpIndexData
-      dpIndexData.forEach((stock) => {
-        if (stock.stockCode === this.stockCode) {
-          this.stockVal = stock.stockVal
-          this.upDown = stock.upDown
-          this.upDownExtent = stock.upDownExtent
-          return
-        }
-      })
+    init: function() {
       this.$store.dispatch('dhqIndex/getIndexChartData', {
         stockCode: this.stockCode
       }).then(() => {
+        this.stockVal = this.lsChartData.stockVal
+        this.upDown = this.lsChartData.upDown
+        this.upDownExtent = this.lsChartData.upDownExtent
         this.refreshEcharts(this.lsChartData, this.stockName)
       })
     }
   },
-  mounted() {
-    this.$store.dispatch('dhqIndex/getIndexChartData', {
-      stockCode: this.stockCode
-    }).then(() => {
-      /*  this.stockVal = this.$store.state.dhqIndex.chartData[this.stockCode].stockVal
-        this.upDown = this.$store.state.dhqIndex.chartData[this.stockCode].upDown
-        this.upDownExtent = this.$store.state.dhqIndex.chartData[this.stockCode].upDownExtent */
-      this.refreshEcharts(this.lsChartData, this.stockName)
-    })
-    this.$store.dispatch('dhqIndex/getDpIndexData', {
-        stockCode: this.stockCodeList.join()
-      })
-      .then(() => {
+  watch: {
+    /*  timestamp() {
         const dpIndexData = this.$store.state.dhqIndex.dpIndexData
         dpIndexData.forEach((stock) => {
           if (stock.stockCode === this.stockCode) {
@@ -349,7 +324,24 @@ export default {
             return
           }
         })
+        this.refreshEcharts(this.lsChartData, this.stockName)
+      },*/
+    isResizeBottomChart() {
+      echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
+        height: window.innerHeight * 0.34 < 710 * 0.34 ? 710 * 0.34 : window.innerHeight * 0.34
       })
+    },
+    stockCode() {
+      this.init()
+    }
+  },
+  mounted() {
+    this.init()
+    this.autoUpdate()
+  },
+  destroyed() {
+    // z3websocket.ws && z3websocket.ws.close()
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>

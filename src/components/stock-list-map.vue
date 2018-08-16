@@ -367,15 +367,15 @@ export default {
                 _this.stockDownNoGG++
               }
             }
-            /*  stock.chartData = _this.stockChartData[stock.name]
-              if (stock.chartData) {
-                const stockDetailLength = stock.chartData.length
-                if (stock.chartData[stockDetailLength - 1]) {
-                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-                } else {
-                  stock.price = '--'
-                }
-              }*/
+            /* stock.chartData = _this.stockChartData[stock.name]
+             if (stock.chartData) {
+               const stockDetailLength = stock.chartData.length
+               if (stock.chartData[stockDetailLength - 1]) {
+                 stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+               } else {
+                 stock.price = '--'
+               }
+             }*/
           })
           this.$nextTick(() => {
             let wrapHeight

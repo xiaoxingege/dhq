@@ -27,7 +27,7 @@ import {
 
 export default {
   props: ['msg'],
-  data () {
+  data() {
     return {
       toastshow: true
     }
@@ -35,7 +35,7 @@ export default {
   computed: mapState({
 
   }),
-  mounted () {}
+  mounted() {}
 
 }
 </script>

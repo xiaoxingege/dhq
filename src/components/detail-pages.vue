@@ -173,9 +173,9 @@ html {
 .noticeDiv .reportTime {
     margin: 0 25px;
 }
-    .fileNews{
-        padding-bottom: 20px;
-    }
+.fileNews {
+    padding-bottom: 20px;
+}
 </style>
 <template>
 <div class="news">
@@ -275,16 +275,16 @@ export default {
       })
       return con
     },
-      reformatNoticeContent: function() {
-        if(this.result && this.result.content){
-            const content =  this.result.content.split('\n')
-            let con = ''
-            content.forEach((p) => {
-                con += '<p>' + p + '</p>'
-            })
-            return con
-        }
-      },
+    reformatNoticeContent: function() {
+      if (this.result && this.result.content) {
+        const content = this.result.content.split('\n')
+        let con = ''
+        content.forEach((p) => {
+          con += '<p>' + p + '</p>'
+        })
+        return con
+      }
+    },
     urlId: function() {
       return this.$route.params.id
     },

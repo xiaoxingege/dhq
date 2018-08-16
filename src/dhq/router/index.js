@@ -1,13 +1,63 @@
+// 板块
+const ThemeIndex = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/theme-index')
+const TopicDetail = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/topic-detail')
+const IndustryIndex = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/industry-index')
+const IndustryDetail = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/industry-detail')
+const DetailPages = () =>
+  import ( /* webpackChunkName: "detail-pages" */ 'components/detail-pages')
+// 大盘云图
+const Map = () =>
+  import ( /* webpackChunkName: "map" */ 'components/z3tougu-map')
+const PlateMap = () =>
+  import ( /* webpackChunkName: "map" */ 'components/plate-map/plate-map-index')
+// 首页
 import DhqIndex from 'components/dhqHome/dhqIndex'
+import NewsList from 'components/dhqHome/newslist'
+// 工具-资讯
+const Replay = () =>
+  import ( /* webpackChunkName: "info" */ 'components/jjrl/replay')
+const Headline = () =>
+  import ( /* webpackChunkName: "info" */ 'components/headlines/headline')
+const DhqNews = () =>
+  import ( /* webpackChunkName: "info" */ 'components/dhq-news-detail')
+// 工具-决策
+const Jzxg = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/jzxg/jzxg')
+const TouguStudio = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/touguStudio/touguStudio')
+const TouguWorkspace = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/touguStudio/tougu-workspace')
+const SignalIndex = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/toolCenter/signal-index')
+const AireplayIndex = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/toolCenter/ai-replay-index')
+// 测试贯通页
+const TestNative = () =>
+  import ('components/test/test-native')
+/* import DhqIndex from 'components/dhqHome/dhqIndex'
 import NewsList from 'components/dhqHome/newslist'
 import TopicDetail from 'components/topic-detail'
 import IndustryDetail from 'components/industry-detail'
 import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
-
+import Jzxg from 'components/jzxg/jzxg'
+import Replay from 'components/jjrl/replay'
+import TouguStudio from 'components/touguStudio/touguStudio'
+import Map from 'components/z3tougu-map'
+import PlateMap from 'components/plate-map/plate-map-index'
+import TouguWorkspace from 'components/touguStudio/tougu-workspace'
+import Headline from 'components/headlines/headline'
+import SignalIndex from 'components/toolCenter/signal-index'
+import TestNative from 'components/test/test-native'
+import DhqNews from 'components/dhq-news-detail'
+import AireplayIndex from 'components/toolCenter/ai-replay-index'*/
+// import notOpenStock from 'components/jjrl/notOpenStock'
 // import Search from 'components/search'
-// import Map from 'components/z3tougu-map'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
 // import Siwei from 'components/siwei'
@@ -46,7 +96,6 @@ import DetailPages from 'components/detail-pages'
  import BullStockList from 'components/bull-stock-list'
 import BullStock from 'components/bullStock/bull-stock-index'
 import AutoinpBox from 'components/autoinp-box'
-import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
 import ClinicSharesIndex from 'components/clinicShares/clinic-shares-index'*/
@@ -56,7 +105,6 @@ import newsFlash from 'components/intelligence-info/news-flash'
 import newsOpportunities from 'components/intelligence-info/news-opportunities'
 import listedCompany from 'components/intelligence-info/listed-company'
 import zInfo from 'components/intelligence-info/z-info' */
-/* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 /* import SiweiIndex from 'components/siwei/siwei-index'
 import stockZtg from 'components/siwei/stock-ztg'
 import stockZbg from 'components/siwei/stock-zbg'
@@ -99,6 +147,21 @@ export default [{
     name: 'industryDetail',
     component: IndustryDetail
   },
+  {
+    path: ctx + '/jzxg',
+    name: 'jzxg',
+    component: Jzxg
+  },
+  {
+    path: ctx + '/jjrl',
+    name: 'replay',
+    component: Replay
+  },
+  /*   {
+      path: ctx + '/jjrl',
+      name: 'notOpenStock',
+      component: notOpenStock
+    }, */
   // {
   //   path: ctx + '/smartPool',
   //   name: 'smartPoolList',
@@ -123,7 +186,32 @@ export default [{
     path: ctx + '/detail-pages/:detailType/:id',
     name: 'detailPages',
     component: DetailPages
-  }
+  },
+  {
+    path: ctx + '/touguStudio',
+    name: 'touguStudio',
+    component: TouguStudio
+  },
+  {
+    path: ctx + '/tougu-workspace/:roomId',
+    name: 'touguWorkspace',
+    component: TouguWorkspace
+  },
+  {
+    path: ctx + '/headline',
+    name: 'headline',
+    component: Headline
+  },
+  {
+    path: ctx + '/signalIndex',
+    name: 'signalindex',
+    component: SignalIndex
+  },
+  {
+    path: ctx + '/aireplayIndex',
+    name: 'aireplayindex',
+    component: AireplayIndex
+  },
   /* {
      path: ctx + '/search-box',
      name: 'search-box',
@@ -134,10 +222,20 @@ export default [{
      name: 'search',
      component: Search
    },*/
-  /* {
+  {
     path: ctx + '/map',
     name: 'map',
     component: Map
+  },
+  {
+    path: ctx + '/plateMap',
+    name: 'plateMap',
+    component: PlateMap
+  },
+  {
+    path: ctx + '/testNative',
+    name: 'testNative',
+    component: TestNative
   },
   {
     path: ctx + '/map/fullScreen',
@@ -148,7 +246,16 @@ export default [{
     path: ctx + '/map/normal',
     name: 'normalMap',
     component: Map
-  }, */
+  },
+  {
+    path: ctx + '/dhqNews',
+    name: 'dhqNews',
+    component: DhqNews,
+    props: (route) => ({
+      iiid: route.query.id || '',
+      newsUrl: route.query.sourceUrl ? decodeURIComponent(route.query.sourceUrl) : ''
+    })
+  }
   /* {
      path: ctx + '/themeList',
      name: 'themelist',
@@ -334,12 +441,10 @@ export default [{
      path: ctx + '/test/autoinpBox',
      name: 'autoinpbox',
      component: AutoinpBox
-   },
-   {
-     path: ctx + '/plateMap',
-     name: 'plateMap',
-     component: PlateMap
-   },
+   }*/
+
+
+  /*
    {
      path: ctx + '/filterStrategyList',
      name: 'filterStrategyList',
@@ -441,5 +546,6 @@ export default [{
     name: 'stockMapOldNormal',
     component: StockMapOld
   } */
+
 
 ]

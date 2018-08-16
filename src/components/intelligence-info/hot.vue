@@ -6,8 +6,8 @@
       <a v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name" :href="'/stock/'+item.innerCode" target="_blank">{{item.name}}</a>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
       <div class="col hot-index">
-        <div class="full">
-          <div @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
+        <div class="full" @mouseover="showDialog(index)" @mouseout="closeDialog(index)">
+          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
           <div class="newsDialog" v-show="entitiesState[index]">
@@ -27,8 +27,8 @@
       <span @dblclick="search(item.showName)" class="col name" v-else>{{item.showName}}</span>
       <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
       <div class="col hot-index">
-        <div class="full">
-          <div @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
+        <div class="full" @mouseover="showDialog(index)" @mouseout="closeDialog(index)">
+          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
           <div class="newsDialog" v-show="entitiesState[index]">
@@ -56,8 +56,7 @@ export default {
   props: ['title', 'type'],
   data() {
     return {
-      entitiesState: [],
-      height: 0
+      entitiesState: []
     }
   },
   components: {
@@ -73,7 +72,7 @@ export default {
       }
       let size = 0;
       if (list.length > 0) {
-        const height = this.height;
+        const height = this.$refs.datalist.clientHeight;
         size = Math.floor(height / 30);
       }
       return list.slice(0, size);
@@ -96,14 +95,9 @@ export default {
     closeDialog(i) {
       let state = this.entitiesState;
       this.$set(state, i, false);
-    },
-    resize() {
-      this.height = this.$refs.datalist.clientHeight;
     }
   },
   mounted() {
-    window.addEventListener('resize', this.resize);
-    this.height = this.$refs.datalist.clientHeight;
     if (this.type === 'stock') {
       this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
         size: 20
@@ -125,7 +119,6 @@ export default {
     }
   },
   destroyed() {
-    window.removeEventListener('resize', this.resize);
     if (pcId) {
       clearInterval(pcId);
     }
@@ -135,15 +128,15 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/style.scss';
-// .fade-enter-active,
-// .fade-leave-active {
-//     transition: opacity 0.1s ease-out;
-// }
-//
-// .fade-enter,
-// .fade-leave-to {
-//     opacity: 0;
-// }
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.1s ease-out;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
 .newsDialog {
     position: absolute;
     top: 30px;
@@ -178,7 +171,7 @@ export default {
             content: '';
             position: absolute;
             left: 15px;
-            top: 10px;
+            top: 13px;
             width: 6px;
             height: 6px;
             background-color: #666;

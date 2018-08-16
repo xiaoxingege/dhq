@@ -143,7 +143,7 @@ export default {
                 fontFamily: 'Microsoft YaHei',
                 fontWeight: 400
               },
-              left: 50,
+              left: 6,
               top: 5
             },
             legend: {
@@ -186,7 +186,7 @@ export default {
             },
             grid: {
               left: 10,
-              top: 30,
+              top: 35,
               width: '95%',
               height: '80%',
               containLabel: true
@@ -297,7 +297,7 @@ export default {
                 fontFamily: 'Microsoft YaHei',
                 fontWeight: 400
               },
-              left: 50,
+              left: 6,
               top: 5
             },
             legend: {
@@ -474,12 +474,12 @@ export default {
     width: 100%;
 }
 .margin-balance-top {
-    height: 15%;
+    height: 11.5%;
     position: relative;
 }
 .chart-wrap {
     width: 100%;
-    height: 85%;
+    height: 88.5%;
     position: relative;
 }
 .margin-balance-chart {
@@ -488,7 +488,7 @@ export default {
 .timeTab {
     position: absolute;
     top: 5px;
-    left: 112px;
+    left: 70px;
     height: 24px;
     z-index: 1;
 }

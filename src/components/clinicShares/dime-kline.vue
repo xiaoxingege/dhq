@@ -496,7 +496,6 @@ export default ({
             type: 'line'
           },
           textStyle: {
-
             color: '#c9d0d7'
           },
           formatter: function(t) {

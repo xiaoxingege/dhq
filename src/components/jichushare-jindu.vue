@@ -45,13 +45,13 @@
 <template>
 <div class="jichushare-jindu">
   <div class="jindu">
-        <div class="up"><i :style="{width:shareTimes===0?'0':shareTimes===1?'30%':shareTimes===2?'70%':'100%'}"></i></div>
-        <div class="clearfix time">
-            <span class="fl">第1天</span>
-            <span class="fl">第2天</span>
-            <span class="fr">第3天</span>
-        </div>
+    <div class="up"><i :style="{width:shareTimes===0?'0':shareTimes===1?'30%':shareTimes===2?'70%':'100%'}"></i></div>
+    <div class="clearfix time">
+      <span class="fl">第1天</span>
+      <span class="fl">第2天</span>
+      <span class="fr">第3天</span>
     </div>
+  </div>
 </div>
 </template>
 <script>
@@ -60,14 +60,14 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {}
   },
   computed: mapState({
     shareTimes: state => state.jichushare.shareTimes,
     ssoid: state => state.user.ssoId
   }),
-  mounted () {
+  mounted() {
     if (this.ssoid) {
       this.$store.dispatch('jichushare/fetch')
     } else {

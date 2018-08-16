@@ -94,13 +94,13 @@
       </table>
     </div>
   </div>
-  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :timestamp="timestamp" :stockCodeList="stockCodeList"></DayMarketChart>
+  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :stockCodeList="stockCodeList"></DayMarketChart>
 </div>
 </template>
 <script>
 import NavBar from 'components/dhqHome/nav-bar'
 import DayMarketChart from 'components/dhqHome/daiyMarketChart'
-import z3websocket from '../../dhq/z3socket'
+// import z3websocket from '../../dhq/z3socket'
 import util from '../../dhq/util'
 import {
   ctx
@@ -114,7 +114,7 @@ export default {
     return {
       dpIndexList: [],
       updateDataPid: null,
-      intervalTime: 6,
+      intervalTime: 3,
       stockCodeList: ['000001.SH', '399001.SZ', '399006.SZ', '399005.SZ', '000300.SH', '000016.SH', '399905.SZ', '000985.SH'],
       stockCode: '000001.SH',
       stockName: '上证指数',
@@ -123,20 +123,20 @@ export default {
     }
   },
   watch: {
-    stockMessage() {
-      if (this.stockMessage) {
-        this.updateStock(this.stockMessage)
-      }
-    },
-    socketState() {
-      if (this.socketState === 1) {
-        // 建立连接
-        this.indexStock()
-      } else if (this.socketState === 3) {
-        // 断开连接，重新建立连接
-        this.$store.dispatch('z3sockjs/init')
-      }
-    }
+    /*  stockMessage() {
+        if (this.stockMessage) {
+          this.updateStock(this.stockMessage)
+        }
+      },*/
+    /*  socketState() {
+        if (this.socketState === 1) {
+          // 建立连接
+          this.indexStock()
+        } else if (this.socketState === 3) {
+          // 断开连接，重新建立连接
+          this.$store.dispatch('z3sockjs/init')
+        }
+      }*/
   },
   components: {
     NavBar,
@@ -156,33 +156,33 @@ export default {
         }
       }
       return arr
-    },
-    socketState: state => state.z3sockjs.readystate,
-    stockMessage: state => {
-      const msg = state.z3sockjs.message
-      if (msg && msg.data && msg.data.subject === 'timeline') {
-        const record = msg.data
-        return record
-      } else {
-        return null
-      }
     }
+    /* socketState: state => state.z3sockjs.readystate,
+     stockMessage: state => {
+       const msg = state.z3sockjs.message
+       if (msg && msg.data && msg.data.subject === 'timeline') {
+         const record = msg.data
+         return record
+       } else {
+         return null
+       }
+     }*/
   }),
   methods: {
-    indexStock() {
-      const msg = {
-        subject: 'timeline',
-        type: '1',
-        actionType: '1',
-        stockCodeList: this.stockCodeList,
-        token: ''
-      }
-      this.$store.dispatch('z3sockjs/send', msg)
-    },
-    updateStock(data) {
-      this.$store.commit('dhqIndex/chartSocket', data)
-      this.timestamp = new Date().getTime()
-    },
+    /* indexStock() {
+       const msg = {
+         subject: 'timeline',
+         type: '1',
+         actionType: '1',
+         stockCodeList: this.stockCodeList,
+         token: ''
+       }
+       this.$store.dispatch('z3sockjs/send', msg)
+     },*/
+    /*  updateStock(data) {
+        this.$store.commit('dhqIndex/chartSocket', data)
+        this.timestamp = new Date().getTime()
+      },*/
     changeNavType(data) {
       this.type = data
     },
@@ -192,8 +192,17 @@ export default {
         })
         .then(() => {
           this.dpIndexList = this.dpIndexData
-          this.$store.dispatch('z3sockjs/init')
+          // this.$store.dispatch('z3sockjs/init')
         })
+    },
+    autoUpdate: function() {
+      if (this.updateDataPid) {
+        clearInterval(this.updateDataPid)
+      } else {
+        this.updateDataPid = setInterval(() => {
+          this.init()
+        }, 1000 * this.intervalTime)
+      }
     },
     formatData: function(value) {
       if (value || value === 0) {
@@ -234,9 +243,11 @@ export default {
   },
   mounted() {
     this.init()
+    this.autoUpdate()
   },
   destroyed() {
-    z3websocket.ws && z3websocket.ws.close()
+    // z3websocket.ws && z3websocket.ws.close()
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>

@@ -223,8 +223,6 @@ export default ({
         tradeTimeArr: [],
         kdata: [],
         day: [],
-        dayRed: [],
-        dayGreen: [],
         days5: [],
         vols: []
       },
@@ -305,10 +303,6 @@ export default ({
               icon: 'rect'
             },
             {
-              name: '当日主力净流出',
-              icon: 'rect'
-            },
-            {
               name: '近5日主力净流入',
               icon: 'line',
               backgroundColor: '#1984ea'
@@ -354,21 +348,13 @@ export default ({
           formatter: function(params) {
             var s = ''
             for (var i = 0; i < params.length; i++) {
-              if (params[i].value !== '-') {
-                if (i === 0) {
-                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
-                }
-                if (i === 1) {
-                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                    params[i].seriesName + ' : ' + params[i].value
-                }
-                if (i === 2) {
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                    params[i].seriesName + ' : ' + params[i].value
-                }
-
+              if (i === 0) {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
               }
-
+              if (i === 1) {
+                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
+                  params[i].seriesName + ' : ' + params[i].value
+              }
             }
             return s
           }
@@ -421,28 +407,11 @@ export default ({
           }
         },
         series: [{
-            data: lineData.dayRed,
+            data: lineData.day,
             name: '当日主力净流入',
             type: 'bar',
-            barWidth: 20,
-            stack: '总量',
-            itemStyle: {
-              normal: {
-                color: config.upColor
-              }
-            }
-          },
-          {
-            data: lineData.dayGreen,
-            name: '当日主力净流出',
-            type: 'bar',
-            barWidth: 20,
-            stack: '总量',
-            itemStyle: {
-              normal: {
-                color: config.downColor
-              }
-            }
+            barWidth: 28,
+            stack: '当日主力净流入'
           },
           {
             data: lineData.days5,

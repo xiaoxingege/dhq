@@ -65,7 +65,6 @@ export default {
         background: #31363C;
         border-radius: 4px;
     }
-    .icon-calendar {
-        }
+    .icon-calendar {}
 }
 </style>

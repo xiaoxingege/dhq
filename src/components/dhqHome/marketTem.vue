@@ -284,12 +284,12 @@ export default {
     width: 100%;
 }
 .market-tem-top {
-    height: 15%;
+    height: 11.5%;
     position: relative;
 }
 .market-tem-chart {
     width: 100%;
-    height: 75%;
+    height: 78.5%;
 }
 .suggestion {
     height: 10%;

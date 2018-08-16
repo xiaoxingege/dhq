@@ -133,7 +133,7 @@ select {
 </style>
 <template>
 <div class="page clearfix">
-  <span class="previousPage" @click="previousPage($event)"><a href="#">上一页</a></span>
+  <span class="previousPage" @click="previousPage($event)" :style="options"><a href="#" :style="options">上一页</a></span>
   <div v-if="false">
     <ul class="pages clearfix" v-if="totalPage<=5">
       <li @click="getCurrentPage($event)" v-for="page in totalPage" :class="currentPage === page ? 'active' : ''">{{page}}
@@ -193,9 +193,9 @@ select {
       </li>
     </ul>
   </div>
-  <span class="nextPage" @click="nextPage($event)"><a href="#">下一页</a></span>
+  <span class="nextPage" @click="nextPage($event)" :style="options"><a href="#" :style="options">下一页</a></span>
   <span v-if="false" class="totals">共{{totalPage}}页</span>
-  <select @change="getCurrentSelectPage($event)" v-model="currentPage">
+  <select @change="getCurrentSelectPage($event)" v-model="currentPage" :style="options">
       <option v-for="page in totalPage" :value=page>{{page}}/{{totalPage}}</option>
   </select>
 
@@ -204,7 +204,7 @@ select {
 
 <script>
 export default {
-  props: ['totalPage', 'page', 'type'],
+  props: ['totalPage', 'page', 'type', 'options'],
   data() {
     return {
       currentPage: this.page === undefined ? 1 : this.page

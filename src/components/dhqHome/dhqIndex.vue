@@ -1,7 +1,8 @@
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style";
-* {
+.wrap,
+.wrap * {
     box-sizing: border-box;
     font-family: 'Microsoft YaHei';
     font-size: $fontSizeBase;
@@ -15,7 +16,6 @@ p {
 body,
 html {
     height: 100%;
-    background-color: $bgConColor;
 }
 
 .wrap {
