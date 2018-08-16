@@ -90,7 +90,7 @@ html {
 
 .borderR {
     border-right: 1px solid #181818;
-    padding-right: 20px;
+    padding-right: 15px;
 }
 
 .newsDiv {
@@ -186,8 +186,8 @@ html {
         <span class="borderR ml-15">来源：<span v-if="result && result.news">{{result === null ? '':result.news.srcName}}</span><span v-if="result && result.news && result.news.newsUrl">(<a @click="viewSource(result.news.newsUrl)">查看原文</a>)</span></span>
       <span v-if="result !== null && result.equityList!== null && result.equityList.length!==0" class="ml-15">相关股票：
         <a @click="toStock(item.innerCode)" v-for="item in result.equityList" class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span>
-      <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-15">相关题材：
-        <router-link :to="{ name:'topicDetail' , params:{ topicId : item.topicCode }}" target="_blank" class="mr-15" v-for="item in result.topicList">{{item.topicName}}</router-link></span>
+      <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-5">相关题材：
+        <router-link :to="{ name:'topicDetail' , params:{ topicId : item.topicCode }}" target="_blank" class="mr-10" v-for="item in result.topicList">{{item.topicName}}</router-link></span>
         <span @click="changeFontSize('add')" :class="showA ? 'showA' : 'hideA'"></span>
         <span @click="changeFontSize('desc')" :class="showB ? 'showB' : 'hideB'"></span>
     </div>
