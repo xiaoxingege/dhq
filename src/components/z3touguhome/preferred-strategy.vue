@@ -160,7 +160,7 @@
           <li @click="changeSyTab($event,3)" :class="{active: flagTime ===3}">1年</li>
           <li @click="changeSyTab($event,0)" :class="{active: flagTime ===0}">全部</li>
         </ul>
-     <div class="lineChart" ref="lineChart" @keydown="keyDown($event)" @mouseover="mouseOver($event)" tabindex="0"></div>
+     <div class="lineChart" ref="lineChart" @keydown="zoomData($event)" @mouseover="zoomOver($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
     </div>
   </div>
 </div>
@@ -446,7 +446,7 @@ export default {
             show: true,
             trigger: 'axis', // 触发类型 axis(坐标轴触发)
             padding: 10,
-            triggerOn : 'mousemove',
+            triggerOn:'mousemove',
             textStyle: {
               align: 'left',
               fontFamily: '微软雅黑',
@@ -627,7 +627,7 @@ export default {
     changeSyTab(e, dateNum) {
         this.flagTime = dateNum     
     },
-    keyDown(ev) {
+    zoomData(event) {
     const that = this
      if(this.chart && event.keyCode === 37) {
             if(that.dataIndex !== 0) {
@@ -650,7 +650,7 @@ export default {
         }
         
     },
-    mouseOver(ev) {
+    zoomOver(ev) {
        this.$refs.lineChart.focus()
     }
   },

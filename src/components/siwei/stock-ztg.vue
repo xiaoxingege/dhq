@@ -34,7 +34,11 @@
                         </div>
                         <div class="fr" style="margin-right: 5px" v-z3-updowncolor="item.moveSignalId -1.5">{{item.reasonShortLine}}</div>
                     </div>
-                    <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span><router-link :to="{name:'detailPages', params:{detailType:'news', id:item.moveRelaNewsId}}" target="_blank" class="news_tit">{{item.title}}</router-link></div>
+                    <div v-if="item.title" style="margin-bottom: 5px;">
+                        <span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span>
+                        <span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>
+                        <span class="markBox" v-if="item.moveSignalId === 0" style="background-color: #525a65">中性</span>
+                        <router-link :to="{name:'detailPages', params:{detailType:'news', id:item.moveRelaNewsId}}" target="_blank" class="news_tit">{{item.title}}</router-link></div>
                     <ul class="topicStock clearfix">
                         <li v-for="value in item.topicDataList" @dblclick="toThemeDetail(value.topicCode,$event)">
                             <div class="name">{{value.topicName}}</div>
