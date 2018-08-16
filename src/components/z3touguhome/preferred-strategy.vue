@@ -412,7 +412,6 @@ export default {
         let Yname = millions ? '单位 : 万亿' : '单位 : 亿'
         this.chart.setOption({
           title:{
-            show : true,
             text : Yname,
             left : 15,
             top : 5,
@@ -420,17 +419,18 @@ export default {
               color : '#707d90',
               fontSize : 12,
               align: 'center',
+              fontFamily : 'Microsoft YaHei',
               fontWeight : 'normal'
             }
           },
           legend: { // 右上角(图例)
-            left: '20%',
+            left: '18%',
             top: 6,
             itemHeight : 1,
-            itemGap :devScreen === 1.5 ? 5 : 10, // 图例之间间隔
+            itemGap :devScreen === 1.5 ? 3 : 10, // 图例之间间隔
             orient: 'vertical',
             selectedMode : false,
-            itemWidth : 15,
+            itemWidth : 10,
             textStyle: {
               color: '#808ba1',
               fontSize : 12
@@ -444,13 +444,12 @@ export default {
             }]
           },
           tooltip: { // 提示框
-            show: true,
             trigger: 'axis', // 触发类型 axis(坐标轴触发)
             padding: 10,
             triggerOn:'mousemove',
             textStyle: {
               align: 'left',
-              fontFamily: '微软雅黑',
+              fontFamily: 'Microsoft YAHei',
               fontSize : 12
             },
             axisPointer: {
@@ -458,7 +457,6 @@ export default {
             },
             confine: true, // 是否限制在图表内
             formatter: function(params) {
-              console.log(params)
               that.dataIndex = params[0].dataIndex
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
@@ -480,10 +478,14 @@ export default {
           },
           xAxis: {
             type: 'category',
-            boundaryGap: false,
+            boundaryGap: true,
             scale : true,
-            min : 'dataMin',
-            max : 'dataMax',
+            min : function(val) {
+              return val.min
+            },
+            max : function(val) {
+              return val.max
+            },
             axisLabel: {
               color: '#808ba1',
               // showMinLabel : true,
@@ -496,7 +498,7 @@ export default {
               onZero : false
             },
             axisTick : { // 坐标轴刻度相关设置
-              show : false,
+              show : true,
               inside: false,
               alignWithLabel: false
             },
@@ -615,6 +617,7 @@ export default {
           color: ['#0C86ED', '#E73E3A', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
+          // animation : false,
           grid: {
             width: '90%',
             height: '75%',
