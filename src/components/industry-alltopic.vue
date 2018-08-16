@@ -81,7 +81,7 @@ body {
     /* padding: 0 20px 20px 0; */
     /* padding-right: 20px;*/
     padding-bottom: 10px;
-    min-width: 1217px;
+    /*  min-width: 1217px; */
 }
 span {
     color: #c9d0d7;
@@ -108,10 +108,12 @@ span {
 }
 .main-list {
     position: absolute;
-    width: 100%;
+    /* width: 100%; */
+    width: 99.9%;
     height: 100%;
     overflow-y: auto;
     padding-top: 30px;
+    min-width: 1217px;
 }
 .topic-num {
     margin-left: 6px;

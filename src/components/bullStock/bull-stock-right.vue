@@ -504,7 +504,7 @@ li.hoverli {
             <span class="progress greenbg fr" :style="{'width':style.stat==null?'0%':checkWidth(style.stat.downNum,style.stat)}"></span>
           </div>
         </td>
-        <td v-z3-updowncolor="style.suggest==null?'--':style.chng">{{style.suggest||'--'}}</td>
+        <td :style="{color: checkColor(style.suggest)}">{{style.suggest||'--'}}</td>
       </tr>
       <tr v-if="marketStyle.length<=0" class="tr-no2 ">
         <td></td>
@@ -556,7 +556,7 @@ import {
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
 import StockInit from 'components/siwei/stock-init'
-
+import config from '../../z3tougu/config'
 // import {
 //   formatDate
 // } from 'utils/date'
@@ -855,6 +855,15 @@ export default {
         return '--'
       } else {
         return (time + '').substring(4, 6) + '.' + (time + '').substring(6, (time + '').length)
+      }
+    },
+    checkColor(str) {
+      if (str === '0%' || str === '0%-30%') {
+        return config.downColor
+      } else if (str === '30%-50%') {
+        return config.flatColor
+      } else if (str === '50%-70%' || str === '70%-100%') {
+        return config.upColor
       }
     },
     checkBr(val) {
