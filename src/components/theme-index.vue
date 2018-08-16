@@ -5,6 +5,7 @@
     color: #191919;
     width: 100%;
     /* min-width: 1217px; */
+    box-sizing: border-box;
 }
 </style>
 <template>
@@ -19,7 +20,7 @@
 import ThemeList from './theme-list'
 import AllTopic from './theme-alltopic'
 export default {
-  data () {
+  data() {
     return {}
   },
   components: {
