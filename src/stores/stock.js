@@ -14,7 +14,8 @@ const state = {
     lastPx: config.emptyValue,
     chgPx: config.emptyValue,
     chgPctPx: config.emptyValue
-  }
+  },
+  stockDate : ''
 }
 
 // getters
@@ -25,7 +26,8 @@ const getters = {
 const mutationsTypes = {
   UPDATE_KLINE_DATA: 'UPDATE_KLINE_DATA',
   UPDATE_STOCK_MTK: 'UPDATE_STOCK_MTK',
-  UPDATE_SELF_SELECTION: 'UPDATE_SELF_SELECTION'
+  UPDATE_SELF_SELECTION: 'UPDATE_SELF_SELECTION',
+  CHECK_TRADEDATE :'CHECK_TRADEDATE'
 }
 
 // actions
@@ -135,6 +137,18 @@ const actions = {
       }
     })
   },
+  checkTradeDate({ commit },{ date }){
+      const url = `${domain}/openapi/checkTradeDate.shtml?date=${date}`
+      return fetch(url).then(res => res.json()).then((result) => {
+        if(result.errCode === 0) {
+          commit(mutationsTypes.CHECK_TRADEDATE,result.data)
+        } else {
+          commit('ERROR',result,{
+              root : true
+          })
+        }
+      })
+  },
   removeSelection({
     rootState,
     commit
@@ -184,6 +198,9 @@ const mutations = {
   },
   [mutationsTypes.UPDATE_SELF_SELECTION](state, isSelfSelection) {
     state.isSelfSelection = isSelfSelection;
+  },
+  [mutationsTypes.CHECK_TRADEDATE](state,checkDate) {
+    state.stockDate = checkDate
   }
 }
 
